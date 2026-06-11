@@ -1,4 +1,9 @@
 {
   "project": "servicesbg",
-  "reports": ["latest.md", "latest.json"]
+  "reports": [
+    "latest.md",
+    "latest.json",
+    "source_inventory.md",
+    "architecture_planning_summary.md"
+  ]
 }

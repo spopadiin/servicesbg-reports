@@ -1,7 +1,7 @@
 {
   "project": "servicesbg",
   "status": "architecture_data_model_planning_created",
-  "updated_at": "2026-06-11T09:59:11+03:00",
+  "updated_at": "2026-06-11T20:38:10+03:00",
   "completed": [
     "public_site_inspection",
     "dev_environment_setup",
@@ -16,7 +16,8 @@
     "reports_pipeline",
     "data_model_v1",
     "migration_plan_v1",
-    "wordpress_plugin_architecture_v1"
+    "wordpress_plugin_architecture_v1",
+    "architecture_planning_summary_report"
   ],
   "source": {
     "platform": "Flynax",
@@ -33,7 +34,9 @@
     "docs/migration_plan_v1.md",
     "docs/wordpress_plugin_architecture_v1.md",
     "reports/latest.md",
-    "reports/latest.json"
+    "reports/latest.json",
+    "reports/source_inventory.md",
+    "reports/architecture_planning_summary.md"
   ],
   "decisions": [
     "WordPress users represent providers, freelancers, and customers.",
