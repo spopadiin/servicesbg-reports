@@ -6,6 +6,8 @@
     "source_inventory.md",
     "architecture_planning_summary.md",
     "source_schema_audit_v1.md",
-    "flynax_to_wp_mapping_v1.md"
+    "flynax_to_wp_mapping_v1.md",
+    "feature_gap_analysis_v1.md",
+    "servicesbg_feature_backlog_v1.md"
   ]
 }
