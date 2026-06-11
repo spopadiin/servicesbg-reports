@@ -1,7 +1,7 @@
 {
   "project": "servicesbg",
-  "status": "architecture_data_model_planning_created",
-  "updated_at": "2026-06-11T20:38:10+03:00",
+  "status": "source_schema_audit_completed",
+  "updated_at": "2026-06-11T21:05:31+03:00",
   "completed": [
     "public_site_inspection",
     "dev_environment_setup",
@@ -17,7 +17,9 @@
     "data_model_v1",
     "migration_plan_v1",
     "wordpress_plugin_architecture_v1",
-    "architecture_planning_summary_report"
+    "architecture_planning_summary_report",
+    "source_schema_audit_v1",
+    "flynax_to_wp_mapping_v1"
   ],
   "source": {
     "platform": "Flynax",
@@ -36,8 +38,49 @@
     "reports/latest.md",
     "reports/latest.json",
     "reports/source_inventory.md",
-    "reports/architecture_planning_summary.md"
+    "reports/architecture_planning_summary.md",
+    "docs/source_schema_audit_v1.md",
+    "docs/flynax_to_wp_mapping_v1.md"
   ],
+  "source_schema_audit": {
+    "method": "read_only_sql_dump_and_media_tree_inspection",
+    "accounts": 189,
+    "account_types_used": {
+      "provider_company": 76,
+      "account_freelancer": 99,
+      "visitor_registered": 13,
+      "dealer": 1
+    },
+    "temporary_account_candidates": 86,
+    "accounts_zero_listings": 105,
+    "categories": 277,
+    "duplicate_category_key_groups": 5,
+    "listings_total": 2735,
+    "listings_by_status": {
+      "active": 2640,
+      "expired": 59,
+      "trash": 35,
+      "incomplete": 1
+    },
+    "listings_without_phone": 7,
+    "duplicate_listing_phone_groups": 253,
+    "duplicate_listing_phone_listings": 1770,
+    "listing_media_rows": 6139,
+    "missing_media_references": 92,
+    "filesystem_listing_media_directories": 2296,
+    "messages": 894,
+    "contacts": 433,
+    "booking_requests": 0,
+    "booked_intervals": 0,
+    "data_formats": 125016,
+    "geo_mapping_rows": 124475,
+    "languages": {
+      "bg": "active",
+      "en": "approval"
+    },
+    "language_keys": 133215,
+    "plugins": 28
+  },
   "decisions": [
     "WordPress users represent providers, freelancers, and customers.",
     "service_listing custom post type represents migrated Flynax listings.",
@@ -47,5 +90,5 @@
     "Claims are seeded during migration but SMS OTP verification and ownership transfer happen only at runtime.",
     "Migration must be staged, idempotent, and reversible by batch."
   ],
-  "next_step": "Review and approve architecture/data model, then run source schema audit before coding."
+  "next_step": "Review and approve source schema audit and mapping, then begin staged migration tooling/schema setup."
 }

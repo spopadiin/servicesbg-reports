@@ -1,7 +1,7 @@
 # servicesbg Latest Report
 
 ## Status
-Architecture/data-model planning deliverables created and report publication refreshed with previous task results. Ready for review before any application coding.
+Flynax source schema audit completed from the preserved SQL dump and extracted media tree. No application code or production changes were made.
 
 ## Completed
 - Public services.bg site inspected.
@@ -24,6 +24,8 @@ Architecture/data-model planning deliverables created and report publication ref
 - Migration implementation plan v1 created.
 - WordPress plugin architecture v1 created.
 - Architecture planning summary report created for publication.
+- Flynax source schema audit v1 created.
+- Flynax-to-WordPress mapping v1 created.
 
 ## Source Counts
 - Accounts: 189
@@ -36,6 +38,23 @@ Architecture/data-model planning deliverables created and report publication ref
 - `docs/migration_plan_v1.md`
 - `docs/wordpress_plugin_architecture_v1.md`
 - `reports/architecture_planning_summary.md`
+- `docs/source_schema_audit_v1.md`
+- `docs/flynax_to_wp_mapping_v1.md`
+
+## Source Schema Audit Results
+- Accounts: 189 rows across `provider_company` 76, `account_freelancer` 99, `visitor_registered` 13, and `dealer` 1.
+- Temporary/quick-account candidates: 86.
+- Accounts with zero listings: 105.
+- Listings: 2735 total; 2640 active, 59 expired, 35 trash, 1 incomplete.
+- Listings without phone: 7 active listings.
+- Duplicate listing phone groups: 253 groups covering 1770 listings.
+- Categories: 277 rows; 5 duplicate category key groups.
+- Listing media rows: 6139; missing media references: 92; filesystem listing media directories: 2296.
+- Messages: 894 rows.
+- Booking requests/booked intervals: 0; booking plugin tables exist but contain no reservation history.
+- Location/multifield reference data: 125016 `fl_data_formats` rows and 124475 `fl_geo_mapping` rows.
+- Language data: Bulgarian active, English approval; 133215 language key rows.
+- Plugins: 28 plugin registry rows.
 
 ## Key Decisions Documented
 - Use WordPress users for providers, freelancers, and customers.
@@ -47,4 +66,4 @@ Architecture/data-model planning deliverables created and report publication ref
 - Keep imports staged, idempotent, and reversible by migration batch.
 
 ## Next Step
-Review and approve the data model and migration/plugin architecture. After approval, perform source schema audit before writing migration/plugin code.
+Review and approve the source schema audit and mapping. After approval, implementation can start with migration tooling/schema setup in a staged, reversible WordPress plugin.
