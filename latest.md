@@ -1,52 +1,59 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-11T22:27:35+03:00
+Updated: 2026-06-11T22:37:18+03:00
 
 ## Status
-Plugin contracts, inter-plugin events, REST API architecture, background jobs, and queue architecture are now designed for the ServicesBG WordPress CRM marketplace migration.
+Phase 1 WordPress plugin foundation has been implemented for ServicesBG.
 
-No application code was written. No production services.bg system was modified.
+Application code was created only for the approved foundation skeletons. No production services.bg system was modified.
 
-## Current Deliverables
-- `docs/plugin_contracts_events_api_jobs_v1.md`
-- `reports/latest.md`
-- `reports/latest.json`
+## Implemented Plugins
+- `app/wp-content/plugins/servicesbg-core`
+- `app/wp-content/plugins/servicesbg-listings`
+- `app/wp-content/plugins/servicesbg-providers`
+- `app/wp-content/plugins/servicesbg-migration`
 
-## Prior Planning Outputs Retained
-- `docs/architecture_v1.md`
-- `docs/data_model_v1.md`
-- `docs/migration_plan_v1.md`
-- `docs/wordpress_plugin_architecture_v1.md`
-- `docs/source_schema_audit_v1.md`
-- `docs/flynax_to_wp_mapping_v1.md`
-- `docs/feature_gap_analysis_v1.md`
-- `docs/servicesbg_feature_backlog_v1.md`
-- `docs/plugin_strategy_v1.md`
-- `docs/modular_plugin_architecture_v1.md`
-- `docs/servicesbg_database_schema_v1.md`
-- `docs/servicesbg_plugin_table_ownership_v1.md`
-- `docs/servicesbg_mvp_scope_v1.md`
+## Included
+- WordPress plugin headers for all four plugins.
+- Activation and deactivation hooks for all four plugins.
+- Autoload/bootstrap structure for all four plugins.
+- Core schema/version manager.
+- Core audit log table installer: `wp_servicesbg_audit_log`.
+- Migration schema/version manager.
+- Migration import batch table installer: `wp_servicesbg_import_batches`.
+- Base migration map table installer: `wp_servicesbg_migration_map`.
+- `service_listing` custom post type.
+- `service_category` hierarchical taxonomy.
+- Provider role placeholders: `service_provider`, `service_freelancer`, `service_customer`.
+- Admin health/status page under the ServicesBG menu.
+- WP-CLI namespace placeholders:
+  - `wp servicesbg`
+  - `wp servicesbg status`
+  - `wp servicesbg migration`
+  - `wp servicesbg migration preflight`
 
-## What Was Added
-- Contract types for services, commands, queries, events, jobs, and external adapters.
-- Module-by-module contract inventory across core, migration, listings, providers, claims, reservations, messaging, CRM, coverage, search, reviews, AI, SEO migration, integrations, analytics, and monetization.
-- Versioned event envelope with correlation, causation, source ID, and idempotency fields.
-- Core inter-plugin event list and producer/consumer responsibilities.
-- REST API namespace and endpoint groups under `/wp-json/servicesbg/v1`.
-- Authentication and authorization model for public, provider, customer, admin, and migration APIs.
-- Background job architecture with job envelope, queue categories, job types, retry policy, idempotency rules, and observability.
-- Queue recommendation: own the ServicesBG queue contract in `servicesbg-core`, use Action Scheduler if approved, and add custom queue tables only if needed.
+## Explicitly Not Implemented
+- Claims
+- Reservations
+- AI
+- Messaging
+- Coverage
+- Lead CRM workflows
+- Search module
+- Full migration importers
+- Flynax readers
+- Media import
+- Redirect generation
+- Production migration behavior
 
-## Key Decisions
-- Cross-module writes must go through service or command contracts.
-- Events are explicit, namespaced, versioned, and idempotent.
-- REST endpoints expose workflows, not raw database tables.
-- Search remains a dedicated module with its own contracts and indexing jobs.
-- SMS OTP delivery is a queued integration job, not a direct template or controller concern.
-- Migration jobs remain staged, batch-based, idempotent, and rollback-aware.
-- AI knowledge and training events are contractually separated from raw private messages.
-- Action Scheduler is the preferred implementation candidate for queue execution, but ServicesBG owns the job contract to avoid lock-in.
+## Validation
+- PHP syntax check passed for all new plugin files using `php -l`.
+
+## Notes
+- Plugins are located under `app/wp-content/plugins/` because this repository does not currently contain a full WordPress root.
+- Plugin deactivation intentionally preserves roles, schema options, and custom tables.
+- Migration tables preserve staged, idempotent, reversible migration planning but do not yet perform imports.
 
 ## Next Step
-Review and approve the contract/event/API/job boundaries before plugin scaffolding or implementation begins.
+Install these plugins into a staging WordPress environment and activate them there for WordPress runtime validation. Do not activate against production services.bg.
 

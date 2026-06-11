@@ -1,120 +1,84 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-11T22:27:35+03:00",
-  "status": "contracts_events_api_jobs_planning_completed",
+  "updated_at": "2026-06-11T22:37:18+03:00",
+  "status": "phase_1_foundation_implemented",
   "production_modified": false,
-  "application_code_written": false,
+  "application_code_written": true,
+  "scope": "phase_1_foundation_only",
+  "implemented_plugins": [
+    "app/wp-content/plugins/servicesbg-core",
+    "app/wp-content/plugins/servicesbg-listings",
+    "app/wp-content/plugins/servicesbg-providers",
+    "app/wp-content/plugins/servicesbg-migration"
+  ],
+  "implemented_features": [
+    "plugin_headers",
+    "activation_hooks",
+    "deactivation_hooks",
+    "autoload_bootstrap_structure",
+    "core_schema_version_manager",
+    "core_audit_log_table_installer",
+    "migration_schema_version_manager",
+    "migration_import_batches_table_installer",
+    "base_migration_map_table_installer",
+    "service_listing_cpt_registration",
+    "service_category_taxonomy_registration",
+    "provider_role_placeholders",
+    "admin_health_status_page",
+    "wp_cli_namespace_placeholder"
+  ],
+  "created_tables_on_activation": [
+    "wp_servicesbg_audit_log",
+    "wp_servicesbg_import_batches",
+    "wp_servicesbg_migration_map"
+  ],
+  "registered_wordpress_objects": {
+    "custom_post_types": [
+      "service_listing"
+    ],
+    "taxonomies": [
+      "service_category"
+    ],
+    "roles": [
+      "service_provider",
+      "service_freelancer",
+      "service_customer"
+    ],
+    "admin_pages": [
+      "servicesbg-health"
+    ],
+    "wp_cli_commands": [
+      "wp servicesbg",
+      "wp servicesbg status",
+      "wp servicesbg migration",
+      "wp servicesbg migration preflight"
+    ]
+  },
+  "explicitly_not_implemented": [
+    "claims",
+    "reservations",
+    "ai",
+    "messaging",
+    "coverage",
+    "lead_crm_workflows",
+    "search_module",
+    "full_migration_importers",
+    "flynax_readers",
+    "media_import",
+    "redirect_generation",
+    "production_migration_behavior"
+  ],
+  "validation": {
+    "php_lint": "passed",
+    "wordpress_runtime_activation": "not_run_no_wordpress_runtime_in_repo"
+  },
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
-    "preserve_flynax_ids": true,
-    "staged_reversible_migration": true,
-    "no_business_logic_in_theme": true,
-    "no_business_logic_in_wordpress_core": true,
-    "plugin_or_module_based_functionality": true
+    "preserve_flynax_ids_in_schema": true,
+    "staged_reversible_migration_foundation": true,
+    "no_production_changes": true,
+    "claims_reservations_ai_messaging_coverage_deferred": true
   },
-  "current_deliverables": [
-    "docs/plugin_contracts_events_api_jobs_v1.md",
-    "reports/latest.md",
-    "reports/latest.json"
-  ],
-  "prior_deliverables_retained": [
-    "docs/architecture_v1.md",
-    "docs/data_model_v1.md",
-    "docs/migration_plan_v1.md",
-    "docs/wordpress_plugin_architecture_v1.md",
-    "docs/source_schema_audit_v1.md",
-    "docs/flynax_to_wp_mapping_v1.md",
-    "docs/feature_gap_analysis_v1.md",
-    "docs/servicesbg_feature_backlog_v1.md",
-    "docs/plugin_strategy_v1.md",
-    "docs/modular_plugin_architecture_v1.md",
-    "docs/servicesbg_database_schema_v1.md",
-    "docs/servicesbg_plugin_table_ownership_v1.md",
-    "docs/servicesbg_mvp_scope_v1.md"
-  ],
-  "architecture_added": {
-    "plugin_contracts": [
-      "service contracts",
-      "command contracts",
-      "query contracts",
-      "event contracts",
-      "job contracts",
-      "external adapter contracts"
-    ],
-    "event_architecture": {
-      "versioned_envelope": true,
-      "correlation_id": true,
-      "causation_id": true,
-      "source_id_support": true,
-      "idempotency_required": true,
-      "delivery_modes": [
-        "synchronous local hook",
-        "deferred local event",
-        "external webhook in later phase"
-      ]
-    },
-    "rest_api": {
-      "namespace": "/wp-json/servicesbg/v1",
-      "endpoint_groups": [
-        "listings",
-        "search",
-        "providers",
-        "claims",
-        "coverage",
-        "reservations",
-        "messaging",
-        "leads_crm",
-        "reviews_phase_2",
-        "ai_phase_2",
-        "migration_admin"
-      ],
-      "raw_table_endpoints": false
-    },
-    "background_jobs": {
-      "queue_contract_owner": "servicesbg-core",
-      "preferred_scheduler_candidate": "Action Scheduler",
-      "custom_queue_tables_required_for_mvp": false,
-      "queue_categories": [
-        "critical",
-        "default",
-        "migration",
-        "media",
-        "ai",
-        "analytics",
-        "maintenance"
-      ],
-      "idempotency_required": true
-    }
-  },
-  "module_contracts_covered": [
-    "servicesbg-core",
-    "servicesbg-migration",
-    "servicesbg-listings",
-    "servicesbg-providers",
-    "servicesbg-claims",
-    "servicesbg-reservations",
-    "servicesbg-messaging",
-    "servicesbg-leads-crm",
-    "servicesbg-coverage",
-    "servicesbg-search",
-    "servicesbg-reviews",
-    "servicesbg-ai",
-    "servicesbg-seo-migration",
-    "servicesbg-integrations",
-    "servicesbg-analytics",
-    "servicesbg-monetization",
-    "servicesbg-admin"
-  ],
-  "key_decisions": [
-    "Cross-module writes must go through service or command contracts.",
-    "Events are explicit, namespaced, versioned, and idempotent.",
-    "REST APIs expose application workflows rather than raw tables.",
-    "Search remains a dedicated plugin/module with its own contracts and jobs.",
-    "SMS OTP delivery is queued through the integrations boundary.",
-    "Migration jobs remain staged, batch-based, idempotent, and rollback-aware.",
-    "AI knowledge and training events are separated from raw private messages.",
-    "ServicesBG owns the queue contract even if Action Scheduler is used for execution."
-  ],
-  "next_step": "Review and approve contract, event, REST API, background job, and queue boundaries before plugin scaffolding or implementation."
+  "next_step": "Install and activate the four Phase 1 plugins in a staging WordPress environment for runtime validation. Do not activate against production services.bg."
 }
