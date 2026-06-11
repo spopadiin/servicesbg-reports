@@ -1,6 +1,7 @@
 {
   "project": "servicesbg",
-  "status": "ready_for_codex_architecture_phase",
+  "status": "architecture_data_model_planning_created",
+  "updated_at": "2026-06-11T09:59:11+03:00",
   "completed": [
     "public_site_inspection",
     "dev_environment_setup",
@@ -12,7 +13,10 @@
     "agents_file",
     "roadmap",
     "handoff",
-    "reports_pipeline"
+    "reports_pipeline",
+    "data_model_v1",
+    "migration_plan_v1",
+    "wordpress_plugin_architecture_v1"
   ],
   "source": {
     "platform": "Flynax",
@@ -24,5 +28,21 @@
     "listings_total": 2735,
     "listings_active": 2640
   },
-  "next_step": "Start Codex with architecture/data-model task before coding."
+  "deliverables": [
+    "docs/data_model_v1.md",
+    "docs/migration_plan_v1.md",
+    "docs/wordpress_plugin_architecture_v1.md",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "decisions": [
+    "WordPress users represent providers, freelancers, and customers.",
+    "service_listing custom post type represents migrated Flynax listings.",
+    "service_category hierarchical taxonomy represents migrated Flynax categories.",
+    "Custom tables represent stateful CRM workflows, claims, reservations, conversations, leads, coverage zones, AI knowledge, media mapping, redirects, and migration traceability.",
+    "Every imported Flynax object must preserve source IDs and migration batch IDs.",
+    "Claims are seeded during migration but SMS OTP verification and ownership transfer happen only at runtime.",
+    "Migration must be staged, idempotent, and reversible by batch."
+  ],
+  "next_step": "Review and approve architecture/data model, then run source schema audit before coding."
 }
