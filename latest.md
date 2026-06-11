@@ -1,7 +1,7 @@
 # servicesbg Latest Report
 
 ## Status
-Flynax source schema audit completed from the preserved SQL dump and extracted media tree. No application code or production changes were made.
+Feature gap analysis and ServicesBG feature backlog completed. No application code or production changes were made.
 
 ## Completed
 - Public services.bg site inspected.
@@ -26,6 +26,8 @@ Flynax source schema audit completed from the preserved SQL dump and extracted m
 - Architecture planning summary report created for publication.
 - Flynax source schema audit v1 created.
 - Flynax-to-WordPress mapping v1 created.
+- Feature gap analysis v1 created.
+- ServicesBG feature backlog v1 created.
 
 ## Source Counts
 - Accounts: 189
@@ -40,6 +42,8 @@ Flynax source schema audit completed from the preserved SQL dump and extracted m
 - `reports/architecture_planning_summary.md`
 - `docs/source_schema_audit_v1.md`
 - `docs/flynax_to_wp_mapping_v1.md`
+- `docs/feature_gap_analysis_v1.md`
+- `docs/servicesbg_feature_backlog_v1.md`
 
 ## Source Schema Audit Results
 - Accounts: 189 rows across `provider_company` 76, `account_freelancer` 99, `visitor_registered` 13, and `dealer` 1.
@@ -56,6 +60,15 @@ Flynax source schema audit completed from the preserved SQL dump and extracted m
 - Language data: Bulgarian active, English approval; 133215 language key rows.
 - Plugins: 28 plugin registry rows.
 
+## Feature Gap Results
+- Reuse as-is: no major runtime workflow should be reused unchanged.
+- Migrate with modifications: accounts, providers, freelancers, customers, listings, categories, SEO, media.
+- Replace completely: search, messaging runtime, reservations, coverage, provider verification, admin tools.
+- New features: SMS claim ownership, AI assistants, AI learning layers, CRM, leads, reviews, dynamic pricing, reporting, future monetization.
+- MVP focus: migration traceability, roles/profiles, categories, listings, media, SEO redirects, SMS claims/manual review, leads, conversations, reservation requests, coverage zones, validation reports.
+- Phase 2 focus: provider dashboard, verification workflow, reviews, advanced search, AI assistant baseline and knowledge layers.
+- Phase 3 focus: coverage discovery, conversion metrics, dynamic pricing, advanced reporting, optional payment/user-history archives.
+
 ## Key Decisions Documented
 - Use WordPress users for providers, freelancers, and customers.
 - Use CPT `service_listing` for public service listings.
@@ -66,4 +79,4 @@ Flynax source schema audit completed from the preserved SQL dump and extracted m
 - Keep imports staged, idempotent, and reversible by migration batch.
 
 ## Next Step
-Review and approve the source schema audit and mapping. After approval, implementation can start with migration tooling/schema setup in a staged, reversible WordPress plugin.
+Review and approve the feature backlog and MVP scope. After approval, implementation can start with migration tooling/schema setup in a staged, reversible WordPress plugin.

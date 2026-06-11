@@ -1,7 +1,7 @@
 {
   "project": "servicesbg",
-  "status": "source_schema_audit_completed",
-  "updated_at": "2026-06-11T21:05:31+03:00",
+  "status": "feature_gap_analysis_completed",
+  "updated_at": "2026-06-11T21:17:08+03:00",
   "completed": [
     "public_site_inspection",
     "dev_environment_setup",
@@ -19,7 +19,9 @@
     "wordpress_plugin_architecture_v1",
     "architecture_planning_summary_report",
     "source_schema_audit_v1",
-    "flynax_to_wp_mapping_v1"
+    "flynax_to_wp_mapping_v1",
+    "feature_gap_analysis_v1",
+    "servicesbg_feature_backlog_v1"
   ],
   "source": {
     "platform": "Flynax",
@@ -40,7 +42,9 @@
     "reports/source_inventory.md",
     "reports/architecture_planning_summary.md",
     "docs/source_schema_audit_v1.md",
-    "docs/flynax_to_wp_mapping_v1.md"
+    "docs/flynax_to_wp_mapping_v1.md",
+    "docs/feature_gap_analysis_v1.md",
+    "docs/servicesbg_feature_backlog_v1.md"
   ],
   "source_schema_audit": {
     "method": "read_only_sql_dump_and_media_tree_inspection",
@@ -90,5 +94,66 @@
     "Claims are seeded during migration but SMS OTP verification and ownership transfer happen only at runtime.",
     "Migration must be staged, idempotent, and reversible by batch."
   ],
-  "next_step": "Review and approve source schema audit and mapping, then begin staged migration tooling/schema setup."
+  "feature_gap_analysis": {
+    "reuse_as_is": [],
+    "migrate_with_modifications": [
+      "accounts",
+      "providers",
+      "freelancers",
+      "customers",
+      "service_listings",
+      "categories",
+      "seo",
+      "media_management"
+    ],
+    "replace_completely": [
+      "search",
+      "messaging_runtime",
+      "reservations",
+      "coverage",
+      "provider_verification",
+      "admin_tools"
+    ],
+    "new_features": [
+      "claim_ownership_by_sms",
+      "ai_assistants",
+      "ai_learning_layers",
+      "crm",
+      "leads",
+      "reviews",
+      "dynamic_pricing",
+      "reporting",
+      "future_monetization"
+    ],
+    "mvp": [
+      "migration_traceability",
+      "roles_and_provider_profiles",
+      "service_categories",
+      "service_listings",
+      "media_import",
+      "seo_redirects",
+      "sms_claims_and_manual_review",
+      "leads_inquiries",
+      "conversations",
+      "reservation_requests",
+      "coverage_zones",
+      "validation_reports"
+    ],
+    "phase_2": [
+      "provider_dashboard",
+      "provider_verification",
+      "reviews",
+      "advanced_search",
+      "ai_assistant_baseline",
+      "ai_knowledge_layers"
+    ],
+    "phase_3": [
+      "coverage_discovery",
+      "conversion_metrics",
+      "dynamic_pricing",
+      "advanced_reporting",
+      "optional_payment_and_user_history_archives"
+    ]
+  },
+  "next_step": "Review and approve feature backlog and MVP scope, then begin staged migration tooling/schema setup."
 }
