@@ -1,7 +1,7 @@
 {
   "project": "servicesbg",
-  "status": "feature_gap_analysis_completed",
-  "updated_at": "2026-06-11T21:17:08+03:00",
+  "status": "plugin_strategy_completed",
+  "updated_at": "2026-06-11T21:34:00+03:00",
   "completed": [
     "public_site_inspection",
     "dev_environment_setup",
@@ -21,7 +21,9 @@
     "source_schema_audit_v1",
     "flynax_to_wp_mapping_v1",
     "feature_gap_analysis_v1",
-    "servicesbg_feature_backlog_v1"
+    "servicesbg_feature_backlog_v1",
+    "plugin_strategy_v1",
+    "modular_plugin_architecture_v1"
   ],
   "source": {
     "platform": "Flynax",
@@ -44,7 +46,9 @@
     "docs/source_schema_audit_v1.md",
     "docs/flynax_to_wp_mapping_v1.md",
     "docs/feature_gap_analysis_v1.md",
-    "docs/servicesbg_feature_backlog_v1.md"
+    "docs/servicesbg_feature_backlog_v1.md",
+    "docs/plugin_strategy_v1.md",
+    "docs/modular_plugin_architecture_v1.md"
   ],
   "source_schema_audit": {
     "method": "read_only_sql_dump_and_media_tree_inspection",
@@ -155,5 +159,44 @@
       "optional_payment_and_user_history_archives"
     ]
   },
-  "next_step": "Review and approve feature backlog and MVP scope, then begin staged migration tooling/schema setup."
+  "plugin_strategy": {
+    "rule": "All marketplace functionality must be plugin-based or module-based; no business logic in WordPress core or theme.",
+    "custom_servicesbg_modules": [
+      "servicesbg-core",
+      "servicesbg-migration",
+      "servicesbg-listings",
+      "servicesbg-providers",
+      "servicesbg-claims",
+      "servicesbg-reservations",
+      "servicesbg-messaging",
+      "servicesbg-ai",
+      "servicesbg-coverage",
+      "servicesbg-leads-crm",
+      "servicesbg-seo-migration",
+      "servicesbg-admin",
+      "servicesbg-analytics",
+      "servicesbg-integrations"
+    ],
+    "existing_plugin_candidates": [
+      "SEO plugin such as Rank Math or Yoast",
+      "Redirection for optional redirect UI",
+      "Relevanssi/SearchWP/FacetWP for optional search assistance",
+      "Wordfence/Two Factor and Akismet/Antispam Bee or CAPTCHA provider",
+      "UpdraftPlus or host backup tooling",
+      "Redis Object Cache or host page cache/CDN",
+      "Polylang/WPML/TranslatePress for future multilingual scope",
+      "WooCommerce/Stripe only for future defined billing products"
+    ],
+    "external_api_adapters": [
+      "SMS OTP provider",
+      "maps/geocoding provider",
+      "LLM provider",
+      "vector search provider",
+      "email delivery provider",
+      "analytics provider",
+      "future payment provider"
+    ],
+    "mvp_decision": "Build custom ServicesBG marketplace/migration modules and evaluate existing plugins only for commodity SEO, security, spam, backup, cache, and optional search support."
+  },
+  "next_step": "Review and approve plugin/module boundaries, then begin staged ServicesBG plugin scaffolding and migration tooling."
 }

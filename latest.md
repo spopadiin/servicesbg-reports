@@ -1,7 +1,7 @@
 # servicesbg Latest Report
 
 ## Status
-Feature gap analysis and ServicesBG feature backlog completed. No application code or production changes were made.
+Plugin strategy and modular plugin architecture completed. No application code or production changes were made.
 
 ## Completed
 - Public services.bg site inspected.
@@ -28,6 +28,8 @@ Feature gap analysis and ServicesBG feature backlog completed. No application co
 - Flynax-to-WordPress mapping v1 created.
 - Feature gap analysis v1 created.
 - ServicesBG feature backlog v1 created.
+- Plugin strategy v1 created.
+- Modular plugin architecture v1 created.
 
 ## Source Counts
 - Accounts: 189
@@ -44,6 +46,8 @@ Feature gap analysis and ServicesBG feature backlog completed. No application co
 - `docs/flynax_to_wp_mapping_v1.md`
 - `docs/feature_gap_analysis_v1.md`
 - `docs/servicesbg_feature_backlog_v1.md`
+- `docs/plugin_strategy_v1.md`
+- `docs/modular_plugin_architecture_v1.md`
 
 ## Source Schema Audit Results
 - Accounts: 189 rows across `provider_company` 76, `account_freelancer` 99, `visitor_registered` 13, and `dealer` 1.
@@ -69,6 +73,13 @@ Feature gap analysis and ServicesBG feature backlog completed. No application co
 - Phase 2 focus: provider dashboard, verification workflow, reviews, advanced search, AI assistant baseline and knowledge layers.
 - Phase 3 focus: coverage discovery, conversion metrics, dynamic pricing, advanced reporting, optional payment/user-history archives.
 
+## Plugin Strategy Results
+- All marketplace functionality must be plugin/module-based; no business logic belongs in WordPress core or theme.
+- Core marketplace logic remains custom: listings, providers, freelancers, claims, reservations, messaging, AI, coverage, leads, admin tools, analytics, migration, and redirect import.
+- Existing plugins are candidates only for commodity or editorial concerns: SEO metadata/sitemaps, security, anti-spam, backups, caching, optional text search, optional multilingual handling.
+- External APIs must be used through custom adapters: SMS, maps/geocoding, LLM/vector search, email delivery, analytics, future payments.
+- Generic directory, booking, CRM, chatbot, and form plugins should not own core ServicesBG data because Flynax ID traceability, claims, provider capacity, CRM links, and AI provenance require custom data ownership.
+
 ## Key Decisions Documented
 - Use WordPress users for providers, freelancers, and customers.
 - Use CPT `service_listing` for public service listings.
@@ -79,4 +90,4 @@ Feature gap analysis and ServicesBG feature backlog completed. No application co
 - Keep imports staged, idempotent, and reversible by migration batch.
 
 ## Next Step
-Review and approve the feature backlog and MVP scope. After approval, implementation can start with migration tooling/schema setup in a staged, reversible WordPress plugin.
+Review and approve plugin/module boundaries. After approval, implementation can start with staged ServicesBG plugin scaffolding and migration tooling.
