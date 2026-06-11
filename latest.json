@@ -73,7 +73,7 @@
     "wp_servicesbg_migration_preflight_command_works"
   ],
   "validation": {
-    "script_syntax_check": "pending",
+    "script_syntax_check": "passed",
     "wordpress_runtime_validation": "not_run"
   },
   "rules_observed": {
