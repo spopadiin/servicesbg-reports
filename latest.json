@@ -1,7 +1,7 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-11T22:52:27+03:00",
-  "status": "phase_1_runtime_validation_scripts_created",
+  "updated_at": "2026-06-11T23:37:49+03:00",
+  "status": "phase_1_runtime_validation_blocked_db_credentials",
   "production_modified": false,
   "application_code_written": true,
   "scope": "staging_runtime_validation_only",
@@ -74,7 +74,13 @@
   ],
   "validation": {
     "script_syntax_check": "passed",
-    "wordpress_runtime_validation": "not_run"
+    "setup_staging_wp_executed": true,
+    "wordpress_downloaded": true,
+    "wp_config_created": true,
+    "plugin_activation": "not_reached_db_auth_failed",
+    "validate_phase1_plugins_executed": true,
+    "wordpress_runtime_validation": "failed_db_connection",
+    "blocker": "The servicesbg MySQL user cannot authenticate to a separate staging database with available credentials, and non-interactive sudo mysql requires a sudo password."
   },
   "rules_observed": {
     "no_tradingbot_context": true,
@@ -83,5 +89,5 @@
     "phase_1_only": true,
     "deferred_claims_reservations_ai_messaging_coverage_crm_search_importers": true
   },
-  "next_step": "Run setup_staging_wp.sh with staging DB credentials, then validate_phase1_plugins.sh against the staging WordPress runtime only."
+  "next_step": "Create/grant the separate staging database and provide working WP_STAGING_DB_PASSWORD, then rerun setup_staging_wp.sh and validate_phase1_plugins.sh against staging only."
 }
