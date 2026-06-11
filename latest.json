@@ -1,0 +1,28 @@
+{
+  "project": "servicesbg",
+  "status": "ready_for_codex_architecture_phase",
+  "completed": [
+    "public_site_inspection",
+    "dev_environment_setup",
+    "source_db_import",
+    "source_archive_extraction",
+    "source_inventory",
+    "v2_requirements",
+    "architecture_v1",
+    "agents_file",
+    "roadmap",
+    "handoff",
+    "reports_pipeline"
+  ],
+  "source": {
+    "platform": "Flynax",
+    "version": "4.5.2",
+    "database": "services_services",
+    "template": "general_wide",
+    "accounts": 189,
+    "categories": 277,
+    "listings_total": 2735,
+    "listings_active": 2640
+  },
+  "next_step": "Start Codex with architecture/data-model task before coding."
+}

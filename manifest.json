@@ -1,5 +1,4 @@
 {
   "project": "servicesbg",
-  "latest": null,
-  "reports": []
+  "reports": ["latest.md", "latest.json"]
 }
