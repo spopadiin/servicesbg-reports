@@ -1,0 +1,190 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-11T22:06:31+03:00",
+  "status": "database_schema_planning_completed",
+  "production_modified": false,
+  "application_code_written": false,
+  "rules_observed": {
+    "no_tradingbot_context": true,
+    "no_unai_context": true,
+    "preserve_flynax_ids": true,
+    "staged_reversible_migration": true,
+    "no_business_logic_in_theme": true,
+    "no_business_logic_in_wordpress_core": true
+  },
+  "current_deliverables": [
+    "docs/servicesbg_database_schema_v1.md",
+    "docs/servicesbg_plugin_table_ownership_v1.md",
+    "docs/servicesbg_mvp_scope_v1.md",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "prior_deliverables_retained": [
+    "docs/architecture_v1.md",
+    "docs/data_model_v1.md",
+    "docs/migration_plan_v1.md",
+    "docs/wordpress_plugin_architecture_v1.md",
+    "docs/source_schema_audit_v1.md",
+    "docs/flynax_to_wp_mapping_v1.md",
+    "docs/feature_gap_analysis_v1.md",
+    "docs/servicesbg_feature_backlog_v1.md",
+    "docs/plugin_strategy_v1.md",
+    "docs/modular_plugin_architecture_v1.md"
+  ],
+  "schema_summary": {
+    "wordpress_native_usage": [
+      "wp_users",
+      "wp_usermeta",
+      "wp_posts",
+      "wp_postmeta",
+      "wp_terms",
+      "wp_term_taxonomy",
+      "wp_term_relationships",
+      "wp_termmeta",
+      "wp_options",
+      "WordPress media attachments"
+    ],
+    "custom_post_types": [
+      "service_listing"
+    ],
+    "taxonomies": [
+      "service_category"
+    ],
+    "mvp_custom_tables": [
+      "wp_servicesbg_import_batches",
+      "wp_servicesbg_migration_map",
+      "wp_servicesbg_audit_log",
+      "wp_servicesbg_provider_profiles",
+      "wp_servicesbg_claims",
+      "wp_servicesbg_availability_rules",
+      "wp_servicesbg_capacity_exceptions",
+      "wp_servicesbg_reservations",
+      "wp_servicesbg_conversations",
+      "wp_servicesbg_messages",
+      "wp_servicesbg_leads",
+      "wp_servicesbg_coverage_zones",
+      "wp_servicesbg_media_map",
+      "wp_servicesbg_redirect_map",
+      "wp_servicesbg_search_index",
+      "wp_servicesbg_search_queries"
+    ],
+    "phase_2_tables": [
+      "wp_servicesbg_reviews",
+      "wp_servicesbg_lead_events",
+      "wp_servicesbg_provider_verifications",
+      "wp_servicesbg_ai_knowledge_sources",
+      "wp_servicesbg_ai_knowledge_chunks",
+      "wp_servicesbg_ai_training_events",
+      "wp_servicesbg_ai_feedback",
+      "wp_servicesbg_notifications"
+    ],
+    "phase_3_tables": [
+      "wp_servicesbg_analytics_events",
+      "wp_servicesbg_pricing_signals",
+      "wp_servicesbg_coverage_discoveries",
+      "wp_servicesbg_external_integration_events",
+      "wp_servicesbg_payment_audit"
+    ]
+  },
+  "plugin_ownership": {
+    "servicesbg-core": [
+      "wp_servicesbg_audit_log"
+    ],
+    "servicesbg-migration": [
+      "wp_servicesbg_import_batches",
+      "wp_servicesbg_migration_map",
+      "wp_servicesbg_media_map"
+    ],
+    "servicesbg-providers": [
+      "wp_servicesbg_provider_profiles",
+      "wp_servicesbg_provider_verifications"
+    ],
+    "servicesbg-listings": [
+      "service_listing CPT",
+      "service_category taxonomy",
+      "listing post meta",
+      "category term meta"
+    ],
+    "servicesbg-claims": [
+      "wp_servicesbg_claims"
+    ],
+    "servicesbg-reservations": [
+      "wp_servicesbg_availability_rules",
+      "wp_servicesbg_capacity_exceptions",
+      "wp_servicesbg_reservations"
+    ],
+    "servicesbg-messaging": [
+      "wp_servicesbg_conversations",
+      "wp_servicesbg_messages"
+    ],
+    "servicesbg-leads-crm": [
+      "wp_servicesbg_leads",
+      "wp_servicesbg_lead_events"
+    ],
+    "servicesbg-coverage": [
+      "wp_servicesbg_coverage_zones",
+      "wp_servicesbg_coverage_discoveries"
+    ],
+    "servicesbg-search": [
+      "wp_servicesbg_search_index",
+      "wp_servicesbg_search_queries"
+    ],
+    "servicesbg-reviews": [
+      "wp_servicesbg_reviews"
+    ],
+    "servicesbg-ai": [
+      "wp_servicesbg_ai_knowledge_sources",
+      "wp_servicesbg_ai_knowledge_chunks",
+      "wp_servicesbg_ai_training_events",
+      "wp_servicesbg_ai_feedback"
+    ],
+    "servicesbg-seo-migration": [
+      "wp_servicesbg_redirect_map"
+    ],
+    "servicesbg-integrations": [
+      "wp_servicesbg_notifications",
+      "wp_servicesbg_external_integration_events"
+    ],
+    "servicesbg-analytics": [
+      "wp_servicesbg_analytics_events",
+      "wp_servicesbg_pricing_signals"
+    ],
+    "servicesbg-monetization": [
+      "wp_servicesbg_payment_audit"
+    ]
+  },
+  "rollback_strategy": {
+    "batch_based": true,
+    "idempotent_imports": true,
+    "source_hash_tracking": true,
+    "rollback_protected_for_claimed_or_modified_objects": true,
+    "reverse_dependency_order": [
+      "search indexes",
+      "redirects",
+      "media maps and attachments",
+      "CRM records",
+      "messages",
+      "reservations",
+      "claims",
+      "listings",
+      "provider profiles and users",
+      "categories"
+    ]
+  },
+  "source_facts_reflected": {
+    "flynax_version": "4.5.2",
+    "source_database": "services_services",
+    "source_prefix": "fl_",
+    "accounts": 189,
+    "categories": 277,
+    "listings_total": 2735,
+    "listings_active": 2640,
+    "temporary_accounts": 86,
+    "active_listings_without_phone": 7,
+    "duplicate_phone_groups": 253,
+    "listings_in_duplicate_phone_groups": 1770,
+    "listing_media_rows": 6139,
+    "missing_media_references": 92
+  },
+  "next_step": "Review and approve schema and module ownership before plugin scaffolding or migration implementation."
+}
