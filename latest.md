@@ -1,59 +1,49 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-11T22:37:18+03:00
+Updated: 2026-06-11T22:52:27+03:00
 
 ## Status
-Phase 1 WordPress plugin foundation has been implemented for ServicesBG.
+Staging WordPress runtime validation plan and scripts have been created for the Phase 1 plugin foundation.
 
-Application code was created only for the approved foundation skeletons. No production services.bg system was modified.
+No production services.bg system was modified. Claims, reservations, AI, messaging, coverage, CRM, search, and importers were not implemented.
 
-## Implemented Plugins
-- `app/wp-content/plugins/servicesbg-core`
-- `app/wp-content/plugins/servicesbg-listings`
-- `app/wp-content/plugins/servicesbg-providers`
-- `app/wp-content/plugins/servicesbg-migration`
+## New Deliverables
+- `scripts/setup_staging_wp.sh`
+- `scripts/validate_phase1_plugins.sh`
+- `docs/phase1_runtime_validation_v1.md`
+- `reports/latest.md`
+- `reports/latest.json`
 
-## Included
-- WordPress plugin headers for all four plugins.
-- Activation and deactivation hooks for all four plugins.
-- Autoload/bootstrap structure for all four plugins.
-- Core schema/version manager.
-- Core audit log table installer: `wp_servicesbg_audit_log`.
-- Migration schema/version manager.
-- Migration import batch table installer: `wp_servicesbg_import_batches`.
-- Base migration map table installer: `wp_servicesbg_migration_map`.
-- `service_listing` custom post type.
-- `service_category` hierarchical taxonomy.
-- Provider role placeholders: `service_provider`, `service_freelancer`, `service_customer`.
-- Admin health/status page under the ServicesBG menu.
-- WP-CLI namespace placeholders:
-  - `wp servicesbg`
-  - `wp servicesbg status`
-  - `wp servicesbg migration`
-  - `wp servicesbg migration preflight`
+## Script Scope
+- Install WordPress into `/opt/projects/servicesbg/wp-staging` by default.
+- Configure a staging WordPress database, defaulting to `servicesbg_wp_staging`.
+- Refuse obvious production URL/path/database targets.
+- Symlink or copy the four Phase 1 plugins:
+  - `servicesbg-core`
+  - `servicesbg-listings`
+  - `servicesbg-providers`
+  - `servicesbg-migration`
+- Activate the four Phase 1 plugins.
+- Validate plugin activation, base tables, CPT, taxonomy, provider roles, admin health page, and WP-CLI placeholders.
 
-## Explicitly Not Implemented
+## Explicitly Out of Scope
 - Claims
 - Reservations
 - AI
 - Messaging
 - Coverage
-- Lead CRM workflows
-- Search module
-- Full migration importers
+- CRM workflows
+- Search
 - Flynax readers
+- Importers
 - Media import
 - Redirect generation
 - Production migration behavior
 
-## Validation
-- PHP syntax check passed for all new plugin files using `php -l`.
-
-## Notes
-- Plugins are located under `app/wp-content/plugins/` because this repository does not currently contain a full WordPress root.
-- Plugin deactivation intentionally preserves roles, schema options, and custom tables.
-- Migration tables preserve staged, idempotent, reversible migration planning but do not yet perform imports.
+## Validation Performed
+- Shell syntax check with `bash -n` should be run before execution.
+- Runtime WordPress validation is documented but not executed in this report.
 
 ## Next Step
-Install these plugins into a staging WordPress environment and activate them there for WordPress runtime validation. Do not activate against production services.bg.
+Run `scripts/setup_staging_wp.sh` with staging DB credentials, then run `scripts/validate_phase1_plugins.sh` in the staging environment only.
 

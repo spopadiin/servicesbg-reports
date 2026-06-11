@@ -1,58 +1,48 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-11T22:37:18+03:00",
-  "status": "phase_1_foundation_implemented",
+  "updated_at": "2026-06-11T22:52:27+03:00",
+  "status": "phase_1_runtime_validation_scripts_created",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase_1_foundation_only",
-  "implemented_plugins": [
-    "app/wp-content/plugins/servicesbg-core",
-    "app/wp-content/plugins/servicesbg-listings",
-    "app/wp-content/plugins/servicesbg-providers",
-    "app/wp-content/plugins/servicesbg-migration"
+  "scope": "staging_runtime_validation_only",
+  "current_deliverables": [
+    "scripts/setup_staging_wp.sh",
+    "scripts/validate_phase1_plugins.sh",
+    "docs/phase1_runtime_validation_v1.md",
+    "reports/latest.md",
+    "reports/latest.json"
   ],
-  "implemented_features": [
-    "plugin_headers",
-    "activation_hooks",
-    "deactivation_hooks",
-    "autoload_bootstrap_structure",
-    "core_schema_version_manager",
-    "core_audit_log_table_installer",
-    "migration_schema_version_manager",
-    "migration_import_batches_table_installer",
-    "base_migration_map_table_installer",
-    "service_listing_cpt_registration",
-    "service_category_taxonomy_registration",
-    "provider_role_placeholders",
-    "admin_health_status_page",
-    "wp_cli_namespace_placeholder"
-  ],
-  "created_tables_on_activation": [
-    "wp_servicesbg_audit_log",
-    "wp_servicesbg_import_batches",
-    "wp_servicesbg_migration_map"
-  ],
-  "registered_wordpress_objects": {
-    "custom_post_types": [
-      "service_listing"
-    ],
-    "taxonomies": [
-      "service_category"
-    ],
-    "roles": [
-      "service_provider",
-      "service_freelancer",
-      "service_customer"
-    ],
-    "admin_pages": [
-      "servicesbg-health"
-    ],
-    "wp_cli_commands": [
-      "wp servicesbg",
-      "wp servicesbg status",
-      "wp servicesbg migration",
-      "wp servicesbg migration preflight"
-    ]
+  "scripts": {
+    "setup_staging_wp": {
+      "path": "scripts/setup_staging_wp.sh",
+      "default_wp_root": "/opt/projects/servicesbg/wp-staging",
+      "default_db_name": "servicesbg_wp_staging",
+      "default_url": "http://servicesbg-staging.local",
+      "plugin_mode": "symlink_by_default_copy_optional",
+      "activates_plugins": [
+        "servicesbg-core",
+        "servicesbg-listings",
+        "servicesbg-providers",
+        "servicesbg-migration"
+      ],
+      "production_guards": [
+        "refuse_services_bg_url",
+        "refuse_services_services_flynax_db",
+        "require_wp_staging_path_under_project"
+      ]
+    },
+    "validate_phase1_plugins": {
+      "path": "scripts/validate_phase1_plugins.sh",
+      "checks": [
+        "plugin_activation",
+        "created_tables",
+        "service_listing_cpt",
+        "service_category_taxonomy",
+        "provider_roles",
+        "admin_health_page_registration",
+        "wp_cli_command_placeholders"
+      ]
+    }
   },
   "explicitly_not_implemented": [
     "claims",
@@ -60,25 +50,38 @@
     "ai",
     "messaging",
     "coverage",
-    "lead_crm_workflows",
-    "search_module",
-    "full_migration_importers",
+    "crm_workflows",
+    "search",
     "flynax_readers",
+    "importers",
     "media_import",
     "redirect_generation",
     "production_migration_behavior"
   ],
+  "expected_runtime_validation": [
+    "all_four_phase1_plugins_active",
+    "wp_servicesbg_audit_log_exists",
+    "wp_servicesbg_import_batches_exists",
+    "wp_servicesbg_migration_map_exists",
+    "service_listing_post_type_exists",
+    "service_category_taxonomy_exists",
+    "service_provider_role_exists",
+    "service_freelancer_role_exists",
+    "service_customer_role_exists",
+    "servicesbg_health_admin_page_registered",
+    "wp_servicesbg_status_command_works",
+    "wp_servicesbg_migration_preflight_command_works"
+  ],
   "validation": {
-    "php_lint": "passed",
-    "wordpress_runtime_activation": "not_run_no_wordpress_runtime_in_repo"
+    "script_syntax_check": "pending",
+    "wordpress_runtime_validation": "not_run"
   },
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
-    "preserve_flynax_ids_in_schema": true,
-    "staged_reversible_migration_foundation": true,
     "no_production_changes": true,
-    "claims_reservations_ai_messaging_coverage_deferred": true
+    "phase_1_only": true,
+    "deferred_claims_reservations_ai_messaging_coverage_crm_search_importers": true
   },
-  "next_step": "Install and activate the four Phase 1 plugins in a staging WordPress environment for runtime validation. Do not activate against production services.bg."
+  "next_step": "Run setup_staging_wp.sh with staging DB credentials, then validate_phase1_plugins.sh against the staging WordPress runtime only."
 }
