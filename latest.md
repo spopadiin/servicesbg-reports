@@ -1,30 +1,52 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-11T23:37:49+03:00
+Updated: 2026-06-12T00:33:29+03:00
 
 ## Status
-Staging WordPress runtime validation flow was created and executed for the Phase 1 plugin foundation, but runtime validation is blocked by missing/invalid staging database credentials.
+Phase 1 staging WordPress runtime validation passed for the four foundation plugins.
 
 No production services.bg system was modified. Claims, reservations, AI, messaging, coverage, CRM, search, and importers were not implemented.
 
-## New Deliverables
-- `scripts/setup_staging_wp.sh`
-- `scripts/validate_phase1_plugins.sh`
-- `docs/phase1_runtime_validation_v1.md`
-- `reports/latest.md`
-- `reports/latest.json`
+## Runtime Environment
+- WordPress staging root: `/opt/projects/servicesbg/wp-staging`
+- Staging database: `servicesbg_wp_staging`
+- Staging URL: `http://servicesbg-staging.local`
+- Plugin source: `app/wp-content/plugins`
+- Plugin deployment mode: symlink
 
-## Script Scope
-- Install WordPress into `/opt/projects/servicesbg/wp-staging` by default.
-- Configure a staging WordPress database, defaulting to `servicesbg_wp_staging`.
-- Refuse obvious production URL/path/database targets.
-- Symlink or copy the four Phase 1 plugins:
-  - `servicesbg-core`
-  - `servicesbg-listings`
-  - `servicesbg-providers`
-  - `servicesbg-migration`
-- Activate the four Phase 1 plugins.
-- Validate plugin activation, base tables, CPT, taxonomy, provider roles, admin health page, and WP-CLI placeholders.
+## Plugins Validated
+- `servicesbg-core`
+- `servicesbg-listings`
+- `servicesbg-providers`
+- `servicesbg-migration`
+
+## Validation Passed
+- Staging WordPress database connection.
+- Plugin activation for all four Phase 1 plugins.
+- Base tables:
+  - `wp_servicesbg_audit_log`
+  - `wp_servicesbg_import_batches`
+  - `wp_servicesbg_migration_map`
+- CPT:
+  - `service_listing`
+- Taxonomy:
+  - `service_category`
+- Roles:
+  - `service_provider`
+  - `service_freelancer`
+  - `service_customer`
+- Admin health/status page registration:
+  - `servicesbg-health`
+- WP-CLI placeholders:
+  - `wp servicesbg`
+  - `wp servicesbg status`
+  - `wp servicesbg migration`
+  - `wp servicesbg migration preflight`
+
+## Fixes During Validation
+- Fixed the WP-CLI placeholder structure so `wp servicesbg` can act as a namespace with nested subcommands.
+- Updated `scripts/validate_phase1_plugins.sh` to check all required WP-CLI placeholders.
+- Made table detection robust against `wp db query` output headers.
 
 ## Explicitly Out of Scope
 - Claims
@@ -40,21 +62,14 @@ No production services.bg system was modified. Claims, reservations, AI, messagi
 - Redirect generation
 - Production migration behavior
 
-## Validation Performed
-- Shell syntax check passed with `bash -n` for both scripts.
-- `scripts/setup_staging_wp.sh` was executed against `/opt/projects/servicesbg/wp-staging`.
-- WordPress was downloaded into the staging path and `wp-config.php` was generated.
-- Setup stopped at database authentication for staging DB access.
-- `scripts/validate_phase1_plugins.sh` was executed and failed because WordPress cannot connect to the staging database.
-
-## Runtime Blocker
-The local `servicesbg` MySQL user cannot connect to the separate staging database with the available credentials. Non-interactive `sudo mysql` also requires a sudo password in this environment, so the staging database/grant could not be created by this run.
-
-Required fix:
-- Create/grant a separate staging WordPress database, for example `servicesbg_wp_staging`.
-- Provide working `WP_STAGING_DB_PASSWORD`.
-- Re-run `scripts/setup_staging_wp.sh`.
-- Re-run `scripts/validate_phase1_plugins.sh`.
+## Validation Commands Executed
+- `wp db create --path=/opt/projects/servicesbg/wp-staging`
+- `scripts/setup_staging_wp.sh`
+- `scripts/validate_phase1_plugins.sh`
+- `bash -n scripts/setup_staging_wp.sh`
+- `bash -n scripts/validate_phase1_plugins.sh`
+- `python3 -m json.tool reports/latest.json`
 
 ## Next Step
-Create/grant the staging database and rerun the two scripts in the staging environment only.
+Proceed only to migration tooling preflight and dry-run-only scaffolding. Production services.bg remains out of scope.
+

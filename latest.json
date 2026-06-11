@@ -1,10 +1,17 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-11T23:37:49+03:00",
-  "status": "phase_1_runtime_validation_blocked_db_credentials",
+  "updated_at": "2026-06-12T00:33:29+03:00",
+  "status": "phase_1_runtime_validation_passed",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "staging_runtime_validation_only",
+  "scope": "phase_1_runtime_validation_only",
+  "staging_runtime": {
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "database": "servicesbg_wp_staging",
+    "url": "http://servicesbg-staging.local",
+    "plugin_deployment": "symlink",
+    "source_plugins_path": "app/wp-content/plugins"
+  },
   "current_deliverables": [
     "scripts/setup_staging_wp.sh",
     "scripts/validate_phase1_plugins.sh",
@@ -12,38 +19,52 @@
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "scripts": {
-    "setup_staging_wp": {
-      "path": "scripts/setup_staging_wp.sh",
-      "default_wp_root": "/opt/projects/servicesbg/wp-staging",
-      "default_db_name": "servicesbg_wp_staging",
-      "default_url": "http://servicesbg-staging.local",
-      "plugin_mode": "symlink_by_default_copy_optional",
-      "activates_plugins": [
-        "servicesbg-core",
-        "servicesbg-listings",
-        "servicesbg-providers",
-        "servicesbg-migration"
-      ],
-      "production_guards": [
-        "refuse_services_bg_url",
-        "refuse_services_services_flynax_db",
-        "require_wp_staging_path_under_project"
-      ]
+  "plugins_validated": [
+    "servicesbg-core",
+    "servicesbg-listings",
+    "servicesbg-providers",
+    "servicesbg-migration"
+  ],
+  "validation": {
+    "script_syntax_check": "passed",
+    "setup_staging_wp_executed": true,
+    "wordpress_downloaded": true,
+    "wp_config_created": true,
+    "staging_database_created": true,
+    "plugin_activation": "passed",
+    "validate_phase1_plugins_executed": true,
+    "wordpress_runtime_validation": "passed",
+    "tables": {
+      "wp_servicesbg_audit_log": "passed",
+      "wp_servicesbg_import_batches": "passed",
+      "wp_servicesbg_migration_map": "passed"
     },
-    "validate_phase1_plugins": {
-      "path": "scripts/validate_phase1_plugins.sh",
-      "checks": [
-        "plugin_activation",
-        "created_tables",
-        "service_listing_cpt",
-        "service_category_taxonomy",
-        "provider_roles",
-        "admin_health_page_registration",
-        "wp_cli_command_placeholders"
-      ]
+    "custom_post_types": {
+      "service_listing": "passed"
+    },
+    "taxonomies": {
+      "service_category": "passed"
+    },
+    "roles": {
+      "service_provider": "passed",
+      "service_freelancer": "passed",
+      "service_customer": "passed"
+    },
+    "admin_pages": {
+      "servicesbg-health": "passed"
+    },
+    "wp_cli_placeholders": {
+      "wp servicesbg": "passed",
+      "wp servicesbg status": "passed",
+      "wp servicesbg migration": "passed",
+      "wp servicesbg migration preflight": "passed"
     }
   },
+  "fixes_during_validation": [
+    "Changed the root wp servicesbg command placeholder to namespace-style so nested WP-CLI subcommands can register.",
+    "Expanded validation to check wp servicesbg and wp servicesbg migration placeholders.",
+    "Made table detection robust against wp db query output headers."
+  ],
   "explicitly_not_implemented": [
     "claims",
     "reservations",
@@ -58,36 +79,13 @@
     "redirect_generation",
     "production_migration_behavior"
   ],
-  "expected_runtime_validation": [
-    "all_four_phase1_plugins_active",
-    "wp_servicesbg_audit_log_exists",
-    "wp_servicesbg_import_batches_exists",
-    "wp_servicesbg_migration_map_exists",
-    "service_listing_post_type_exists",
-    "service_category_taxonomy_exists",
-    "service_provider_role_exists",
-    "service_freelancer_role_exists",
-    "service_customer_role_exists",
-    "servicesbg_health_admin_page_registered",
-    "wp_servicesbg_status_command_works",
-    "wp_servicesbg_migration_preflight_command_works"
-  ],
-  "validation": {
-    "script_syntax_check": "passed",
-    "setup_staging_wp_executed": true,
-    "wordpress_downloaded": true,
-    "wp_config_created": true,
-    "plugin_activation": "not_reached_db_auth_failed",
-    "validate_phase1_plugins_executed": true,
-    "wordpress_runtime_validation": "failed_db_connection",
-    "blocker": "The servicesbg MySQL user cannot authenticate to a separate staging database with available credentials, and non-interactive sudo mysql requires a sudo password."
-  },
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
     "phase_1_only": true,
-    "deferred_claims_reservations_ai_messaging_coverage_crm_search_importers": true
+    "deferred_claims_reservations_ai_messaging_coverage_crm_search_importers": true,
+    "separate_staging_database": true
   },
-  "next_step": "Create/grant the separate staging database and provide working WP_STAGING_DB_PASSWORD, then rerun setup_staging_wp.sh and validate_phase1_plugins.sh against staging only."
+  "next_step": "Proceed only to migration tooling preflight and dry-run-only scaffolding. Production services.bg remains out of scope."
 }
