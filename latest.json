@@ -1,0 +1,68 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-12T09:31:54+03:00",
+  "status": "reviews_ai_architecture_updated",
+  "production_modified": false,
+  "application_code_written": false,
+  "scope": "architecture_update_only",
+  "current_deliverables": [
+    "docs/reviews_ai_model_v1.md",
+    "docs/servicesbg_database_schema_v1.md",
+    "docs/servicesbg_plugin_table_ownership_v1.md",
+    "docs/servicesbg_mvp_scope_v1.md",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "reviews_model": {
+    "plugin": "servicesbg-reviews",
+    "raw_reviews_private": true,
+    "public_raw_review_list": false,
+    "public_summary_ai_assisted": true,
+    "public_summary_versioned": true,
+    "public_summary_regeneratable": true,
+    "admin_audit_required": true,
+    "fake_review_generation_allowed": false,
+    "private_personal_details_in_public_summary_allowed": false,
+    "summary_inputs": [
+      "raw_reviews",
+      "provider_responses",
+      "resolution_outcomes",
+      "reservation_history",
+      "inquiry_response_activity",
+      "verified_service_completion"
+    ]
+  },
+  "phase_2_schema_updates": [
+    "wp_servicesbg_reviews",
+    "wp_servicesbg_review_cases",
+    "wp_servicesbg_review_case_events",
+    "wp_servicesbg_review_summary_versions",
+    "wp_servicesbg_review_summary_audit"
+  ],
+  "ownership": {
+    "servicesbg-reviews": [
+      "private_raw_reviews",
+      "provider_responses",
+      "review_cases",
+      "review_case_events",
+      "public_summary_versions",
+      "summary_audit"
+    ],
+    "servicesbg-ai": [
+      "ai_generation_assistance",
+      "redaction_assistance",
+      "model_adapter_contracts"
+    ],
+    "servicesbg-search": [
+      "approved_public_summary_fields_only",
+      "aggregate_trust_signals_only"
+    ]
+  },
+  "rules_observed": {
+    "no_tradingbot_context": true,
+    "no_unai_context": true,
+    "no_production_changes": true,
+    "architecture_only": true
+  },
+  "next_step": "Review and approve reviews architecture before implementing servicesbg-reviews."
+}
