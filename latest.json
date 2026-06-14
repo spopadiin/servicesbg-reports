@@ -1,68 +1,66 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-12T09:34:48+03:00",
-  "status": "reviews_ai_architecture_updated",
+  "updated_at": "2026-06-14T17:24:16+03:00",
+  "status": "phase2a_claims_mvp_implemented",
   "production_modified": false,
-  "application_code_written": false,
-  "scope": "architecture_update_only",
+  "application_code_written": true,
+  "scope": "servicesbg-claims_mvp_only",
   "current_deliverables": [
-    "docs/reviews_ai_model_v1.md",
+    "app/wp-content/plugins/servicesbg-claims/",
+    "docs/phase2a_claims_mvp_v1.md",
     "docs/servicesbg_database_schema_v1.md",
     "docs/servicesbg_plugin_table_ownership_v1.md",
     "docs/servicesbg_mvp_scope_v1.md",
+    "scripts/validate_claims_plugin.sh",
+    "reports/phase2a_claims_implementation.md",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "reviews_model": {
-    "plugin": "servicesbg-reviews",
-    "raw_reviews_private": true,
-    "public_raw_review_list": false,
-    "public_summary_ai_assisted": true,
-    "public_summary_versioned": true,
-    "public_summary_regeneratable": true,
-    "admin_audit_required": true,
-    "fake_review_generation_allowed": false,
-    "private_personal_details_in_public_summary_allowed": false,
-    "summary_inputs": [
-      "raw_reviews",
-      "provider_responses",
-      "resolution_outcomes",
-      "reservation_history",
-      "inquiry_response_activity",
-      "verified_service_completion"
-    ]
+  "claims_mvp": {
+    "plugin": "servicesbg-claims",
+    "version": "0.1.0",
+    "table": "wp_servicesbg_claims",
+    "plugin_header": true,
+    "activation_hook": true,
+    "deactivation_hook": true,
+    "schema_installer": true,
+    "claim_request_model": true,
+    "claim_status_model": true,
+    "otp_code_storage_model": true,
+    "phone_verification_abstraction": true,
+    "sms_provider_interface": true,
+    "stub_sms_providers_only": true,
+    "admin_claim_review_page": true,
+    "audit_log_integration": true,
+    "health_status_integration": true,
+    "wp_cli_commands": [
+      "wp servicesbg claims status",
+      "wp servicesbg claims list",
+      "wp servicesbg claims create-test"
+    ],
+    "validation_script": "scripts/validate_claims_plugin.sh"
   },
-  "phase_2_schema_updates": [
-    "wp_servicesbg_reviews",
-    "wp_servicesbg_review_cases",
-    "wp_servicesbg_review_case_events",
-    "wp_servicesbg_review_summary_versions",
-    "wp_servicesbg_review_summary_audit"
+  "explicitly_not_implemented": [
+    "reservations",
+    "coverage",
+    "reviews",
+    "AI",
+    "messaging",
+    "CRM workflows",
+    "search",
+    "full Flynax importers",
+    "real SMS sending",
+    "real SMS provider credentials",
+    "automatic ownership transfer"
   ],
-  "ownership": {
-    "servicesbg-reviews": [
-      "private_raw_reviews",
-      "provider_responses",
-      "review_cases",
-      "review_case_events",
-      "public_summary_versions",
-      "summary_audit"
-    ],
-    "servicesbg-ai": [
-      "ai_generation_assistance",
-      "redaction_assistance",
-      "model_adapter_contracts"
-    ],
-    "servicesbg-search": [
-      "approved_public_summary_fields_only",
-      "aggregate_trust_signals_only"
-    ]
-  },
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "architecture_only": true
+    "plugin_based": true,
+    "no_theme_business_logic": true,
+    "preserve_flynax_ids": true,
+    "raw_imported_listings_unchanged_until_verified": true
   },
-  "next_step": "Review and approve reviews architecture before implementing servicesbg-reviews."
+  "next_step": "Run scripts/validate_claims_plugin.sh against staging after servicesbg-claims is active, then review admin queue behavior before adding any real SMS adapter."
 }

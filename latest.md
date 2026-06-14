@@ -1,41 +1,54 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-12T09:34:48+03:00
+Updated: 2026-06-14T17:24:16+03:00
 
 ## Status
-Architecture updated to include `servicesbg-reviews` with private raw reviews and AI-assisted public summary versions.
+Phase 2A `servicesbg-claims` MVP has been implemented for staging.
 
-No application code was written for reviews. No production services.bg system was modified.
+No production services.bg system was modified. No real SMS provider credentials or live SMS sending were added.
 
 ## Created/Updated
-- `docs/reviews_ai_model_v1.md`
+- `app/wp-content/plugins/servicesbg-claims/`
+- `docs/phase2a_claims_mvp_v1.md`
 - `docs/servicesbg_database_schema_v1.md`
 - `docs/servicesbg_plugin_table_ownership_v1.md`
 - `docs/servicesbg_mvp_scope_v1.md`
+- `scripts/validate_claims_plugin.sh`
+- `reports/phase2a_claims_implementation.md`
 - `reports/latest.md`
 - `reports/latest.json`
 
-## Review Model Decisions
-- Raw reviews are private between reviewer, provider, and admin.
-- Public review output is not a raw review list.
-- Public review output is a versioned AI-assisted summary.
-- Public summaries may use raw reviews, provider responses, resolution outcomes, reservation history, inquiry/response activity, and verified service completion signals.
-- Admin must be able to audit raw reviews, cases, AI inputs, generated summaries, redaction decisions, approvals, publications, and prior versions.
-- Public summaries must be regeneratable.
-- AI must not generate fake reviews or invent unsupported service experiences.
-- AI summaries must not expose private personal details.
+## Implemented
+- Plugin header, bootstrap, autoloader, activation hook, and deactivation hook.
+- Claims schema installer for `wp_servicesbg_claims`.
+- Claim request model, claim status model, OTP/code storage model, and phone verification abstraction.
+- SMS provider interface with null/stub providers only.
+- Admin claim review page under the ServicesBG admin menu.
+- Audit log integration with `servicesbg-core` audit table.
+- Health/status integration in the core health page and `wp servicesbg status`.
+- WP-CLI commands:
+  - `wp servicesbg claims status`
+  - `wp servicesbg claims list`
+  - `wp servicesbg claims create-test`
 
-## Schema Added to Phase 2 Planning
-- `wp_servicesbg_reviews`
-- `wp_servicesbg_review_cases`
-- `wp_servicesbg_review_case_events`
-- `wp_servicesbg_review_summary_versions`
-- `wp_servicesbg_review_summary_audit`
+## Explicitly Not Implemented
+- Reservations.
+- Coverage.
+- Reviews.
+- AI.
+- Messaging.
+- CRM workflows.
+- Search.
+- Full Flynax importers.
+- Real SMS sending or provider credentials.
+- Automatic ownership transfer without verification.
 
-## Ownership
-- `servicesbg-reviews` owns private raw reviews, cases, provider responses, summary versions, and review summary audit.
-- `servicesbg-ai` assists generation/redaction through contracts but does not own review records.
-- `servicesbg-search` may consume only approved public summary fields and aggregate trust signals.
+## Rules Observed
+- Functionality is plugin-based.
+- No business logic was added to the theme.
+- Flynax source listing/account IDs are preserved in claim records.
+- Raw imported listings remain unchanged until claim verification/review workflow is completed.
+- Production was not changed.
 
 ## Next Step
-Review and approve the reviews architecture before any `servicesbg-reviews` plugin implementation.
+Run `scripts/validate_claims_plugin.sh` against staging after activating `servicesbg-claims`, then review the admin claim queue behavior before adding any real SMS provider adapter.
