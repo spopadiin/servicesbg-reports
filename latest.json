@@ -1,57 +1,63 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-14T17:24:16+03:00",
-  "status": "phase2a_claims_mvp_implemented",
+  "updated_at": "2026-06-14T18:39:47+03:00",
+  "status": "phase2b_search_mvp_implemented",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "servicesbg-claims_mvp_only",
+  "scope": "servicesbg-search_mvp_only",
   "current_deliverables": [
-    "app/wp-content/plugins/servicesbg-claims/",
-    "docs/phase2a_claims_mvp_v1.md",
-    "docs/servicesbg_database_schema_v1.md",
-    "docs/servicesbg_plugin_table_ownership_v1.md",
-    "docs/servicesbg_mvp_scope_v1.md",
-    "scripts/validate_claims_plugin.sh",
-    "reports/phase2a_claims_implementation.md",
+    "app/wp-content/plugins/servicesbg-search/",
+    "docs/phase2b_search_mvp_v1.md",
+    "scripts/validate_search_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "claims_mvp": {
-    "plugin": "servicesbg-claims",
+  "search_mvp": {
+    "plugin": "servicesbg-search",
     "version": "0.1.0",
-    "table": "wp_servicesbg_claims",
+    "tables": [
+      "wp_servicesbg_search_index",
+      "wp_servicesbg_search_queries"
+    ],
     "plugin_header": true,
     "activation_hook": true,
     "deactivation_hook": true,
     "schema_installer": true,
-    "claim_request_model": true,
-    "claim_status_model": true,
-    "otp_code_storage_model": true,
-    "phone_verification_abstraction": true,
-    "sms_provider_interface": true,
-    "stub_sms_providers_only": true,
-    "admin_claim_review_page": true,
-    "audit_log_integration": true,
+    "service_listing_search": true,
+    "category_filter_support": true,
+    "provider_filter_foundation": true,
+    "location_geodata_filter_foundation": true,
+    "ranking_interface": "ServicesBG\\Search\\Service\\RankingEngineInterface",
+    "deterministic_ranking_only": true,
+    "future_hooks": [
+      "servicesbg_search_index_document",
+      "servicesbg_search_index_updated",
+      "servicesbg_search_index_failed",
+      "servicesbg_search_query_args",
+      "servicesbg_search_query_results",
+      "servicesbg_search_rank_components",
+      "servicesbg_search_rank_score"
+    ],
     "health_status_integration": true,
     "wp_cli_commands": [
-      "wp servicesbg claims status",
-      "wp servicesbg claims list",
-      "wp servicesbg claims create-test"
+      "wp servicesbg search status",
+      "wp servicesbg search test",
+      "wp servicesbg search rebuild-index"
     ],
-    "validation_script": "scripts/validate_claims_plugin.sh"
+    "validation_script": "scripts/validate_search_plugin.sh"
   },
   "explicitly_not_implemented": [
+    "production changes",
+    "AI ranking",
+    "search SaaS dependency",
     "reservations",
-    "coverage",
-    "reviews",
-    "AI",
+    "reservation availability filtering",
+    "coverage weighting",
+    "coverage filtering",
+    "reviews runtime",
     "messaging",
     "CRM workflows",
-    "search",
-    "full Flynax importers",
-    "real SMS sending",
-    "real SMS provider credentials",
-    "automatic ownership transfer"
+    "full Flynax importers"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
@@ -59,8 +65,9 @@
     "no_production_changes": true,
     "plugin_based": true,
     "no_theme_business_logic": true,
-    "preserve_flynax_ids": true,
-    "raw_imported_listings_unchanged_until_verified": true
+    "search_tables_owned_by_search_plugin": true,
+    "source_of_truth_modules_preserved": true,
+    "future_integrations_are_hooks_only": true
   },
-  "next_step": "Run scripts/validate_claims_plugin.sh against staging after servicesbg-claims is active, then review admin queue behavior before adding any real SMS adapter."
+  "next_step": "Run scripts/validate_search_plugin.sh against staging after servicesbg-search is active, then proceed to the next MVP module without adding AI ranking or external search dependencies."
 }

@@ -1,54 +1,61 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-14T17:24:16+03:00
+Updated: 2026-06-14T18:39:47+03:00
 
 ## Status
-Phase 2A `servicesbg-claims` MVP has been implemented for staging.
+Phase 2B `servicesbg-search` MVP has been implemented for staging.
 
-No production services.bg system was modified. No real SMS provider credentials or live SMS sending were added.
+No production services.bg system was modified. No AI ranking, external search SaaS, reservations, coverage weighting, reviews runtime, messaging, CRM workflows, or full migration importers were added.
 
 ## Created/Updated
-- `app/wp-content/plugins/servicesbg-claims/`
-- `docs/phase2a_claims_mvp_v1.md`
-- `docs/servicesbg_database_schema_v1.md`
-- `docs/servicesbg_plugin_table_ownership_v1.md`
-- `docs/servicesbg_mvp_scope_v1.md`
-- `scripts/validate_claims_plugin.sh`
-- `reports/phase2a_claims_implementation.md`
+- `app/wp-content/plugins/servicesbg-search/`
+- `docs/phase2b_search_mvp_v1.md`
+- `scripts/validate_search_plugin.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Implemented
 - Plugin header, bootstrap, autoloader, activation hook, and deactivation hook.
-- Claims schema installer for `wp_servicesbg_claims`.
-- Claim request model, claim status model, OTP/code storage model, and phone verification abstraction.
-- SMS provider interface with null/stub providers only.
-- Admin claim review page under the ServicesBG admin menu.
-- Audit log integration with `servicesbg-core` audit table.
-- Health/status integration in the core health page and `wp servicesbg status`.
+- Search schema installer for `wp_servicesbg_search_index` and `wp_servicesbg_search_queries`.
+- Basic search service for `service_listing` records.
+- Category filter support through `category_term_id`.
+- Provider filter foundation through `provider_user_id` and provider index rows.
+- Location/geodata filter foundation through country, region, city, latitude, longitude, and radius.
+- Ranking abstraction via `RankingEngineInterface` and deterministic MVP `RankingEngine`.
+- Hooks/events for future coverage, reviews, reservations, and AI integration.
+- Search query telemetry in `wp_servicesbg_search_queries`.
+- Health/status integration through `servicesbg_health_components` and the core health page.
 - WP-CLI commands:
-  - `wp servicesbg claims status`
-  - `wp servicesbg claims list`
-  - `wp servicesbg claims create-test`
+  - `wp servicesbg search status`
+  - `wp servicesbg search test`
+  - `wp servicesbg search rebuild-index`
+
+## Validation
+- PHP lint passed for changed search/core files.
+- `servicesbg-search` was activated in staging.
+- Search tables were created in staging.
+- `wp servicesbg search status` reports schema and tables present.
+- `wp servicesbg search test` passed listing, category, provider, and geo query paths with temporary cleanup.
+- `scripts/validate_search_plugin.sh` added for repeatable staging validation.
 
 ## Explicitly Not Implemented
+- Production changes.
+- AI ranking.
+- Search SaaS dependency.
 - Reservations.
-- Coverage.
-- Reviews.
-- AI.
+- Reservation availability filtering.
+- Coverage weighting or coverage filtering.
+- Reviews runtime.
 - Messaging.
 - CRM workflows.
-- Search.
 - Full Flynax importers.
-- Real SMS sending or provider credentials.
-- Automatic ownership transfer without verification.
 
 ## Rules Observed
 - Functionality is plugin-based.
-- No business logic was added to the theme.
-- Flynax source listing/account IDs are preserved in claim records.
-- Raw imported listings remain unchanged until claim verification/review workflow is completed.
-- Production was not changed.
+- Search owns only search index/query tables.
+- Search reads/rebuilds from source-of-truth WordPress objects.
+- Business logic was not added to the theme.
+- Future coverage, reservation, review, and AI integration points are hooks/interfaces only.
 
 ## Next Step
-Run `scripts/validate_claims_plugin.sh` against staging after activating `servicesbg-claims`, then review the admin claim queue behavior before adding any real SMS provider adapter.
+Run `scripts/validate_search_plugin.sh` against staging after activating `servicesbg-search`, then proceed to the next MVP module without adding AI ranking or external search dependencies.
