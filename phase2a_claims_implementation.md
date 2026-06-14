@@ -1,6 +1,6 @@
 # ServicesBG Phase 2A Claims Implementation Report
 
-Updated: 2026-06-12T09:31:54+03:00
+Updated: 2026-06-14T17:24:16+03:00
 
 ## Status
 `servicesbg-claims` has been implemented and validated in the staging WordPress runtime.
@@ -23,14 +23,17 @@ No production services.bg system was modified.
 - Phone normalization and claimability abstraction.
 - SMS provider adapter interface.
 - Null SMS adapter for no-provider mode.
+- Stub SMS adapter for safe validation/test workflows.
 - Admin claim review screen.
 - Admin capability: `servicesbg_manage_claims`.
 - Audit logging into `wp_servicesbg_audit_log`.
 - WP-CLI namespace:
-  - `wp servicesbg claims`
   - `wp servicesbg claims status`
-  - `wp servicesbg claims request`
+  - `wp servicesbg claims list`
+  - `wp servicesbg claims create-test`
 - Core health page integration.
+- Safe validation script: `scripts/validate_claims_plugin.sh`.
+- Phase 2A implementation documentation: `docs/phase2a_claims_mvp_v1.md`.
 
 ## Explicitly Not Implemented
 - Actual SMS provider integration.
@@ -41,7 +44,7 @@ No production services.bg system was modified.
 - Coverage.
 - Search.
 - Importers.
-- Ownership transfer business logic beyond status/review foundations.
+- Automatic ownership transfer business logic beyond status/review foundations.
 
 ## Staging Validation
 Validated in `/opt/projects/servicesbg/wp-staging`.
@@ -60,8 +63,10 @@ Passed:
   - `wp servicesbg status`
   - `wp servicesbg migration`
   - `wp servicesbg migration preflight`
-  - `wp servicesbg claims`
-  - `wp servicesbg claims status`
+- `wp servicesbg claims`
+- `wp servicesbg claims status`
+- `wp servicesbg claims list`
+- `wp servicesbg claims create-test --cleanup`
 
 ## Validation Commands
 - `find app/wp-content/plugins/servicesbg-claims -name '*.php' -print0 | xargs -0 -n1 php -l`
@@ -70,9 +75,9 @@ Passed:
 - `bash -n scripts/validate_phase1_plugins.sh`
 - `scripts/setup_staging_wp.sh`
 - `scripts/validate_phase1_plugins.sh`
+- `scripts/validate_claims_plugin.sh`
 
 ## Notes
 - `scripts/validate_phase1_plugins.sh` now validates the Phase 1 foundation plus Phase 2A claims module.
 - The null SMS adapter intentionally records a failed SMS-send state because no SMS provider has been configured yet.
-- Claim request records can be created through service code or WP-CLI, but real phone delivery remains deferred.
-
+- Claim request records can be created through service code; WP-CLI exposes safe listing/status/test commands, but real phone delivery remains deferred.
