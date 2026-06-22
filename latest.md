@@ -1,61 +1,65 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-14T18:39:47+03:00
+Updated: 2026-06-22T23:05:42+03:00
 
 ## Status
-Phase 2B `servicesbg-search` MVP has been implemented for staging.
+Phase 2A `servicesbg-claims` MVP is implemented and validated in staging.
 
-No production services.bg system was modified. No AI ranking, external search SaaS, reservations, coverage weighting, reviews runtime, messaging, CRM workflows, or full migration importers were added.
+No production services.bg system was modified. Reservations, coverage, reviews, AI, messaging, CRM workflows, search, full Flynax importers, and real SMS sending were not implemented.
 
-## Created/Updated
-- `app/wp-content/plugins/servicesbg-search/`
-- `docs/phase2b_search_mvp_v1.md`
-- `scripts/validate_search_plugin.sh`
+## Deliverables
+- `app/wp-content/plugins/servicesbg-claims/`
+- `docs/phase2a_claims_mvp_v1.md`
+- `scripts/validate_claims_plugin.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Implemented
-- Plugin header, bootstrap, autoloader, activation hook, and deactivation hook.
-- Search schema installer for `wp_servicesbg_search_index` and `wp_servicesbg_search_queries`.
-- Basic search service for `service_listing` records.
-- Category filter support through `category_term_id`.
-- Provider filter foundation through `provider_user_id` and provider index rows.
-- Location/geodata filter foundation through country, region, city, latitude, longitude, and radius.
-- Ranking abstraction via `RankingEngineInterface` and deterministic MVP `RankingEngine`.
-- Hooks/events for future coverage, reviews, reservations, and AI integration.
-- Search query telemetry in `wp_servicesbg_search_queries`.
-- Health/status integration through `servicesbg_health_components` and the core health page.
-- WP-CLI commands:
-  - `wp servicesbg search status`
-  - `wp servicesbg search test`
-  - `wp servicesbg search rebuild-index`
+- Plugin header.
+- Activation/deactivation hooks.
+- Schema installer for `wp_servicesbg_claims`.
+- Claim request model.
+- Claim status model.
+- OTP/code storage model using hashed OTPs.
+- Phone verification abstraction.
+- SMS provider interface.
+- Stub SMS providers only:
+  - `NullSmsAdapter`
+  - `StubSmsAdapter`
+- Admin claim review page.
+- Admin capability: `servicesbg_manage_claims`.
+- Audit log integration with `servicesbg-core`.
+- Health/status integration.
+- WP-CLI:
+  - `wp servicesbg claims status`
+  - `wp servicesbg claims list`
+  - `wp servicesbg claims create-test`
+- Safe validation script.
 
-## Validation
-- PHP lint passed for changed search/core files.
-- `servicesbg-search` was activated in staging.
-- Search tables were created in staging.
-- `wp servicesbg search status` reports schema and tables present.
-- `wp servicesbg search test` passed listing, category, provider, and geo query paths with temporary cleanup.
-- `scripts/validate_search_plugin.sh` added for repeatable staging validation.
+## Validation Passed
+Executed:
+- `php -l` for all `servicesbg-claims` PHP files.
+- `bash -n scripts/validate_claims_plugin.sh`.
+- `scripts/validate_claims_plugin.sh` against `/opt/projects/servicesbg/wp-staging`.
 
-## Explicitly Not Implemented
-- Production changes.
-- AI ranking.
-- Search SaaS dependency.
-- Reservations.
-- Reservation availability filtering.
-- Coverage weighting or coverage filtering.
-- Reviews runtime.
-- Messaging.
-- CRM workflows.
-- Full Flynax importers.
+Validated:
+- staging DB connection,
+- plugin activation,
+- claims table,
+- required claim columns,
+- admin claims page,
+- admin claim capability,
+- claims WP-CLI commands,
+- safe `create-test --cleanup`,
+- claims audit-log entry.
 
-## Rules Observed
-- Functionality is plugin-based.
-- Search owns only search index/query tables.
-- Search reads/rebuilds from source-of-truth WordPress objects.
-- Business logic was not added to the theme.
-- Future coverage, reservation, review, and AI integration points are hooks/interfaces only.
+## Safety Notes
+- No real SMS provider credentials were added.
+- `create-test` uses a stub SMS adapter only.
+- No automatic ownership transfer is implemented.
+- Imported listings remain unchanged until a claim is verified and a later transfer workflow is explicitly approved.
+- Flynax listing/account IDs are preserved in the claim model.
 
 ## Next Step
-Run `scripts/validate_search_plugin.sh` against staging after activating `servicesbg-search`, then proceed to the next MVP module without adding AI ranking or external search dependencies.
+Review the claims MVP. The next limited step should be either a non-production SMS gateway adapter or verified ownership-transfer workflow design, not reservations/AI/messaging/coverage/CRM/search.
+
