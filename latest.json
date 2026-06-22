@@ -1,0 +1,111 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-22T23:43:10+03:00",
+  "status": "coverage_mvp_implemented",
+  "production_modified": false,
+  "application_code_written": true,
+  "scope": "servicesbg_coverage_mvp_only",
+  "deliverables": [
+    "app/wp-content/plugins/servicesbg-coverage/",
+    "docs/phase2b_coverage_mvp_v1.md",
+    "scripts/validate_coverage_plugin.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "implemented_features": [
+    "plugin_header",
+    "activation_hook",
+    "deactivation_hook",
+    "coverage_zone_schema",
+    "provider_coverage_assignment",
+    "listing_coverage_assignment",
+    "flynax_source_id_traceability",
+    "coverage_validation_service",
+    "coverage_zone_service",
+    "admin_management_ui",
+    "admin_capability",
+    "wp_cli_coverage_status",
+    "wp_cli_coverage_list",
+    "wp_cli_coverage_create",
+    "wp_cli_coverage_create_test",
+    "health_status_integration",
+    "audit_log_integration",
+    "runtime_validation_script"
+  ],
+  "schema": {
+    "tables": [
+      "wp_servicesbg_coverage_zones"
+    ],
+    "assignment_fields": [
+      "provider_user_id",
+      "listing_id"
+    ],
+    "flynax_traceability_fields": [
+      "source_account_id",
+      "source_listing_id",
+      "source_location_json"
+    ],
+    "zone_fields": [
+      "zone_type",
+      "label",
+      "country",
+      "region",
+      "city",
+      "center_latitude",
+      "center_longitude",
+      "radius_km",
+      "priority",
+      "status"
+    ]
+  },
+  "wp_cli": [
+    "wp servicesbg coverage status",
+    "wp servicesbg coverage list",
+    "wp servicesbg coverage create",
+    "wp servicesbg coverage create-test"
+  ],
+  "validation": {
+    "php_lint": "passed",
+    "shell_syntax": "passed",
+    "staging_runtime_validation": "passed",
+    "script": "scripts/validate_coverage_plugin.sh",
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "checks": [
+      "staging_database_connection",
+      "servicesbg_coverage_plugin_active",
+      "wp_servicesbg_coverage_zones_table",
+      "required_coverage_columns",
+      "coverage_admin_page_registration",
+      "servicesbg_manage_coverage_capability",
+      "wp_cli_coverage_status",
+      "wp_cli_coverage_list",
+      "wp_cli_coverage_create_test_cleanup",
+      "coverage_audit_log_entry",
+      "no_maps_gis_routing_configuration"
+    ]
+  },
+  "explicitly_not_implemented": [
+    "search",
+    "reservations",
+    "reviews",
+    "ai",
+    "messaging",
+    "crm_workflows",
+    "maps",
+    "gis_libraries",
+    "routing",
+    "coverage_discovery_automation"
+  ],
+  "rules_observed": {
+    "no_tradingbot_context": true,
+    "no_unai_context": true,
+    "no_production_changes": true,
+    "plugin_based_functionality": true,
+    "no_business_logic_in_theme": true,
+    "preserve_flynax_ids": true,
+    "no_maps": true,
+    "no_gis_libraries": true,
+    "no_routing": true
+  },
+  "next_step": "Review coverage MVP before approving any next module."
+}
