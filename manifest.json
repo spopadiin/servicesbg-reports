@@ -1,6 +1,6 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-23T22:34:57+03:00",
+  "updated_at": "2026-06-23T22:42:24+03:00",
   "reports": [
     "latest.md",
     "latest.json",
@@ -12,6 +12,8 @@
     "modular_plugin_architecture_v1.md",
     "phase1_runtime_validation_v1.md",
     "phase2a_claims_implementation.md",
+    "phase2b_coverage_mvp_v1.md",
+    "phase2b_search_mvp_v1.md",
     "plugin_strategy_v1.md",
     "publisher_test.md",
     "servicesbg_database_schema_v1.md",
