@@ -1,102 +1,104 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-23T21:56:24+03:00",
-  "status": "reviews_mvp_implemented",
+  "updated_at": "2026-06-23T22:12:50+03:00",
+  "status": "ai_reviews_mvp_implemented",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "servicesbg_reviews_mvp_only",
+  "scope": "servicesbg_ai_reviews_mvp_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-reviews/",
-    "docs/phase2d_reviews_mvp_v1.md",
-    "scripts/validate_reviews_plugin.sh",
+    "app/wp-content/plugins/servicesbg-ai-reviews/",
+    "docs/phase2e_ai_reviews_mvp_v1.md",
+    "scripts/validate_ai_reviews_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
   "implemented_features": [
-    "private_raw_reviews",
-    "review_cases",
-    "review_case_events",
-    "provider_responses",
+    "summary_schema",
+    "summary_versioning",
+    "summary_audit_schema",
+    "generation_jobs",
+    "deterministic_placeholder_generator",
     "admin_moderation",
-    "review_audit_trail",
-    "raw_review_versioning",
+    "summary_audit_trail",
+    "core_audit_integration",
     "admin_diagnostics_ui",
     "admin_capability",
-    "wp_cli_reviews_status",
-    "wp_cli_reviews_list",
-    "wp_cli_reviews_respond",
-    "wp_cli_reviews_moderate",
-    "wp_cli_reviews_case_open",
-    "wp_cli_reviews_create_test",
+    "wp_cli_ai_reviews_status",
+    "wp_cli_ai_reviews_summaries",
+    "wp_cli_ai_reviews_jobs",
+    "wp_cli_ai_reviews_enqueue",
+    "wp_cli_ai_reviews_run_next",
+    "wp_cli_ai_reviews_approve",
+    "wp_cli_ai_reviews_publish",
+    "wp_cli_ai_reviews_create_test",
     "health_status_integration",
-    "audit_log_integration",
     "runtime_validation_script"
   ],
   "schema": {
     "tables": [
-      "wp_servicesbg_reviews",
-      "wp_servicesbg_review_cases",
-      "wp_servicesbg_review_case_events",
-      "wp_servicesbg_review_versions"
+      "wp_servicesbg_review_summary_versions",
+      "wp_servicesbg_review_summary_audit",
+      "wp_servicesbg_review_summary_jobs"
     ],
-    "review_statuses": [
-      "pending_moderation",
-      "approved_private",
-      "needs_changes",
-      "disputed",
-      "rejected",
-      "archived"
+    "summary_statuses": [
+      "draft",
+      "approved",
+      "published",
+      "rejected"
     ],
-    "privacy_statuses": [
-      "private",
-      "restricted",
-      "sealed"
+    "job_statuses": [
+      "queued",
+      "running",
+      "completed",
+      "failed"
     ],
-    "case_statuses": [
-      "open",
-      "under_review",
-      "resolved",
-      "closed"
-    ]
+    "generator": {
+      "ai_model": "deterministic-placeholder-v1",
+      "ai_provider": "local",
+      "external_llm": false
+    }
   },
   "wp_cli": [
-    "wp servicesbg reviews status",
-    "wp servicesbg reviews list",
-    "wp servicesbg reviews respond",
-    "wp servicesbg reviews moderate",
-    "wp servicesbg reviews case-open",
-    "wp servicesbg reviews create-test"
+    "wp servicesbg ai-reviews status",
+    "wp servicesbg ai-reviews summaries",
+    "wp servicesbg ai-reviews jobs",
+    "wp servicesbg ai-reviews enqueue",
+    "wp servicesbg ai-reviews run-next",
+    "wp servicesbg ai-reviews approve",
+    "wp servicesbg ai-reviews publish",
+    "wp servicesbg ai-reviews create-test"
   ],
   "validation": {
     "php_lint": "passed",
     "shell_syntax": "passed",
     "staging_runtime_validation": "passed",
-    "script": "scripts/validate_reviews_plugin.sh",
+    "script": "scripts/validate_ai_reviews_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "checks": [
       "staging_database_connection",
       "servicesbg_reviews_plugin_active",
-      "wp_servicesbg_reviews_table",
-      "wp_servicesbg_review_cases_table",
-      "wp_servicesbg_review_case_events_table",
-      "wp_servicesbg_review_versions_table",
-      "required_review_columns",
+      "servicesbg_ai_reviews_plugin_active",
+      "wp_servicesbg_review_summary_versions_table",
+      "wp_servicesbg_review_summary_audit_table",
+      "wp_servicesbg_review_summary_jobs_table",
+      "required_summary_columns",
       "admin_diagnostics_page_registration",
-      "servicesbg_manage_reviews_capability",
+      "servicesbg_manage_ai_reviews_capability",
       "health_status_integration",
-      "wp_cli_reviews_status",
-      "wp_cli_reviews_list",
-      "wp_cli_reviews_create_test",
-      "provider_response_workflow",
-      "admin_moderation_workflow",
-      "review_case_workflow",
-      "review_versioning_entries",
-      "reviews_audit_log_entries",
-      "no_ai_summary_messaging_crm_payment_calendar_configuration"
+      "wp_cli_ai_reviews_status",
+      "wp_cli_ai_reviews_summaries",
+      "wp_cli_ai_reviews_jobs",
+      "wp_cli_ai_reviews_create_test",
+      "generation_job_completed",
+      "deterministic_local_summary_generated",
+      "admin_approval_workflow",
+      "summary_audit_entries",
+      "core_audit_entries",
+      "no_external_llm_messaging_crm_payment_calendar_configuration"
     ]
   },
   "explicitly_not_implemented": [
-    "ai_review_summaries",
+    "external_llm_apis",
     "messaging",
     "crm_workflows",
     "payments",
@@ -108,12 +110,13 @@
     "no_production_changes": true,
     "plugin_based_functionality": true,
     "no_business_logic_in_theme": true,
-    "raw_reviews_private": true,
-    "no_ai_review_summaries": true,
+    "external_llm_apis_disabled": true,
+    "deterministic_placeholder_generator_only": true,
+    "raw_review_text_excluded_from_summary": true,
     "no_messaging": true,
     "no_crm_workflows": true,
     "no_payments": true,
     "no_calendar_integrations": true
   },
-  "next_step": "Review private reviews MVP before approving AI review summaries, messaging, CRM, payments, or calendar integrations."
+  "next_step": "Review deterministic AI reviews MVP before approving external LLM APIs, messaging, CRM, payments, or calendar integrations."
 }
