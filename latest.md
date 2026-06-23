@@ -1,75 +1,71 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-23T00:01:21+03:00
+Updated: 2026-06-23T21:10:32+03:00
 
 ## Status
-`servicesbg-search` MVP is implemented and validated in staging.
+`servicesbg-reservations` MVP is implemented and validated in staging.
 
-No production services.bg system was modified. Reservations, reviews, AI, messaging, CRM workflows, maps, GIS, routing, Elasticsearch, vector search, and AI ranking were not implemented.
+No production services.bg system was modified. Reviews, AI, messaging, CRM workflows, payments, and calendar integrations were not implemented.
 
 ## Deliverables
-- `app/wp-content/plugins/servicesbg-search/`
-- `docs/phase2b_search_mvp_v1.md`
-- `scripts/validate_search_plugin.sh`
+- `app/wp-content/plugins/servicesbg-reservations/`
+- `docs/phase2c_reservations_mvp_v1.md`
+- `scripts/validate_reservations_plugin.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Implemented
-- Search index schema: `wp_servicesbg_search_index`.
-- Search query diagnostics schema: `wp_servicesbg_search_queries`.
-- Category filtering.
-- Coverage filtering through indexed simple fields.
-- Claimed/unclaimed filtering.
-- Provider filtering.
-- Deterministic local ranking.
+- Reservation schema: `wp_servicesbg_reservations`.
+- Availability schema: `wp_servicesbg_availability_rules`.
+- Capacity exception schema: `wp_servicesbg_capacity_exceptions`.
+- Reservation statuses: `requested`, `provider_accepted`, `provider_rejected`, `customer_cancelled`, `cancelled`, `completed`, `expired`.
+- Provider acceptance workflow.
+- Customer cancellation workflow.
+- Availability rule model.
+- Capacity exception model.
 - WP-CLI commands:
-  - `wp servicesbg search status`
-  - `wp servicesbg search rebuild-index`
-  - `wp servicesbg search test`
-  - `wp servicesbg search query`
-  - `wp servicesbg search diagnose`
+  - `wp servicesbg reservations status`
+  - `wp servicesbg reservations list`
+  - `wp servicesbg reservations availability-create`
+  - `wp servicesbg reservations accept`
+  - `wp servicesbg reservations cancel`
+  - `wp servicesbg reservations create-test`
 - Admin diagnostics UI.
-- Admin capability: `servicesbg_manage_search`.
+- Admin capability: `servicesbg_manage_reservations`.
 - Health/status integration.
 - Audit log integration.
 - Runtime validation script.
 
 ## Validation Passed
 Executed:
-- PHP lint for all `servicesbg-search` PHP files.
-- Shell syntax check for `scripts/validate_search_plugin.sh`.
+- PHP lint for all `servicesbg-reservations` PHP files.
+- PHP lint for updated core health page.
+- Shell syntax check for `scripts/validate_reservations_plugin.sh`.
+- Shell syntax check for `scripts/setup_staging_wp.sh`.
 - `scripts/setup_staging_wp.sh` to ensure staging activation.
-- `scripts/validate_search_plugin.sh` against `/opt/projects/servicesbg/wp-staging`.
+- `scripts/validate_reservations_plugin.sh` against `/opt/projects/servicesbg/wp-staging`.
 
 Validated:
 - staging DB connection,
 - plugin activation,
-- search index/query tables,
-- required search columns,
+- reservation/availability/capacity tables,
+- required table columns,
 - admin diagnostics page,
-- admin search capability,
+- admin reservations capability,
 - health integration,
-- category filter,
-- coverage filter,
-- claimed/unclaimed filter,
-- provider filter,
+- provider acceptance workflow,
+- customer cancellation workflow,
 - WP-CLI commands,
 - audit log entry,
-- no AI/Elasticsearch/vector/maps/GIS/routing configuration.
+- no reviews/AI/messaging/CRM/payment/calendar configuration.
 
 ## Explicitly Out of Scope
-- reservations
 - reviews
 - AI
 - messaging
 - CRM workflows
-- maps
-- GIS libraries
-- routing
-- Elasticsearch
-- vector search
-- AI ranking
+- payments
+- calendar integrations
 
 ## Next Step
-Review the search MVP before approving any next module or integration.
-
+Review the reservations MVP before approving reviews, AI, messaging, CRM, payments, or calendar integrations.

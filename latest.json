@@ -1,94 +1,97 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-23T00:01:21+03:00",
-  "status": "search_mvp_implemented",
+  "updated_at": "2026-06-23T21:10:32+03:00",
+  "status": "reservations_mvp_implemented",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "servicesbg_search_mvp_only",
+  "scope": "servicesbg_reservations_mvp_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-search/",
-    "docs/phase2b_search_mvp_v1.md",
-    "scripts/validate_search_plugin.sh",
+    "app/wp-content/plugins/servicesbg-reservations/",
+    "docs/phase2c_reservations_mvp_v1.md",
+    "scripts/validate_reservations_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
   "implemented_features": [
-    "search_index_schema",
-    "search_query_diagnostics_schema",
-    "category_filtering",
-    "coverage_filtering_simple_fields",
-    "claimed_unclaimed_filtering",
-    "provider_filtering",
-    "deterministic_local_ranking",
+    "reservation_schema",
+    "availability_rules_schema",
+    "capacity_exceptions_schema",
+    "availability_model",
+    "reservation_status_model",
+    "provider_acceptance_workflow",
+    "customer_cancellation_workflow",
     "admin_diagnostics_ui",
     "admin_capability",
-    "wp_cli_search_status",
-    "wp_cli_search_rebuild_index",
-    "wp_cli_search_test",
-    "wp_cli_search_query",
-    "wp_cli_search_diagnose",
+    "wp_cli_reservations_status",
+    "wp_cli_reservations_list",
+    "wp_cli_reservations_availability_create",
+    "wp_cli_reservations_accept",
+    "wp_cli_reservations_cancel",
+    "wp_cli_reservations_create_test",
     "health_status_integration",
     "audit_log_integration",
     "runtime_validation_script"
   ],
   "schema": {
     "tables": [
-      "wp_servicesbg_search_index",
-      "wp_servicesbg_search_queries"
+      "wp_servicesbg_availability_rules",
+      "wp_servicesbg_capacity_exceptions",
+      "wp_servicesbg_reservations"
     ],
-    "filter_fields": [
-      "category_term_id",
-      "coverage_status",
-      "country",
-      "region",
-      "city",
-      "claim_status",
-      "provider_user_id",
-      "listing_status"
+    "reservation_statuses": [
+      "requested",
+      "provider_accepted",
+      "provider_rejected",
+      "customer_cancelled",
+      "cancelled",
+      "completed",
+      "expired"
+    ],
+    "availability_statuses": [
+      "active",
+      "inactive"
     ]
   },
   "wp_cli": [
-    "wp servicesbg search status",
-    "wp servicesbg search rebuild-index",
-    "wp servicesbg search test",
-    "wp servicesbg search query",
-    "wp servicesbg search diagnose"
+    "wp servicesbg reservations status",
+    "wp servicesbg reservations list",
+    "wp servicesbg reservations availability-create",
+    "wp servicesbg reservations accept",
+    "wp servicesbg reservations cancel",
+    "wp servicesbg reservations create-test"
   ],
   "validation": {
     "php_lint": "passed",
     "shell_syntax": "passed",
     "staging_runtime_validation": "passed",
-    "script": "scripts/validate_search_plugin.sh",
+    "script": "scripts/validate_reservations_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "checks": [
       "staging_database_connection",
-      "servicesbg_search_plugin_active",
-      "wp_servicesbg_search_index_table",
-      "wp_servicesbg_search_queries_table",
-      "required_search_columns",
+      "servicesbg_reservations_plugin_active",
+      "wp_servicesbg_availability_rules_table",
+      "wp_servicesbg_capacity_exceptions_table",
+      "wp_servicesbg_reservations_table",
+      "required_reservation_columns",
       "admin_diagnostics_page_registration",
-      "servicesbg_manage_search_capability",
-      "wp_cli_search_status",
-      "wp_cli_search_rebuild_index",
-      "wp_cli_search_test",
-      "wp_cli_search_query_with_filters",
-      "wp_cli_search_diagnose",
-      "search_audit_log_entry",
-      "no_ai_elasticsearch_vector_maps_gis_routing_configuration"
+      "servicesbg_manage_reservations_capability",
+      "health_status_integration",
+      "wp_cli_reservations_status",
+      "wp_cli_reservations_list",
+      "wp_cli_reservations_create_test_cleanup",
+      "provider_acceptance_workflow",
+      "customer_cancellation_workflow",
+      "reservations_audit_log_entries",
+      "no_reviews_ai_messaging_crm_payment_calendar_configuration"
     ]
   },
   "explicitly_not_implemented": [
-    "reservations",
     "reviews",
     "ai",
     "messaging",
     "crm_workflows",
-    "maps",
-    "gis_libraries",
-    "routing",
-    "elasticsearch",
-    "vector_search",
-    "ai_ranking"
+    "payments",
+    "calendar_integrations"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
@@ -96,10 +99,12 @@
     "no_production_changes": true,
     "plugin_based_functionality": true,
     "no_business_logic_in_theme": true,
-    "no_ai_ranking": true,
-    "no_elasticsearch": true,
-    "no_vector_search": true,
-    "no_maps_gis_routing": true
+    "no_reviews": true,
+    "no_ai": true,
+    "no_messaging": true,
+    "no_crm_workflows": true,
+    "no_payments": true,
+    "no_calendar_integrations": true
   },
-  "next_step": "Review search MVP before approving any next module or integration."
+  "next_step": "Review reservations MVP before approving reviews, AI, messaging, CRM, payments, or calendar integrations."
 }
