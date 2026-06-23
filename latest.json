@@ -1,93 +1,102 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-23T21:10:32+03:00",
-  "status": "reservations_mvp_implemented",
+  "updated_at": "2026-06-23T21:56:24+03:00",
+  "status": "reviews_mvp_implemented",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "servicesbg_reservations_mvp_only",
+  "scope": "servicesbg_reviews_mvp_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-reservations/",
-    "docs/phase2c_reservations_mvp_v1.md",
-    "scripts/validate_reservations_plugin.sh",
+    "app/wp-content/plugins/servicesbg-reviews/",
+    "docs/phase2d_reviews_mvp_v1.md",
+    "scripts/validate_reviews_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
   "implemented_features": [
-    "reservation_schema",
-    "availability_rules_schema",
-    "capacity_exceptions_schema",
-    "availability_model",
-    "reservation_status_model",
-    "provider_acceptance_workflow",
-    "customer_cancellation_workflow",
+    "private_raw_reviews",
+    "review_cases",
+    "review_case_events",
+    "provider_responses",
+    "admin_moderation",
+    "review_audit_trail",
+    "raw_review_versioning",
     "admin_diagnostics_ui",
     "admin_capability",
-    "wp_cli_reservations_status",
-    "wp_cli_reservations_list",
-    "wp_cli_reservations_availability_create",
-    "wp_cli_reservations_accept",
-    "wp_cli_reservations_cancel",
-    "wp_cli_reservations_create_test",
+    "wp_cli_reviews_status",
+    "wp_cli_reviews_list",
+    "wp_cli_reviews_respond",
+    "wp_cli_reviews_moderate",
+    "wp_cli_reviews_case_open",
+    "wp_cli_reviews_create_test",
     "health_status_integration",
     "audit_log_integration",
     "runtime_validation_script"
   ],
   "schema": {
     "tables": [
-      "wp_servicesbg_availability_rules",
-      "wp_servicesbg_capacity_exceptions",
-      "wp_servicesbg_reservations"
+      "wp_servicesbg_reviews",
+      "wp_servicesbg_review_cases",
+      "wp_servicesbg_review_case_events",
+      "wp_servicesbg_review_versions"
     ],
-    "reservation_statuses": [
-      "requested",
-      "provider_accepted",
-      "provider_rejected",
-      "customer_cancelled",
-      "cancelled",
-      "completed",
-      "expired"
+    "review_statuses": [
+      "pending_moderation",
+      "approved_private",
+      "needs_changes",
+      "disputed",
+      "rejected",
+      "archived"
     ],
-    "availability_statuses": [
-      "active",
-      "inactive"
+    "privacy_statuses": [
+      "private",
+      "restricted",
+      "sealed"
+    ],
+    "case_statuses": [
+      "open",
+      "under_review",
+      "resolved",
+      "closed"
     ]
   },
   "wp_cli": [
-    "wp servicesbg reservations status",
-    "wp servicesbg reservations list",
-    "wp servicesbg reservations availability-create",
-    "wp servicesbg reservations accept",
-    "wp servicesbg reservations cancel",
-    "wp servicesbg reservations create-test"
+    "wp servicesbg reviews status",
+    "wp servicesbg reviews list",
+    "wp servicesbg reviews respond",
+    "wp servicesbg reviews moderate",
+    "wp servicesbg reviews case-open",
+    "wp servicesbg reviews create-test"
   ],
   "validation": {
     "php_lint": "passed",
     "shell_syntax": "passed",
     "staging_runtime_validation": "passed",
-    "script": "scripts/validate_reservations_plugin.sh",
+    "script": "scripts/validate_reviews_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "checks": [
       "staging_database_connection",
-      "servicesbg_reservations_plugin_active",
-      "wp_servicesbg_availability_rules_table",
-      "wp_servicesbg_capacity_exceptions_table",
-      "wp_servicesbg_reservations_table",
-      "required_reservation_columns",
+      "servicesbg_reviews_plugin_active",
+      "wp_servicesbg_reviews_table",
+      "wp_servicesbg_review_cases_table",
+      "wp_servicesbg_review_case_events_table",
+      "wp_servicesbg_review_versions_table",
+      "required_review_columns",
       "admin_diagnostics_page_registration",
-      "servicesbg_manage_reservations_capability",
+      "servicesbg_manage_reviews_capability",
       "health_status_integration",
-      "wp_cli_reservations_status",
-      "wp_cli_reservations_list",
-      "wp_cli_reservations_create_test_cleanup",
-      "provider_acceptance_workflow",
-      "customer_cancellation_workflow",
-      "reservations_audit_log_entries",
-      "no_reviews_ai_messaging_crm_payment_calendar_configuration"
+      "wp_cli_reviews_status",
+      "wp_cli_reviews_list",
+      "wp_cli_reviews_create_test",
+      "provider_response_workflow",
+      "admin_moderation_workflow",
+      "review_case_workflow",
+      "review_versioning_entries",
+      "reviews_audit_log_entries",
+      "no_ai_summary_messaging_crm_payment_calendar_configuration"
     ]
   },
   "explicitly_not_implemented": [
-    "reviews",
-    "ai",
+    "ai_review_summaries",
     "messaging",
     "crm_workflows",
     "payments",
@@ -99,12 +108,12 @@
     "no_production_changes": true,
     "plugin_based_functionality": true,
     "no_business_logic_in_theme": true,
-    "no_reviews": true,
-    "no_ai": true,
+    "raw_reviews_private": true,
+    "no_ai_review_summaries": true,
     "no_messaging": true,
     "no_crm_workflows": true,
     "no_payments": true,
     "no_calendar_integrations": true
   },
-  "next_step": "Review reservations MVP before approving reviews, AI, messaging, CRM, payments, or calendar integrations."
+  "next_step": "Review private reviews MVP before approving AI review summaries, messaging, CRM, payments, or calendar integrations."
 }
