@@ -1,75 +1,80 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-23T22:12:50+03:00
+Updated: 2026-06-24T09:05:10+03:00
 
 ## Status
-`servicesbg-ai-reviews` MVP is implemented and validated in staging.
+`servicesbg-messaging` MVP is implemented and validated in staging.
 
-No production services.bg system was modified. External LLM APIs, messaging, CRM workflows, payments, and calendar integrations were not implemented.
+No production services.bg system was modified. AI chat, chatbot, CRM workflows, email/SMS/push delivery, external APIs, payments, and calendar integrations were not implemented.
 
 ## Deliverables
-- `app/wp-content/plugins/servicesbg-ai-reviews/`
-- `docs/phase2e_ai_reviews_mvp_v1.md`
-- `scripts/validate_ai_reviews_plugin.sh`
+- `app/wp-content/plugins/servicesbg-messaging/`
+- `docs/phase2f_messaging_mvp_v1.md`
+- `scripts/validate_messaging_plugin.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Implemented
-- Summary schema: `wp_servicesbg_review_summary_versions`.
-- Summary audit schema: `wp_servicesbg_review_summary_audit`.
-- Generation job schema: `wp_servicesbg_review_summary_jobs`.
-- Summary versioning by provider/listing scope.
-- Generation jobs.
-- Deterministic local placeholder generator.
-- Admin moderation for approve/publish/reject.
-- Summary audit trail.
+- Conversation schema: `wp_servicesbg_conversations`.
+- Participant schema: `wp_servicesbg_conversation_participants`.
+- Message schema: `wp_servicesbg_messages`.
+- Attachment metadata schema: `wp_servicesbg_message_attachments`.
+- Conversation creation.
+- Participant tracking.
+- Message creation.
+- Read/unread tracking.
+- Conversation status support.
+- Reservation linkage.
+- Review-case linkage.
+- Claim linkage.
 - Core audit integration.
 - WP-CLI commands:
-  - `wp servicesbg ai-reviews status`
-  - `wp servicesbg ai-reviews summaries`
-  - `wp servicesbg ai-reviews jobs`
-  - `wp servicesbg ai-reviews enqueue`
-  - `wp servicesbg ai-reviews run-next`
-  - `wp servicesbg ai-reviews approve`
-  - `wp servicesbg ai-reviews publish`
-  - `wp servicesbg ai-reviews create-test`
+  - `wp servicesbg messaging status`
+  - `wp servicesbg messaging list`
+  - `wp servicesbg messaging conversation-create`
+  - `wp servicesbg messaging message-create`
+  - `wp servicesbg messaging create-test`
 - Admin diagnostics UI.
-- Admin capability: `servicesbg_manage_ai_reviews`.
+- Admin capability: `servicesbg_manage_messaging`.
 - Health/status integration.
 - Runtime validation script.
 
 ## Validation Passed
 Executed:
-- PHP lint for all `servicesbg-ai-reviews` PHP files.
+- PHP lint for all `servicesbg-messaging` PHP files.
 - PHP lint for updated core health page.
-- Shell syntax check for `scripts/validate_ai_reviews_plugin.sh`.
+- Shell syntax check for `scripts/validate_messaging_plugin.sh`.
 - Shell syntax check for `scripts/setup_staging_wp.sh`.
 - `scripts/setup_staging_wp.sh` to ensure staging activation.
-- `scripts/validate_ai_reviews_plugin.sh` against `/opt/projects/servicesbg/wp-staging`.
+- `scripts/validate_messaging_plugin.sh` against `/opt/projects/servicesbg/wp-staging`.
 
 Validated:
 - staging DB connection,
 - plugin activation,
-- summary version/audit/job tables,
+- conversation/participant/message/attachment tables,
 - required table columns,
 - admin diagnostics page,
-- admin AI reviews capability,
+- admin messaging capability,
 - health integration,
-- generation job workflow,
-- deterministic local summary generation,
-- admin approval workflow,
-- summary versioning,
+- conversation creation,
+- participant tracking,
+- message creation,
+- unread tracking,
+- reservation/review-case/claim linkage,
 - WP-CLI commands,
-- summary audit entries,
 - core audit entries,
-- no external LLM/messaging/CRM/payment/calendar configuration.
+- no AI/chatbot/CRM/email/SMS/push/external API/payment/calendar configuration.
 
 ## Explicitly Out of Scope
-- external LLM APIs
-- messaging
+- AI chat
+- chatbot
 - CRM workflows
+- email delivery
+- SMS delivery
+- push notifications
+- external APIs
 - payments
 - calendar integrations
 
 ## Next Step
-Review the deterministic AI reviews MVP before approving external LLM APIs, messaging, CRM, payments, or calendar integrations.
+Review the messaging infrastructure MVP before approving AI chat, delivery integrations, CRM workflows, payments, or calendar integrations.
