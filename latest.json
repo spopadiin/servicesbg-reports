@@ -1,0 +1,126 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-24T09:05:10+03:00",
+  "status": "messaging_mvp_implemented",
+  "production_modified": false,
+  "application_code_written": true,
+  "scope": "servicesbg_messaging_mvp_only",
+  "deliverables": [
+    "app/wp-content/plugins/servicesbg-messaging/",
+    "docs/phase2f_messaging_mvp_v1.md",
+    "scripts/validate_messaging_plugin.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "implemented_features": [
+    "conversation_schema",
+    "conversation_participant_schema",
+    "message_schema",
+    "message_attachment_metadata_schema",
+    "conversation_creation",
+    "participant_tracking",
+    "message_creation",
+    "read_unread_tracking",
+    "conversation_status_support",
+    "reservation_linkage",
+    "review_case_linkage",
+    "claim_linkage",
+    "admin_diagnostics_ui",
+    "admin_capability",
+    "wp_cli_messaging_status",
+    "wp_cli_messaging_list",
+    "wp_cli_messaging_conversation_create",
+    "wp_cli_messaging_message_create",
+    "wp_cli_messaging_create_test",
+    "health_status_integration",
+    "core_audit_integration",
+    "runtime_validation_script"
+  ],
+  "schema": {
+    "tables": [
+      "wp_servicesbg_conversations",
+      "wp_servicesbg_conversation_participants",
+      "wp_servicesbg_messages",
+      "wp_servicesbg_message_attachments"
+    ],
+    "conversation_types": [
+      "provider_customer",
+      "reservation",
+      "review_case",
+      "claim_case",
+      "admin"
+    ],
+    "conversation_statuses": [
+      "open",
+      "pending",
+      "closed",
+      "archived"
+    ]
+  },
+  "wp_cli": [
+    "wp servicesbg messaging status",
+    "wp servicesbg messaging list",
+    "wp servicesbg messaging conversation-create",
+    "wp servicesbg messaging message-create",
+    "wp servicesbg messaging create-test"
+  ],
+  "validation": {
+    "php_lint": "passed",
+    "shell_syntax": "passed",
+    "staging_runtime_validation": "passed",
+    "script": "scripts/validate_messaging_plugin.sh",
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "checks": [
+      "staging_database_connection",
+      "servicesbg_messaging_plugin_active",
+      "wp_servicesbg_conversations_table",
+      "wp_servicesbg_conversation_participants_table",
+      "wp_servicesbg_messages_table",
+      "wp_servicesbg_message_attachments_table",
+      "required_messaging_columns",
+      "admin_diagnostics_page_registration",
+      "servicesbg_manage_messaging_capability",
+      "health_status_integration",
+      "wp_cli_messaging_status",
+      "wp_cli_messaging_list",
+      "wp_cli_messaging_create_test",
+      "conversation_creation",
+      "participant_tracking",
+      "message_creation",
+      "unread_tracking",
+      "attachment_metadata",
+      "reservation_review_case_claim_linkage",
+      "messaging_audit_log_entries",
+      "no_ai_chat_chatbot_crm_email_sms_push_external_api_payment_calendar_configuration"
+    ]
+  },
+  "explicitly_not_implemented": [
+    "ai_chat",
+    "chatbot",
+    "crm_workflows",
+    "email_delivery",
+    "sms_delivery",
+    "push_notifications",
+    "external_apis",
+    "payments",
+    "calendar_integrations"
+  ],
+  "rules_observed": {
+    "no_tradingbot_context": true,
+    "no_unai_context": true,
+    "no_production_changes": true,
+    "plugin_based_functionality": true,
+    "no_business_logic_in_theme": true,
+    "preserve_flynax_id_traceability_fields": true,
+    "no_ai_chat": true,
+    "no_chatbot": true,
+    "no_crm_workflows": true,
+    "no_email_delivery": true,
+    "no_sms_delivery": true,
+    "no_push_notifications": true,
+    "no_external_apis": true,
+    "no_payments": true,
+    "no_calendar_integrations": true
+  },
+  "next_step": "Review messaging infrastructure MVP before approving AI chat, delivery integrations, CRM workflows, payments, or calendar integrations."
+}
