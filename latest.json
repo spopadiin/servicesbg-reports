@@ -1,6 +1,6 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-24T09:05:10+03:00",
+  "updated_at": "2026-06-25T21:31:11+03:00",
   "status": "messaging_mvp_implemented",
   "production_modified": false,
   "application_code_written": true,
@@ -68,6 +68,7 @@
     "php_lint": "passed",
     "shell_syntax": "passed",
     "staging_runtime_validation": "passed",
+    "last_validated_at": "2026-06-25T21:31:11+03:00",
     "script": "scripts/validate_messaging_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "checks": [
