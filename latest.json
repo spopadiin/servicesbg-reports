@@ -1,102 +1,60 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-25T23:40:45+03:00",
-  "status": "platform_kernel_mvp_implemented",
+  "updated_at": "2026-06-25T23:56:58+03:00",
+  "status": "platform_integration_plan_complete",
   "production_modified": false,
-  "application_code_written": true,
-  "scope": "servicesbg_platform_kernel_mvp_only",
+  "application_code_written": false,
+  "scope": "phase2h_b_platform_integration_planning_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-platform/",
-    "docs/phase2h_platform_kernel_mvp_v1.md",
-    "scripts/validate_platform_plugin.sh",
+    "docs/platform_integration_plan_v1.md",
+    "docs/platform_event_catalog_v1.md",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "implemented_features": [
-    "plugin_header",
-    "activation_hook",
-    "deactivation_hook",
-    "service_registry",
-    "event_bus",
-    "event_log_table",
-    "workflow_job_queue_table",
-    "plugin_capability_registry",
-    "module_dependency_registry",
-    "event_publish_api",
-    "event_listen_api",
-    "workflow_job_enqueue_api",
-    "workflow_job_run_next_api",
-    "wp_cli_platform_status",
-    "wp_cli_platform_events",
-    "wp_cli_platform_emit_test",
-    "wp_cli_platform_jobs",
-    "wp_cli_platform_run_next",
-    "wp_cli_platform_create_test",
-    "admin_diagnostics_ui",
-    "admin_capability",
-    "health_status_integration",
-    "core_audit_integration",
-    "runtime_validation_script"
+  "covered_event_areas": [
+    "claims_events",
+    "coverage_events",
+    "search_index_refresh_events",
+    "reservation_events",
+    "review_events",
+    "ai_review_summary_events",
+    "messaging_events",
+    "crm_events",
+    "audit_events",
+    "workflow_job_events"
   ],
-  "schema": {
-    "tables": [
-      "wp_servicesbg_platform_events",
-      "wp_servicesbg_platform_jobs",
-      "wp_servicesbg_platform_capabilities",
-      "wp_servicesbg_platform_dependencies"
-    ],
-    "job_statuses": [
-      "queued",
-      "running",
-      "completed",
-      "failed"
-    ],
-    "event_statuses": [
-      "published"
-    ]
-  },
-  "wp_cli": [
-    "wp servicesbg platform status",
-    "wp servicesbg platform events",
-    "wp servicesbg platform emit-test",
-    "wp servicesbg platform jobs",
-    "wp servicesbg platform run-next",
-    "wp servicesbg platform create-test"
+  "plugins_covered": [
+    "servicesbg-platform",
+    "servicesbg-core",
+    "servicesbg-claims",
+    "servicesbg-coverage",
+    "servicesbg-search",
+    "servicesbg-reservations",
+    "servicesbg-reviews",
+    "servicesbg-ai-reviews",
+    "servicesbg-messaging",
+    "servicesbg-crm"
   ],
-  "validation": {
-    "php_lint": "passed",
-    "shell_syntax": "passed",
-    "staging_activation": "passed",
-    "staging_runtime_validation": "passed",
-    "last_validated_at": "2026-06-25T23:40:45+03:00",
-    "script": "scripts/validate_platform_plugin.sh",
-    "wp_root": "/opt/projects/servicesbg/wp-staging",
-    "checks": [
-      "staging_database_connection",
-      "servicesbg_platform_plugin_active",
-      "wp_servicesbg_platform_events_table",
-      "wp_servicesbg_platform_jobs_table",
-      "wp_servicesbg_platform_capabilities_table",
-      "wp_servicesbg_platform_dependencies_table",
-      "required_platform_columns",
-      "event_publish_listen_test",
-      "job_enqueue_run_next_test",
-      "capability_registry_seeded",
-      "dependency_registry_seeded",
-      "admin_diagnostics_page_registration",
-      "servicesbg_manage_platform_capability",
-      "health_status_integration",
-      "wp_cli_platform_status",
-      "wp_cli_platform_events",
-      "wp_cli_platform_emit_test",
-      "wp_cli_platform_jobs",
-      "wp_cli_platform_run_next",
-      "wp_cli_platform_create_test",
-      "platform_audit_log_entries",
-      "no_external_api_ai_automation_notification_payment_calendar_full_workflow_automation_configuration"
-    ]
+  "per_plugin_plan_fields": [
+    "emitted_events",
+    "listened_events",
+    "service_contracts_needed",
+    "migration_refactor_risk",
+    "implementation_order",
+    "backwards_compatibility_strategy",
+    "validation_plan"
+  ],
+  "architecture_rules_observed": {
+    "servicesbg_functional_areas_remain_wordpress_plugins": true,
+    "cross_plugin_communication_through_servicesbg_platform": true,
+    "no_direct_plugin_to_plugin_includes_added": true,
+    "no_business_logic_in_theme": true,
+    "existing_plugins_continue_working": true,
+    "existing_plugins_not_refactored_yet": true
   },
   "explicitly_not_implemented": [
+    "new_business_features",
+    "plugin_refactors",
     "external_apis",
     "ai_automation",
     "notifications",
@@ -104,26 +62,13 @@
     "calendar_integrations",
     "full_workflow_automation"
   ],
-  "architecture_rules_observed": {
-    "servicesbg_functional_areas_remain_wordpress_plugins": true,
-    "platform_contracts_events_created": true,
-    "no_business_logic_in_theme": true,
-    "no_direct_includes_from_other_plugin_internal_files": true,
-    "existing_plugins_continue_working": true,
-    "existing_plugins_not_refactored_yet": true
-  },
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "plugin_based_functionality": true,
+    "documentation_only": true,
     "no_business_logic_in_theme": true,
-    "no_external_apis": true,
-    "no_ai_automation": true,
-    "no_notifications": true,
-    "no_payments": true,
-    "no_calendar_integrations": true,
-    "no_full_workflow_automation": true
+    "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review the platform kernel MVP before refactoring existing ServicesBG plugins to publish/listen through platform contracts."
+  "next_step": "Review and approve the Phase 2H-B event catalog before starting any plugin refactor to publish/listen through platform contracts."
 }
