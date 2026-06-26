@@ -1,74 +1,72 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T09:20:52+03:00",
-  "status": "platform_integration_plan_complete",
+  "updated_at": "2026-06-26T09:40:05+03:00",
+  "status": "claims_platform_events_refactor_implemented",
   "production_modified": false,
-  "application_code_written": false,
-  "scope": "phase2h_b_platform_integration_planning_only",
+  "application_code_written": true,
+  "scope": "phase2h_c_servicesbg_claims_platform_events_only",
   "deliverables": [
-    "docs/platform_integration_plan_v1.md",
-    "docs/platform_event_catalog_v1.md",
+    "app/wp-content/plugins/servicesbg-claims/src/Service/ClaimService.php",
+    "docs/phase2h_claims_platform_events_v1.md",
+    "scripts/validate_claims_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "covered_event_areas": [
-    "claims_events",
-    "coverage_events",
-    "search_index_refresh_events",
-    "reservation_events",
-    "review_events",
-    "ai_review_summary_events",
-    "messaging_events",
-    "crm_events",
-    "audit_events",
-    "workflow_job_events"
+  "implemented_events": [
+    "claim.requested",
+    "claim.otp_created",
+    "claim.otp_verified",
+    "claim.approved",
+    "claim.rejected",
+    "claim.expired"
   ],
-  "plugins_covered": [
-    "servicesbg-platform",
-    "servicesbg-core",
-    "servicesbg-claims",
-    "servicesbg-coverage",
-    "servicesbg-search",
-    "servicesbg-reservations",
-    "servicesbg-reviews",
-    "servicesbg-ai-reviews",
-    "servicesbg-messaging",
-    "servicesbg-crm"
+  "preserved_behavior": [
+    "claims_plugin_activation",
+    "claims_wp_cli_commands",
+    "claims_create_test_workflow",
+    "claims_audit_logging",
+    "claims_table_source_of_truth"
   ],
-  "per_plugin_plan_fields": [
-    "emitted_events",
-    "listened_events",
-    "service_contracts_needed",
-    "migration_refactor_risk",
-    "implementation_order",
-    "backwards_compatibility_strategy",
-    "validation_plan"
+  "validation_checks_added": [
+    "platform_events_written_when_servicesbg_platform_active",
+    "claim_requested_event",
+    "claim_otp_created_event",
+    "claim_otp_verified_event",
+    "claim_approved_event",
+    "claim_rejected_event",
+    "claim_expired_event",
+    "no_fatal_when_servicesbg_platform_inactive",
+    "audit_entries_still_work"
   ],
   "architecture_rules_observed": {
-    "servicesbg_functional_areas_remain_wordpress_plugins": true,
+    "servicesbg_claims_remains_wordpress_plugin": true,
     "cross_plugin_communication_through_servicesbg_platform": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
-    "existing_plugins_continue_working": true,
-    "existing_plugins_not_refactored_yet": true
+    "other_plugins_not_refactored": true,
+    "platform_inactive_fallback": true
   },
   "explicitly_not_implemented": [
-    "new_business_features",
-    "plugin_refactors",
-    "external_apis",
-    "ai_automation",
+    "real_sms_sending",
+    "automatic_ownership_transfer_beyond_existing_mvp_behavior",
+    "reservations",
+    "coverage",
+    "search",
+    "reviews",
+    "messaging",
+    "crm",
     "notifications",
+    "external_apis",
     "payments",
-    "calendar_integrations",
-    "full_workflow_automation"
+    "calendar_integrations"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "documentation_only": true,
+    "claims_only_refactor": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review and approve the Phase 2H-B event catalog before starting any plugin refactor to publish/listen through platform contracts."
+  "next_step": "Run scripts/validate_claims_plugin.sh against staging and review claims platform event payloads before refactoring any other plugin."
 }

@@ -1,55 +1,52 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-26T09:20:52+03:00
+Updated: 2026-06-26T09:40:05+03:00
 
 ## Status
-Phase 2H-B platform integration plan is complete.
+Phase 2H-C claims platform events refactor is implemented.
 
-This phase is documentation and planning only. No new business features were implemented. Existing plugins were not refactored. No production services.bg system was modified.
+This phase refactors `servicesbg-claims` only. No new business features were implemented. No other plugins were refactored. No production services.bg system was modified.
 
 ## Deliverables
-- `docs/platform_integration_plan_v1.md`
-- `docs/platform_event_catalog_v1.md`
+- `app/wp-content/plugins/servicesbg-claims/src/Service/ClaimService.php`
+- `docs/phase2h_claims_platform_events_v1.md`
+- `scripts/validate_claims_plugin.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
-## Defined
-- Platform event catalog for:
-  - claims events
-  - coverage events
-  - search index refresh events
-  - reservation events
-  - review events
-  - AI review summary events
-  - messaging events
-  - CRM events
-  - audit events
-  - workflow/job events
-- Per-plugin integration plan covering:
-  - emitted events
-  - listened events
-  - service contracts needed
-  - migration/refactor risk
-  - implementation order
-  - backwards compatibility strategy
-  - validation plan
+## Implemented
+- `servicesbg-claims` emits platform events for:
+  - `claim.requested`
+  - `claim.otp_created`
+  - `claim.otp_verified`
+  - `claim.approved`
+  - `claim.rejected`
+  - `claim.expired`
+- Existing claims audit logging is preserved.
+- Existing claims WP-CLI commands are preserved.
+- Platform fallback is implemented: if `servicesbg-platform` is inactive, claims workflows continue and event emission is skipped.
+- Claims validation now checks platform event rows in `wp_servicesbg_platform_events` when platform is active and checks no fatal error when platform is inactive.
 
 ## Architecture Rules Preserved
-- Every ServicesBG functional area remains a WordPress plugin.
-- Cross-plugin communication should go through `servicesbg-platform`.
+- `servicesbg-claims` remains a WordPress plugin.
+- Cross-plugin communication is additive through `servicesbg-platform`.
 - No direct plugin-to-plugin includes were added.
-- No business logic was added to the theme.
-- Existing plugins continue working.
+- Existing claims plugin behavior continues working.
 
 ## Explicitly Not Done
-- no new business workflow
-- no plugin refactor
+- no real SMS sending
+- no automatic ownership transfer beyond existing MVP behavior
+- no reservations
+- no coverage
+- no search
+- no reviews
+- no messaging
+- no CRM
+- no notifications
 - no production changes
 - no external APIs
-- no AI automation
-- no notifications
 - no payments
 - no calendar integrations
 
 ## Next Step
-Review and approve the Phase 2H-B event catalog before starting any plugin refactor to publish/listen through platform contracts.
+Run `scripts/validate_claims_plugin.sh` against staging and review emitted claims event payloads before refactoring any other plugin.
