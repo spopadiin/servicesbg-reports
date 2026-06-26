@@ -1,50 +1,49 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-26T20:26:17+03:00
+Updated: 2026-06-26T21:39:21+03:00
 
 ## Status
-Phase 2J platform job handler contracts MVP is implemented and validated.
+Phase 2K first real platform workflow execution is implemented and validated.
 
-This phase lets feature plugins register platform job handlers without `servicesbg-platform` depending on feature plugin internals. No new business features were implemented. No production services.bg system was modified.
+This phase replaces the placeholder review invitation marker with a real `servicesbg-reviews` owned platform job handler. No notifications, delivery channels, external APIs, payments, calendar integrations, external LLMs, or production changes were implemented.
 
 ## Deliverables
-- `app/wp-content/plugins/servicesbg-platform/servicesbg-platform.php`
-- `app/wp-content/plugins/servicesbg-platform/src/Plugin.php`
-- `app/wp-content/plugins/servicesbg-platform/src/Service/JobHandlerRegistry.php`
-- `app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowQueue.php`
 - `app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowEngine.php`
-- `app/wp-content/plugins/servicesbg-search/src/Service/PlatformRefreshListener.php`
-- `app/wp-content/plugins/servicesbg-coverage/src/Plugin.php`
-- `app/wp-content/plugins/servicesbg-coverage/src/Service/PlatformJobHandler.php`
-- `app/wp-content/plugins/servicesbg-ai-reviews/src/Plugin.php`
-- `app/wp-content/plugins/servicesbg-ai-reviews/src/Service/PlatformJobHandler.php`
-- `docs/phase2j_job_handler_contracts_v1.md`
-- `scripts/validate_job_handlers.sh`
+- `app/wp-content/plugins/servicesbg-reviews/src/Plugin.php`
+- `app/wp-content/plugins/servicesbg-reviews/src/Schema/VersionManager.php`
+- `app/wp-content/plugins/servicesbg-reviews/src/Service/PlatformJobHandler.php`
+- `app/wp-content/plugins/servicesbg-reviews/src/Service/ReviewInvitationService.php`
+- `docs/phase2k_review_invitation_execution_v1.md`
+- `scripts/validate_review_invitation_workflow.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Validated
-- `scripts/validate_job_handlers.sh` passed against `/opt/projects/servicesbg/wp-staging`.
-- `scripts/validate_workflow_engine.sh` still passes.
-- `scripts/validate_platform_plugin.sh` still passes.
-- Handler registration works.
-- Dispatcher resolves feature-owned handlers.
-- Missing handler is logged safely.
+- `scripts/validate_review_invitation_workflow.sh` passed against `/opt/projects/servicesbg/wp-staging`.
+- `scripts/validate_workflow_engine.sh` passed after the review invitation handler change.
+- `scripts/validate_job_handlers.sh` passed after the review invitation handler change.
+- `reservation.completed` queues `review_invitation_create`.
+- Platform dispatch resolves the `servicesbg-reviews` handler.
+- Completed reservation verification works.
+- Review invitation row is created.
+- Duplicate prevention works.
 - Retry behavior still works.
-- Job execution audit entries are created.
+- Reviews and platform audit entries are created.
+- Platform inactive fallback works.
 - No notification/email/SMS/push/external API/payment/calendar/external LLM configuration is present.
 
-## Handler Contracts
-- `servicesbg-search`: `search_index_refresh`
-- `servicesbg-coverage`: `coverage_refresh`
-- `servicesbg-ai-reviews`: `review_summary_generate`
+## Workflow
+- Input event: `reservation.completed`
+- Platform job: `review_invitation_create`
+- Feature handler: `servicesbg-reviews`
+- Created record: `wp_servicesbg_review_invitations`
+- Published event: `review.invitation_created`
 
 ## Architecture Rules Preserved
-- `servicesbg-platform` remains the cross-plugin kernel.
-- Cross-plugin jobs use platform handler registration and dispatch only.
+- `servicesbg-reviews` owns review invitation records.
+- `servicesbg-platform` dispatches jobs only through registered handlers.
 - No direct plugin-to-plugin includes were added.
-- The platform does not call feature plugin internals directly.
-- Existing workflow behavior, idempotency, retry behavior, and audit trail continue working.
+- Existing workflow behavior, idempotency, retry behavior, and audit trail are preserved.
 
 ## Explicitly Not Done
 - no notifications
@@ -53,10 +52,10 @@ This phase lets feature plugins register platform job handlers without `services
 - no push
 - no external APIs
 - no external LLMs
-- no new business features
 - no production changes
 - no payments
 - no calendar integrations
+- no public review publishing
 
 ## Next Step
-Review handler contracts before allowing feature handlers to perform owner-approved business side effects beyond marker/refresh handling.
+Review the review invitation admin/product flow before adding any notification or delivery channel.

@@ -1,65 +1,70 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T20:26:17+03:00",
-  "status": "job_handler_contracts_mvp_validated",
+  "updated_at": "2026-06-26T21:39:21+03:00",
+  "status": "review_invitation_workflow_execution_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2j_platform_job_handler_contracts_mvp",
+  "scope": "phase2k_review_invitation_execution",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-platform/servicesbg-platform.php",
-    "app/wp-content/plugins/servicesbg-platform/src/Plugin.php",
-    "app/wp-content/plugins/servicesbg-platform/src/Service/JobHandlerRegistry.php",
-    "app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowQueue.php",
     "app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowEngine.php",
-    "app/wp-content/plugins/servicesbg-search/src/Service/PlatformRefreshListener.php",
-    "app/wp-content/plugins/servicesbg-coverage/src/Plugin.php",
-    "app/wp-content/plugins/servicesbg-coverage/src/Service/PlatformJobHandler.php",
-    "app/wp-content/plugins/servicesbg-ai-reviews/src/Plugin.php",
-    "app/wp-content/plugins/servicesbg-ai-reviews/src/Service/PlatformJobHandler.php",
-    "docs/phase2j_job_handler_contracts_v1.md",
-    "scripts/validate_job_handlers.sh",
+    "app/wp-content/plugins/servicesbg-reviews/src/Plugin.php",
+    "app/wp-content/plugins/servicesbg-reviews/src/Schema/VersionManager.php",
+    "app/wp-content/plugins/servicesbg-reviews/src/Service/PlatformJobHandler.php",
+    "app/wp-content/plugins/servicesbg-reviews/src/Service/ReviewInvitationService.php",
+    "docs/phase2k_review_invitation_execution_v1.md",
+    "scripts/validate_review_invitation_workflow.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "registered_handlers": {
-    "search_index_refresh": "servicesbg-search",
-    "coverage_refresh": "servicesbg-coverage",
-    "review_summary_generate": "servicesbg-ai-reviews"
+  "implemented_handler": {
+    "handler_key": "review_invitation_create",
+    "owner_module": "servicesbg-reviews",
+    "job_type": "review_invitation_create"
   },
+  "created_tables": [
+    "wp_servicesbg_review_invitations"
+  ],
   "preserved_behavior": [
     "platform_plugin_activation",
-    "platform_wp_cli_commands",
     "platform_event_bus",
     "platform_job_queue",
     "workflow_engine_behavior",
     "workflow_idempotency",
     "workflow_retry_behavior",
     "platform_audit_logging",
-    "platform_admin_diagnostics",
-    "platform_health_integration",
+    "reviews_plugin_activation",
+    "reviews_wp_cli_commands",
+    "reviews_audit_logging",
     "plugin_isolation"
   ],
   "validation_checks_added": [
-    "handler_registration",
-    "handler_owner_metadata",
-    "dispatcher_resolution",
-    "missing_handler_safe_failure",
+    "review_invitation_table_schema",
+    "reviews_handler_registration",
+    "reservation_completed_event_consumption",
+    "review_invitation_job_enqueue",
+    "review_invitation_handler_dispatch",
+    "completed_reservation_verification",
+    "review_invitation_record_creation",
+    "review_invitation_created_event",
+    "duplicate_prevention",
     "retry_behavior",
-    "job_execution_audit",
+    "review_and_platform_audit_entries",
+    "platform_inactive_fallback",
     "existing_workflow_validation_still_passes",
-    "existing_platform_validation_still_passes",
+    "existing_job_handler_validation_still_passes",
     "no_disallowed_integrations",
     "temporary_validation_rows_cleaned_up"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_job_handlers.sh",
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_review_invitation_workflow.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
     "handler_registration": "passed",
-    "dispatcher_resolution": "passed",
-    "missing_handler": "passed",
+    "workflow_execution": "passed",
+    "duplicate_prevention": "passed",
     "retry_behavior": "passed",
     "audit_entries": "passed",
+    "platform_inactive_fallback": "passed",
     "production_modified": false
   },
   "regression_validation": {
@@ -67,16 +72,22 @@
       "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_workflow_engine.sh",
       "status": "passed"
     },
-    "platform": {
-      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_platform_plugin.sh",
+    "job_handlers": {
+      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_job_handlers.sh",
       "status": "passed"
     }
   },
-  "handler_contract": [
-    "handler_key",
-    "callable",
-    "owner_module",
-    "job_types"
+  "review_invitation_contract": [
+    "reservation_id",
+    "listing_id",
+    "provider_user_id",
+    "customer_user_id",
+    "status",
+    "source_event_id",
+    "platform_job_id",
+    "idempotency_key",
+    "created_at",
+    "updated_at"
   ],
   "retry_policy": {
     "max_attempts": 2,
@@ -84,13 +95,14 @@
     "max_attempts_status": "failed"
   },
   "architecture_rules_observed": {
-    "servicesbg_platform_remains_wordpress_plugin": true,
+    "servicesbg_reviews_remains_wordpress_plugin": true,
     "cross_plugin_communication_through_servicesbg_platform": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
-    "feature_plugins_register_handlers_during_bootstrap": true,
-    "platform_never_calls_feature_internals_directly": true,
-    "platform_job_queue_used": true
+    "reviews_registers_handler_during_bootstrap": true,
+    "platform_never_calls_reviews_internals_directly": true,
+    "platform_job_queue_used": true,
+    "reviews_owns_invitation_record": true
   },
   "explicitly_not_implemented": [
     "notifications",
@@ -101,15 +113,15 @@
     "payments",
     "calendar_integrations",
     "external_llms",
-    "new_business_features"
+    "public_review_publishing"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "platform_job_handler_contract_scope": true,
+    "review_invitation_execution_scope": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review handler contracts before allowing feature handlers to perform owner-approved business side effects beyond marker/refresh handling."
+  "next_step": "Review the review invitation admin/product flow before adding any notification or delivery channel."
 }
