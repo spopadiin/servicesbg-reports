@@ -1,108 +1,115 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T11:39:49+03:00",
-  "status": "search_platform_listener_refactor_validated",
+  "updated_at": "2026-06-26T20:26:17+03:00",
+  "status": "job_handler_contracts_mvp_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2h_i_servicesbg_search_platform_listener_only",
+  "scope": "phase2j_platform_job_handler_contracts_mvp",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-search/src/Plugin.php",
+    "app/wp-content/plugins/servicesbg-platform/servicesbg-platform.php",
+    "app/wp-content/plugins/servicesbg-platform/src/Plugin.php",
+    "app/wp-content/plugins/servicesbg-platform/src/Service/JobHandlerRegistry.php",
+    "app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowQueue.php",
+    "app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowEngine.php",
     "app/wp-content/plugins/servicesbg-search/src/Service/PlatformRefreshListener.php",
-    "docs/phase2h_search_platform_listener_v1.md",
-    "scripts/validate_search_plugin.sh",
+    "app/wp-content/plugins/servicesbg-coverage/src/Plugin.php",
+    "app/wp-content/plugins/servicesbg-coverage/src/Service/PlatformJobHandler.php",
+    "app/wp-content/plugins/servicesbg-ai-reviews/src/Plugin.php",
+    "app/wp-content/plugins/servicesbg-ai-reviews/src/Service/PlatformJobHandler.php",
+    "docs/phase2j_job_handler_contracts_v1.md",
+    "scripts/validate_job_handlers.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "listened_events": [
-    "claim.approved",
-    "claim.rejected",
-    "reservation.completed",
-    "review.moderated",
-    "ai_review.summary_published",
-    "coverage.zone_created",
-    "coverage.zone_updated"
-  ],
-  "implemented_jobs": [
-    "search_index_refresh"
-  ],
+  "registered_handlers": {
+    "search_index_refresh": "servicesbg-search",
+    "coverage_refresh": "servicesbg-coverage",
+    "review_summary_generate": "servicesbg-ai-reviews"
+  },
   "preserved_behavior": [
-    "search_plugin_activation",
-    "search_wp_cli_commands",
-    "search_index_table_source_of_truth",
-    "search_query_telemetry",
-    "deterministic_local_ranking",
-    "search_audit_logging",
-    "search_admin_diagnostics",
-    "search_health_integration",
-    "local_mariadb_search_index"
+    "platform_plugin_activation",
+    "platform_wp_cli_commands",
+    "platform_event_bus",
+    "platform_job_queue",
+    "workflow_engine_behavior",
+    "workflow_idempotency",
+    "workflow_retry_behavior",
+    "platform_audit_logging",
+    "platform_admin_diagnostics",
+    "platform_health_integration",
+    "plugin_isolation"
   ],
   "validation_checks_added": [
-    "platform_listener_registration_when_servicesbg_platform_active",
-    "claim_approved_test_event_queues_search_refresh_job",
-    "search_index_refresh_job_payload_contract",
-    "search_index_refresh_queued_audit_entry",
-    "no_fatal_when_servicesbg_platform_inactive",
-    "existing_search_validation_still_passes",
-    "audit_entries_still_work",
-    "no_disallowed_integrations"
+    "handler_registration",
+    "handler_owner_metadata",
+    "dispatcher_resolution",
+    "missing_handler_safe_failure",
+    "retry_behavior",
+    "job_execution_audit",
+    "existing_workflow_validation_still_passes",
+    "existing_platform_validation_still_passes",
+    "no_disallowed_integrations",
+    "temporary_validation_rows_cleaned_up"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_search_plugin.sh",
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_job_handlers.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
-    "platform_active_case": "passed",
-    "platform_inactive_fallback_case": "passed",
-    "refresh_job_marker": "passed",
+    "handler_registration": "passed",
+    "dispatcher_resolution": "passed",
+    "missing_handler": "passed",
+    "retry_behavior": "passed",
     "audit_entries": "passed",
     "production_modified": false
   },
-  "refresh_job_contract": [
-    "object_type",
-    "object_id",
-    "listing_id",
-    "provider_user_id",
-    "reason",
-    "source_event_id",
-    "source_event_name",
-    "source_module",
-    "source_object_type",
-    "source_object_id",
-    "queued_at"
+  "regression_validation": {
+    "workflow_engine": {
+      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_workflow_engine.sh",
+      "status": "passed"
+    },
+    "platform": {
+      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_platform_plugin.sh",
+      "status": "passed"
+    }
+  },
+  "handler_contract": [
+    "handler_key",
+    "callable",
+    "owner_module",
+    "job_types"
   ],
-  "staging_evidence": {
-    "platform_job_id": 3,
-    "platform_job_type": "search_index_refresh",
-    "platform_job_reason": "claim_approved",
-    "search_audit_id": 472,
-    "search_audit_action": "search.index_refresh_queued"
+  "retry_policy": {
+    "max_attempts": 2,
+    "first_failure_status": "queued",
+    "max_attempts_status": "failed"
   },
   "architecture_rules_observed": {
-    "servicesbg_search_remains_wordpress_plugin": true,
+    "servicesbg_platform_remains_wordpress_plugin": true,
     "cross_plugin_communication_through_servicesbg_platform": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
-    "other_plugins_not_refactored": true,
-    "platform_inactive_fallback": true
+    "feature_plugins_register_handlers_during_bootstrap": true,
+    "platform_never_calls_feature_internals_directly": true,
+    "platform_job_queue_used": true
   },
   "explicitly_not_implemented": [
-    "ai_ranking",
-    "elasticsearch",
-    "vector_search",
-    "maps",
-    "gis",
-    "routing",
     "notifications",
-    "crm_automation",
+    "email",
+    "sms",
+    "push",
+    "external_apis",
     "payments",
-    "calendar_integrations"
+    "calendar_integrations",
+    "external_llms",
+    "new_business_features"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "search_only_refactor": true,
+    "platform_job_handler_contract_scope": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review the queued search refresh job contract before approving listener-driven job execution policy or broader platform job orchestration."
+  "next_step": "Review handler contracts before allowing feature handlers to perform owner-approved business side effects beyond marker/refresh handling."
 }
