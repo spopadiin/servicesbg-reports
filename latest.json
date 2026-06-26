@@ -1,0 +1,148 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-26T22:49:39+03:00",
+  "status": "search_refresh_workflow_execution_validated",
+  "production_modified": false,
+  "application_code_written": true,
+  "scope": "phase2m_search_refresh_execution",
+  "deliverables": [
+    "app/wp-content/plugins/servicesbg-search/src/Schema/VersionManager.php",
+    "app/wp-content/plugins/servicesbg-search/src/Service/PlatformRefreshListener.php",
+    "app/wp-content/plugins/servicesbg-search/src/Service/SearchRefreshService.php",
+    "docs/phase2m_search_refresh_execution_v1.md",
+    "scripts/validate_search_refresh_workflow.sh",
+    "scripts/validate_job_handlers.sh",
+    "scripts/validate_workflow_engine.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "implemented_handler": {
+    "handler_key": "search_index_refresh",
+    "owner_module": "servicesbg-search",
+    "job_type": "search_index_refresh"
+  },
+  "created_tables": [
+    "wp_servicesbg_search_refreshes"
+  ],
+  "updated_tables": [
+    "wp_servicesbg_search_index"
+  ],
+  "preserved_behavior": [
+    "platform_plugin_activation",
+    "platform_event_bus",
+    "platform_job_queue",
+    "workflow_engine_behavior",
+    "workflow_idempotency",
+    "workflow_retry_behavior",
+    "platform_audit_logging",
+    "search_plugin_activation",
+    "search_wp_cli_commands",
+    "search_query_behavior",
+    "search_local_indexer_behavior",
+    "search_audit_logging",
+    "plugin_isolation"
+  ],
+  "validation_checks_added": [
+    "search_refresh_table_schema",
+    "search_handler_registration",
+    "claim_approved_event_consumption",
+    "search_index_refresh_job_enqueue",
+    "search_index_refresh_handler_dispatch",
+    "referenced_listing_provider_entity_verification",
+    "deterministic_local_index_refresh",
+    "search_refresh_execution_row",
+    "search_index_refreshed_event",
+    "duplicate_prevention",
+    "retry_behavior",
+    "search_and_platform_audit_entries",
+    "platform_inactive_fallback",
+    "existing_search_plugin_validation_still_passes",
+    "existing_job_handler_validation_still_passes",
+    "existing_workflow_validation_still_passes",
+    "no_disallowed_integrations",
+    "temporary_validation_rows_cleaned_up"
+  ],
+  "validation_result": {
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_search_refresh_workflow.sh",
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "status": "passed",
+    "handler_registration": "passed",
+    "workflow_execution": "passed",
+    "deterministic_index_refresh": "passed",
+    "duplicate_prevention": "passed",
+    "retry_behavior": "passed",
+    "audit_entries": "passed",
+    "platform_inactive_fallback": "passed",
+    "production_modified": false
+  },
+  "regression_validation": {
+    "search": {
+      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_search_plugin.sh",
+      "status": "passed"
+    },
+    "job_handlers": {
+      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_job_handlers.sh",
+      "status": "passed"
+    }
+  },
+  "search_refresh_contract": [
+    "object_type",
+    "object_id",
+    "listing_id",
+    "provider_user_id",
+    "category_term_id",
+    "status",
+    "refresh_scope",
+    "refresh_version",
+    "index_hash",
+    "source_event_id",
+    "platform_job_id",
+    "idempotency_key",
+    "created_at",
+    "updated_at"
+  ],
+  "published_events": [
+    "search.index_refreshed"
+  ],
+  "retry_policy": {
+    "max_attempts": 2,
+    "first_failure_status": "queued",
+    "max_attempts_status": "failed"
+  },
+  "architecture_rules_observed": {
+    "servicesbg_search_remains_wordpress_plugin": true,
+    "cross_plugin_communication_through_servicesbg_platform": true,
+    "no_direct_plugin_to_plugin_includes_added": true,
+    "no_business_logic_in_theme": true,
+    "search_registers_handler_during_bootstrap": true,
+    "platform_never_calls_search_internals_directly": true,
+    "platform_job_queue_used": true,
+    "search_owns_refresh_execution_record": true,
+    "search_owns_local_index_update": true
+  },
+  "explicitly_not_implemented": [
+    "ai_ranking",
+    "elasticsearch",
+    "vector_search",
+    "maps",
+    "gis",
+    "routing",
+    "notifications",
+    "email",
+    "sms",
+    "push",
+    "external_apis",
+    "payments",
+    "calendar_integrations",
+    "external_llms"
+  ],
+  "rules_observed": {
+    "no_tradingbot_context": true,
+    "no_unai_context": true,
+    "no_production_changes": true,
+    "search_refresh_execution_scope": true,
+    "no_business_logic_in_theme": true,
+    "no_direct_plugin_to_plugin_includes": true
+  },
+  "next_step": "Review whether AI review summary execution should become the next owner-plugin workflow implementation."
+}
