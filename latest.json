@@ -1,50 +1,50 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T10:26:17+03:00",
-  "status": "messaging_platform_events_refactor_validated",
+  "updated_at": "2026-06-26T10:40:57+03:00",
+  "status": "crm_platform_events_refactor_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2h_e_servicesbg_messaging_platform_events_only",
+  "scope": "phase2h_f_servicesbg_crm_platform_events_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-messaging/src/Service/MessagingService.php",
-    "docs/phase2h_messaging_platform_events_v1.md",
-    "scripts/validate_messaging_plugin.sh",
+    "app/wp-content/plugins/servicesbg-crm/src/Service/CRMService.php",
+    "docs/phase2h_crm_platform_events_v1.md",
+    "scripts/validate_crm_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
   "implemented_events": [
-    "conversation.created",
-    "conversation.participant_added",
-    "message.created",
-    "message.read",
-    "conversation.closed",
-    "conversation.reopened"
+    "crm.lead_created",
+    "crm.customer_profile_created",
+    "crm.timeline_event_created",
+    "crm.note_created",
+    "crm.followup_created",
+    "crm.pipeline_status_changed"
   ],
   "preserved_behavior": [
-    "messaging_plugin_activation",
-    "messaging_wp_cli_commands",
-    "messaging_create_test_workflow",
-    "messaging_audit_logging",
-    "messaging_table_source_of_truth",
-    "messaging_admin_diagnostics",
-    "messaging_health_integration",
-    "message_body_privacy"
+    "crm_plugin_activation",
+    "crm_wp_cli_commands",
+    "crm_create_test_workflow",
+    "crm_audit_logging",
+    "crm_table_source_of_truth",
+    "crm_admin_diagnostics",
+    "crm_health_integration",
+    "crm_note_body_privacy"
   ],
   "validation_checks_added": [
     "platform_events_written_when_servicesbg_platform_active",
     "platform_event_payload_contract",
-    "conversation_created_event",
-    "conversation_participant_added_event",
-    "message_created_event",
-    "message_read_event",
-    "conversation_closed_event",
-    "conversation_reopened_event",
-    "message_body_not_emitted",
+    "crm_lead_created_event",
+    "crm_customer_profile_created_event",
+    "crm_timeline_event_created_event",
+    "crm_note_created_event",
+    "crm_followup_created_event",
+    "crm_pipeline_status_changed_event",
+    "private_note_body_not_emitted",
     "no_fatal_when_servicesbg_platform_inactive",
     "audit_entries_still_work"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_messaging_plugin.sh",
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_crm_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
     "platform_active_case": "passed",
@@ -54,17 +54,17 @@
     "production_modified": false
   },
   "payload_contract": [
-    "conversation_id",
-    "message_id_when_applicable",
-    "participant_id_when_applicable",
-    "listing_id",
+    "lead_id",
+    "customer_profile_id",
+    "provider_id",
     "provider_user_id",
-    "customer_user_id",
-    "user_id",
-    "sender_user_id",
+    "listing_id",
     "reservation_id",
-    "review_case_id",
+    "conversation_id",
     "claim_id",
+    "review_id",
+    "review_case_id",
+    "customer_user_id",
     "status",
     "source",
     "occurred_at",
@@ -72,7 +72,7 @@
     "updated_at"
   ],
   "architecture_rules_observed": {
-    "servicesbg_messaging_remains_wordpress_plugin": true,
+    "servicesbg_crm_remains_wordpress_plugin": true,
     "cross_plugin_communication_through_servicesbg_platform": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
@@ -80,9 +80,8 @@
     "platform_inactive_fallback": true
   },
   "explicitly_not_implemented": [
-    "ai_chat",
-    "chatbot",
     "crm_automation",
+    "ai_automation",
     "notifications",
     "email_delivery",
     "sms_delivery",
@@ -99,9 +98,9 @@
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "messaging_only_refactor": true,
+    "crm_only_refactor": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review the messaging event payloads before approving any other plugin to publish/listen through servicesbg-platform."
+  "next_step": "Review the CRM event payloads before approving any listener automation through servicesbg-platform."
 }
