@@ -75,6 +75,10 @@
     "job_handlers": {
       "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_job_handlers.sh",
       "status": "passed"
+    },
+    "reviews": {
+      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_reviews_plugin.sh",
+      "status": "passed"
     }
   },
   "review_invitation_contract": [

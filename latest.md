@@ -22,6 +22,7 @@ This phase replaces the placeholder review invitation marker with a real `servic
 - `scripts/validate_review_invitation_workflow.sh` passed against `/opt/projects/servicesbg/wp-staging`.
 - `scripts/validate_workflow_engine.sh` passed after the review invitation handler change.
 - `scripts/validate_job_handlers.sh` passed after the review invitation handler change.
+- `scripts/validate_reviews_plugin.sh` passed after the reviews schema/handler change.
 - `reservation.completed` queues `review_invitation_create`.
 - Platform dispatch resolves the `servicesbg-reviews` handler.
 - Completed reservation verification works.
