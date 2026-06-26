@@ -1,51 +1,65 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-26T11:25:30+03:00
+Updated: 2026-06-26T12:27:45+03:00
 
 ## Status
-Phase 2H-H AI reviews platform events refactor is implemented and validated.
+Phase 2I workflow engine MVP is implemented and validated.
 
-This phase refactors `servicesbg-ai-reviews` only. No new business features were implemented. No other plugins were refactored. No production services.bg system was modified.
+This phase implements cross-plugin workflow orchestration inside `servicesbg-platform`. It uses only the platform event bus and job queue. No new business features were implemented. No production services.bg system was modified.
 
 ## Deliverables
-- `app/wp-content/plugins/servicesbg-ai-reviews/src/Service/SummaryService.php`
-- `docs/phase2h_ai_reviews_platform_events_v1.md`
-- `scripts/validate_ai_reviews_plugin.sh`
+- `app/wp-content/plugins/servicesbg-platform/src/Plugin.php`
+- `app/wp-content/plugins/servicesbg-platform/src/Service/WorkflowEngine.php`
+- `docs/phase2i_workflow_engine_v1.md`
+- `scripts/validate_workflow_engine.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Validated
-- `scripts/validate_ai_reviews_plugin.sh` passed against `/opt/projects/servicesbg/wp-staging`.
-- `servicesbg-platform` active case writes platform event rows.
-- `servicesbg-platform` inactive fallback has no fatal error.
-- Existing AI reviews WP-CLI commands still work.
-- Existing deterministic local summary workflow validation still works.
-- Existing AI reviews audit entries still work.
-- Event payloads include summary/job/provider/listing/status/source/timestamp fields.
-- Generated summary text, private review content, redaction notes, and source ID JSON blobs are not emitted in platform event payloads.
-- Events verified:
-  - `ai_review.job_enqueued`
-  - `ai_review.job_started`
-  - `ai_review.summary_generated`
-  - `ai_review.summary_approved`
-  - `ai_review.summary_published`
-  - `ai_review.summary_rejected`
+- `scripts/validate_workflow_engine.sh` passed against `/opt/projects/servicesbg/wp-staging`.
+- `scripts/validate_platform_plugin.sh` passed after the workflow engine change.
+- Workflow registration works.
+- Event consumption works.
+- Platform job enqueue works.
+- Idempotency prevents duplicate workflow jobs for the same source event.
+- Retry behavior requeues after first failure and fails after max attempts.
+- Workflow audit trail works.
+- Workflows verified:
+  - `reservation.completed` -> `review_invitation_create` job -> `review.invitation_created`
+  - `claim.approved` -> `coverage_refresh` job + `search_index_refresh` job
+  - `review.moderated` -> `review_summary_generate` deterministic marker job
+- No notification/email/SMS/push/external API/payment/calendar/external LLM configuration is present.
+
+## Events And Jobs
+- Listened events:
+  - `reservation.completed`
+  - `claim.approved`
+  - `review.moderated`
+- Published workflow event:
+  - `review.invitation_created`
+- Enqueued job types:
+  - `review_invitation_create`
+  - `coverage_refresh`
+  - `search_index_refresh`
+  - `review_summary_generate`
 
 ## Architecture Rules Preserved
-- `servicesbg-ai-reviews` remains a WordPress plugin.
-- Cross-plugin communication is additive through `servicesbg-platform`.
+- `servicesbg-platform` remains the cross-plugin kernel.
+- Cross-plugin communication uses platform events and platform jobs only.
 - No direct plugin-to-plugin includes were added.
-- Existing AI reviews plugin behavior continues working.
+- No feature plugin internals are called from workflows.
+- Existing platform behavior continues working.
 
 ## Explicitly Not Done
-- no external LLM APIs
-- no AI workflow automation
-- no messaging automation
-- no CRM automation
 - no notifications
+- no email
+- no SMS
+- no push
+- no external APIs
+- no external LLMs
 - no production changes
 - no payments
 - no calendar integrations
 
 ## Next Step
-Review the AI reviews event payloads before approving search refresh listeners or any future AI workflow automation through `servicesbg-platform`.
+Review workflow job contracts before allowing owner plugins to execute feature-specific side effects from these queued platform jobs.

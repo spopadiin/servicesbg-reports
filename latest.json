@@ -1,81 +1,83 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T11:25:30+03:00",
-  "status": "ai_reviews_platform_events_refactor_validated",
+  "updated_at": "2026-06-26T11:39:49+03:00",
+  "status": "search_platform_listener_refactor_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2h_h_servicesbg_ai_reviews_platform_events_only",
+  "scope": "phase2h_i_servicesbg_search_platform_listener_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-ai-reviews/src/Service/SummaryService.php",
-    "docs/phase2h_ai_reviews_platform_events_v1.md",
-    "scripts/validate_ai_reviews_plugin.sh",
+    "app/wp-content/plugins/servicesbg-search/src/Plugin.php",
+    "app/wp-content/plugins/servicesbg-search/src/Service/PlatformRefreshListener.php",
+    "docs/phase2h_search_platform_listener_v1.md",
+    "scripts/validate_search_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "implemented_events": [
-    "ai_review.job_enqueued",
-    "ai_review.job_started",
-    "ai_review.summary_generated",
-    "ai_review.summary_approved",
+  "listened_events": [
+    "claim.approved",
+    "claim.rejected",
+    "reservation.completed",
+    "review.moderated",
     "ai_review.summary_published",
-    "ai_review.summary_rejected"
+    "coverage.zone_created",
+    "coverage.zone_updated"
+  ],
+  "implemented_jobs": [
+    "search_index_refresh"
   ],
   "preserved_behavior": [
-    "ai_reviews_plugin_activation",
-    "ai_reviews_wp_cli_commands",
-    "ai_reviews_create_test_workflow",
-    "deterministic_local_summary_generation",
-    "ai_reviews_audit_logging",
-    "ai_reviews_table_source_of_truth",
-    "ai_reviews_admin_diagnostics",
-    "ai_reviews_health_integration",
-    "generated_summary_text_privacy",
-    "private_review_content_privacy"
+    "search_plugin_activation",
+    "search_wp_cli_commands",
+    "search_index_table_source_of_truth",
+    "search_query_telemetry",
+    "deterministic_local_ranking",
+    "search_audit_logging",
+    "search_admin_diagnostics",
+    "search_health_integration",
+    "local_mariadb_search_index"
   ],
   "validation_checks_added": [
-    "platform_events_written_when_servicesbg_platform_active",
-    "platform_event_payload_contract",
-    "ai_review_job_enqueued_event",
-    "ai_review_job_started_event",
-    "ai_review_summary_generated_event",
-    "ai_review_summary_approved_event",
-    "ai_review_summary_published_event",
-    "ai_review_summary_rejected_event",
-    "generated_summary_text_not_emitted",
-    "private_review_content_not_emitted",
-    "redaction_notes_not_emitted",
-    "source_id_json_not_emitted",
+    "platform_listener_registration_when_servicesbg_platform_active",
+    "claim_approved_test_event_queues_search_refresh_job",
+    "search_index_refresh_job_payload_contract",
+    "search_index_refresh_queued_audit_entry",
     "no_fatal_when_servicesbg_platform_inactive",
+    "existing_search_validation_still_passes",
     "audit_entries_still_work",
     "no_disallowed_integrations"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_ai_reviews_plugin.sh",
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_search_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
     "platform_active_case": "passed",
     "platform_inactive_fallback_case": "passed",
-    "payload_contract": "passed",
+    "refresh_job_marker": "passed",
     "audit_entries": "passed",
     "production_modified": false
   },
-  "payload_contract": [
-    "summary_id",
-    "summary_version_id",
-    "job_id",
-    "scope_type",
-    "scope_id",
-    "provider_id",
+  "refresh_job_contract": [
+    "object_type",
+    "object_id",
     "listing_id",
-    "status",
-    "job_status",
-    "source",
-    "occurred_at",
-    "created_at",
-    "updated_at"
+    "provider_user_id",
+    "reason",
+    "source_event_id",
+    "source_event_name",
+    "source_module",
+    "source_object_type",
+    "source_object_id",
+    "queued_at"
   ],
+  "staging_evidence": {
+    "platform_job_id": 3,
+    "platform_job_type": "search_index_refresh",
+    "platform_job_reason": "claim_approved",
+    "search_audit_id": 472,
+    "search_audit_action": "search.index_refresh_queued"
+  },
   "architecture_rules_observed": {
-    "servicesbg_ai_reviews_remains_wordpress_plugin": true,
+    "servicesbg_search_remains_wordpress_plugin": true,
     "cross_plugin_communication_through_servicesbg_platform": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
@@ -83,10 +85,13 @@
     "platform_inactive_fallback": true
   },
   "explicitly_not_implemented": [
-    "external_llm_apis",
-    "ai_workflow_automation",
+    "ai_ranking",
+    "elasticsearch",
+    "vector_search",
+    "maps",
+    "gis",
+    "routing",
     "notifications",
-    "messaging_automation",
     "crm_automation",
     "payments",
     "calendar_integrations"
@@ -95,9 +100,9 @@
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "ai_reviews_only_refactor": true,
+    "search_only_refactor": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review the AI reviews event payloads before approving search refresh listeners or any future AI workflow automation through servicesbg-platform."
+  "next_step": "Review the queued search refresh job contract before approving listener-driven job execution policy or broader platform job orchestration."
 }
