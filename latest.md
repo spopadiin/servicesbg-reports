@@ -1,31 +1,35 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-26T09:40:05+03:00
+Updated: 2026-06-26T10:09:25+03:00
 
 ## Status
-Phase 2H-C claims platform events refactor is implemented.
+Phase 2H-C claims platform event validation passed.
 
-This phase refactors `servicesbg-claims` only. No new business features were implemented. No other plugins were refactored. No production services.bg system was modified.
+This validation targeted `/opt/projects/servicesbg/wp-staging`. No new business features were implemented. No other plugins were refactored. No production services.bg system was modified.
 
 ## Deliverables
 - `app/wp-content/plugins/servicesbg-claims/src/Service/ClaimService.php`
 - `docs/phase2h_claims_platform_events_v1.md`
+- `docs/phase2h_claims_platform_events_validation_v1.md`
 - `scripts/validate_claims_plugin.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
-## Implemented
-- `servicesbg-claims` emits platform events for:
+## Validated
+- `scripts/validate_claims_plugin.sh` passed against `/opt/projects/servicesbg/wp-staging`.
+- `servicesbg-platform` active case writes platform event rows.
+- `servicesbg-platform` inactive fallback has no fatal error.
+- Existing claims WP-CLI commands still work.
+- Existing `create-test --cleanup` still works.
+- Existing claims audit entries still work.
+- Event payloads include claim/listing/source/status/timestamp and available user context.
+- Events verified:
   - `claim.requested`
   - `claim.otp_created`
   - `claim.otp_verified`
   - `claim.approved`
   - `claim.rejected`
   - `claim.expired`
-- Existing claims audit logging is preserved.
-- Existing claims WP-CLI commands are preserved.
-- Platform fallback is implemented: if `servicesbg-platform` is inactive, claims workflows continue and event emission is skipped.
-- Claims validation now checks platform event rows in `wp_servicesbg_platform_events` when platform is active and checks no fatal error when platform is inactive.
 
 ## Architecture Rules Preserved
 - `servicesbg-claims` remains a WordPress plugin.
@@ -49,4 +53,4 @@ This phase refactors `servicesbg-claims` only. No new business features were imp
 - no calendar integrations
 
 ## Next Step
-Run `scripts/validate_claims_plugin.sh` against staging and review emitted claims event payloads before refactoring any other plugin.
+Review the claims validation report before approving any other plugin to publish/listen through `servicesbg-platform`.

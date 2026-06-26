@@ -1,13 +1,14 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T09:40:05+03:00",
-  "status": "claims_platform_events_refactor_implemented",
+  "updated_at": "2026-06-26T10:09:25+03:00",
+  "status": "claims_platform_events_validation_passed",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2h_c_servicesbg_claims_platform_events_only",
+  "scope": "phase2h_c_claims_platform_event_validation",
   "deliverables": [
     "app/wp-content/plugins/servicesbg-claims/src/Service/ClaimService.php",
     "docs/phase2h_claims_platform_events_v1.md",
+    "docs/phase2h_claims_platform_events_validation_v1.md",
     "scripts/validate_claims_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
@@ -29,6 +30,7 @@
   ],
   "validation_checks_added": [
     "platform_events_written_when_servicesbg_platform_active",
+    "platform_event_payload_contract",
     "claim_requested_event",
     "claim_otp_created_event",
     "claim_otp_verified_event",
@@ -37,6 +39,25 @@
     "claim_expired_event",
     "no_fatal_when_servicesbg_platform_inactive",
     "audit_entries_still_work"
+  ],
+  "validation_result": {
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_claims_plugin.sh",
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "status": "passed",
+    "platform_active_case": "passed",
+    "platform_inactive_fallback_case": "passed",
+    "payload_contract": "passed",
+    "audit_entries": "passed",
+    "production_modified": false
+  },
+  "payload_contract": [
+    "claim_id",
+    "listing_id",
+    "source",
+    "status",
+    "occurred_at",
+    "source_listing_id_or_source_account_id",
+    "available_provider_or_user_context"
   ],
   "architecture_rules_observed": {
     "servicesbg_claims_remains_wordpress_plugin": true,
@@ -68,5 +89,5 @@
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Run scripts/validate_claims_plugin.sh against staging and review claims platform event payloads before refactoring any other plugin."
+  "next_step": "Review the claims validation report before approving any other plugin to publish/listen through servicesbg-platform."
 }
