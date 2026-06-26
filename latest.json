@@ -1,50 +1,53 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-26T10:40:57+03:00",
-  "status": "crm_platform_events_refactor_validated",
+  "updated_at": "2026-06-26T10:59:56+03:00",
+  "status": "reviews_platform_events_refactor_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2h_f_servicesbg_crm_platform_events_only",
+  "scope": "phase2h_g_servicesbg_reviews_platform_events_only",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-crm/src/Service/CRMService.php",
-    "docs/phase2h_crm_platform_events_v1.md",
-    "scripts/validate_crm_plugin.sh",
+    "app/wp-content/plugins/servicesbg-reviews/src/Service/ReviewService.php",
+    "app/wp-content/plugins/servicesbg-reviews/src/Service/ReviewCaseService.php",
+    "docs/phase2h_reviews_platform_events_v1.md",
+    "scripts/validate_reviews_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
   "implemented_events": [
-    "crm.lead_created",
-    "crm.customer_profile_created",
-    "crm.timeline_event_created",
-    "crm.note_created",
-    "crm.followup_created",
-    "crm.pipeline_status_changed"
+    "review.created",
+    "review.provider_responded",
+    "review.moderated",
+    "review.case_opened",
+    "review.case_resolved",
+    "review.version_created"
   ],
   "preserved_behavior": [
-    "crm_plugin_activation",
-    "crm_wp_cli_commands",
-    "crm_create_test_workflow",
-    "crm_audit_logging",
-    "crm_table_source_of_truth",
-    "crm_admin_diagnostics",
-    "crm_health_integration",
-    "crm_note_body_privacy"
+    "reviews_plugin_activation",
+    "reviews_wp_cli_commands",
+    "reviews_create_test_workflow",
+    "reviews_audit_logging",
+    "reviews_table_source_of_truth",
+    "reviews_admin_diagnostics",
+    "reviews_health_integration",
+    "private_review_text_privacy",
+    "provider_response_text_privacy"
   ],
   "validation_checks_added": [
     "platform_events_written_when_servicesbg_platform_active",
     "platform_event_payload_contract",
-    "crm_lead_created_event",
-    "crm_customer_profile_created_event",
-    "crm_timeline_event_created_event",
-    "crm_note_created_event",
-    "crm_followup_created_event",
-    "crm_pipeline_status_changed_event",
-    "private_note_body_not_emitted",
+    "review_created_event",
+    "review_provider_responded_event",
+    "review_moderated_event",
+    "review_case_opened_event",
+    "review_case_resolved_event",
+    "review_version_created_event",
+    "private_review_text_not_emitted",
+    "provider_response_text_not_emitted",
     "no_fatal_when_servicesbg_platform_inactive",
     "audit_entries_still_work"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_crm_plugin.sh",
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_reviews_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
     "platform_active_case": "passed",
@@ -54,17 +57,12 @@
     "production_modified": false
   },
   "payload_contract": [
-    "lead_id",
-    "customer_profile_id",
+    "review_id",
+    "case_id",
+    "reservation_id",
     "provider_id",
     "provider_user_id",
-    "listing_id",
-    "reservation_id",
-    "conversation_id",
-    "claim_id",
-    "review_id",
-    "review_case_id",
-    "customer_user_id",
+    "customer_id",
     "status",
     "source",
     "occurred_at",
@@ -72,7 +70,7 @@
     "updated_at"
   ],
   "architecture_rules_observed": {
-    "servicesbg_crm_remains_wordpress_plugin": true,
+    "servicesbg_reviews_remains_wordpress_plugin": true,
     "cross_plugin_communication_through_servicesbg_platform": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
@@ -80,16 +78,10 @@
     "platform_inactive_fallback": true
   },
   "explicitly_not_implemented": [
+    "ai_summary_generation",
+    "messaging_automation",
     "crm_automation",
-    "ai_automation",
     "notifications",
-    "email_delivery",
-    "sms_delivery",
-    "push_delivery",
-    "coverage",
-    "search",
-    "reviews",
-    "crm",
     "external_apis",
     "payments",
     "calendar_integrations"
@@ -98,9 +90,9 @@
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "crm_only_refactor": true,
+    "reviews_only_refactor": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review the CRM event payloads before approving any listener automation through servicesbg-platform."
+  "next_step": "Review the reviews event payloads before approving AI summary, messaging, or CRM listener automation through servicesbg-platform."
 }
