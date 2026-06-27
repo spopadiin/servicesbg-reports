@@ -1,0 +1,33 @@
+{
+  "project": "servicesbg",
+  "generated_at": "2026-06-27T21:15:00+03:00",
+  "historical_reports_preserved": true,
+  "reports": [
+    {"phase": "Planning", "date": "2026-06", "milestone": "Architecture planning", "affected_plugins": [], "validation_status": "planning", "report_filename": "architecture_planning_summary.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Data model", "affected_plugins": [], "validation_status": "planning", "report_filename": "data_model_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Feature gap analysis", "affected_plugins": [], "validation_status": "planning", "report_filename": "feature_gap_analysis_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Flynax to WordPress mapping", "affected_plugins": ["servicesbg-migration"], "validation_status": "mapping", "report_filename": "flynax_to_wp_mapping_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Migration plan", "affected_plugins": ["servicesbg-migration"], "validation_status": "planning", "report_filename": "migration_plan_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Modular plugin architecture", "affected_plugins": ["all"], "validation_status": "planning", "report_filename": "modular_plugin_architecture_v1.md"},
+    {"phase": "Phase 1", "date": "2026-06", "milestone": "Runtime foundation validation", "affected_plugins": ["servicesbg-core", "servicesbg-listings", "servicesbg-providers", "servicesbg-migration", "servicesbg-claims"], "validation_status": "passed", "report_filename": "phase1_runtime_validation_v1.md"},
+    {"phase": "Phase 2A", "date": "2026-06", "milestone": "Claims MVP", "affected_plugins": ["servicesbg-claims"], "validation_status": "validated", "report_filename": "phase2a_claims_implementation.md"},
+    {"phase": "Phase 2B", "date": "2026-06", "milestone": "Coverage MVP", "affected_plugins": ["servicesbg-coverage"], "validation_status": "validated", "report_filename": "phase2b_coverage_mvp_v1.md"},
+    {"phase": "Phase 2B", "date": "2026-06", "milestone": "Search MVP", "affected_plugins": ["servicesbg-search"], "validation_status": "validated", "report_filename": "phase2b_search_mvp_v1.md"},
+    {"phase": "Phase 2F", "date": "2026-06", "milestone": "Messaging MVP", "affected_plugins": ["servicesbg-messaging"], "validation_status": "validated", "report_filename": "phase2f_messaging_mvp_v1.md"},
+    {"phase": "Phase 2G", "date": "2026-06", "milestone": "CRM MVP", "affected_plugins": ["servicesbg-crm"], "validation_status": "validated", "report_filename": "phase2g_crm_mvp_v1.md"},
+    {"phase": "Phase 2J", "date": "2026-06", "milestone": "Job handler contracts", "affected_plugins": ["servicesbg-platform", "servicesbg-search", "servicesbg-coverage", "servicesbg-reviews", "servicesbg-ai-reviews"], "validation_status": "validated", "report_filename": "phase2j_job_handler_contracts_v1.md"},
+    {"phase": "Phase 3A", "date": "2026-06-27", "milestone": "Priming migration sample", "affected_plugins": ["servicesbg-migration", "servicesbg-listings", "servicesbg-providers", "servicesbg-claims", "servicesbg-coverage", "servicesbg-search"], "validation_status": "passed", "report_filename": "phase3a_priming_migration_cycle_v1.md"},
+    {"phase": "Current", "date": "2026-06-27", "milestone": "Latest status pointer", "affected_plugins": ["all"], "validation_status": "current", "report_filename": "latest.md"},
+    {"phase": "Catalog", "date": "2026-06", "milestone": "Platform event catalog", "affected_plugins": ["servicesbg-platform"], "validation_status": "reference", "report_filename": "platform_event_catalog_v1.md"},
+    {"phase": "Catalog", "date": "2026-06", "milestone": "Platform integration plan", "affected_plugins": ["servicesbg-platform"], "validation_status": "reference", "report_filename": "platform_integration_plan_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Plugin strategy", "affected_plugins": ["all"], "validation_status": "reference", "report_filename": "plugin_strategy_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Database schema", "affected_plugins": ["all"], "validation_status": "reference", "report_filename": "servicesbg_database_schema_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Feature backlog", "affected_plugins": ["all"], "validation_status": "reference", "report_filename": "servicesbg_feature_backlog_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "MVP scope", "affected_plugins": ["all"], "validation_status": "reference", "report_filename": "servicesbg_mvp_scope_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "Plugin table ownership", "affected_plugins": ["all"], "validation_status": "reference", "report_filename": "servicesbg_plugin_table_ownership_v1.md"},
+    {"phase": "Audit", "date": "2026-06", "milestone": "Source inventory", "affected_plugins": [], "validation_status": "audit", "report_filename": "source_inventory.md"},
+    {"phase": "Audit", "date": "2026-06", "milestone": "Source schema audit", "affected_plugins": [], "validation_status": "audit", "report_filename": "source_schema_audit_v1.md"},
+    {"phase": "Planning", "date": "2026-06", "milestone": "WordPress plugin architecture", "affected_plugins": ["all"], "validation_status": "reference", "report_filename": "wordpress_plugin_architecture_v1.md"},
+    {"phase": "Test", "date": "2026-06", "milestone": "Publisher test", "affected_plugins": [], "validation_status": "test", "report_filename": "publisher_test.md"}
+  ]
+}
