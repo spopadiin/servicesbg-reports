@@ -1,42 +1,60 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-27T23:05:00+03:00
+Updated: 2026-06-27T23:40:00+03:00
 
 ## Status
-Phase 3B-3 ServicesBG Theme MVP is complete and validated against staging.
+Phase 3C-0 Full Staging Migration Preflight is complete and validated against staging.
 
-This phase implemented the lightweight public `servicesbg-theme` as a presentation-only WordPress theme consuming `servicesbg-ui` components and read-only view models. It did not implement JavaScript application logic, REST APIs, external APIs, business workflow writes, full migration, redirects, or production changes.
+This phase added a read-only full migration preflight command and validator. It confirms source counts, source integrity, media readiness, target staging readiness, and current blockers without importing full data, creating a full migration batch, calling external APIs, or changing production.
 
 ## Deliverables
-- `app/wp-content/themes/servicesbg-theme/`
-- `docs/phase3b_theme_mvp_v1.md`
-- `docs/current/ui_status.md`
-- `docs/current/theme_status.md`
+- `app/wp-content/plugins/servicesbg-migration/src/Service/FullMigrationPreflightService.php`
+- `app/wp-content/plugins/servicesbg-migration/src/CLI/Commands.php`
+- `docs/phase3c_full_staging_migration_preflight_v1.md`
 - `docs/current/current_state.md`
-- `scripts/validate_theme.sh`
+- `docs/current/migration_status.md`
+- `docs/current/validation_matrix.md`
+- `scripts/validate_full_migration_preflight.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Implementation Results
-- Added `servicesbg-theme` classic WordPress theme.
-- Added homepage, search, category archive, listing detail, provider profile, generic page, dashboard shell, 404, header, footer, and sidebar templates.
-- Added primary, footer, and mobile menu registration with fallback navigation.
-- Added lightweight responsive CSS using existing `sbg-` component classes.
-- Rendered listing cards, provider cards, category navigation, claim/reservation/coverage/review/messaging widgets, workflow status, dashboard cards, breadcrumbs, pagination, and empty states through `servicesbg-ui`.
-- Kept templates thin and compatible with future `servicesbg-api`/Next.js replacement.
+- Added `wp servicesbg migration full-preflight`.
+- Added read-only source count, status, account type, integrity, and media audit diagnostics.
+- Added target readiness checks for plugins, tables, CPT/taxonomy, theme, sample batch state, full batch state, and production guard.
+- Reserved future full staging batch key: `phase3c_full_staging`.
+- Confirmed the command reports `writes_performed: false`, `external_apis_called: false`, and `production_modified: false`.
+
+## Preflight Snapshot
+- Categories: 277.
+- Accounts: 189.
+- Listings: 2735.
+- Active listings: 2640.
+- Listing photo rows: 6139.
+- Local media files found: 6099.
+- Local media files missing: 40.
+- Active listings missing accounts/categories: 0.
+- Active listings without phone: 7.
+- Active Phase 3A sample batches: 0.
+- Existing Phase 3C full batch rows: 0.
+
+Current blocker:
+- `media_missing_files_require_policy`
 
 ## Validation
-- `./scripts/validate_theme.sh` passed against staging.
-- Regression checks also passed for `./scripts/validate_ui_framework.sh` and `./scripts/validate_view_model_contracts.sh`.
-- The theme validator confirms activation, template rendering for homepage/search/category/listing/provider/page/dashboard/404, ServicesBG component consumption, no direct plugin DB access, no business workflow writes, no REST routes, no external APIs, no CSS-framework lock-in, and no legacy asset references.
+- `./scripts/validate_full_migration_preflight.sh` passed against staging.
+- The validator confirms JSON report shape, audited source counts, production guard, read-only service implementation, no full batch creation, no external API calls, and no production changes.
 
 ## Estimated Completion
-Overall completion toward production launch is estimated at 72%.
+Overall completion toward production launch is estimated at 74%.
 
 ## Explicitly Not Done
 - no new business features
 - no JavaScript application logic
 - no REST APIs
+- no full staging import
+- no full migration dry-run planner
+- no full migration rollback command
 - no full migration
 - no production migration
 - no production redirects
