@@ -1,66 +1,75 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-27T09:30:00+03:00
+Updated: 2026-06-27T09:55:00+03:00
 
 ## Status
-Phase 2O integrations/settings MVP is implemented and validated.
+Phase 3A priming migration cycle MVP is implemented and validated.
 
-This phase adds the ServicesBG admin settings framework integration and the `servicesbg-integrations` plugin for test-mode provider placeholders, secure option storage, masked secret display, diagnostics, WP-CLI status, health integration, and audit logging.
+This phase proves a small, controlled, reversible migration cycle from the Flynax source database into the staging WordPress environment. It imports only capped sample data, validates migration maps and search indexing, proves idempotent re-apply, and rolls the sample back safely.
 
-No real OpenAI/Anthropic calls, SMS sending, email sending, payments, calendar sync, maps/geocoding calls, production credentials, or production provider mode were implemented.
+No full migration, production migration, real SMS, real email, real payments, external APIs, or UI/theme work were implemented.
 
 ## Deliverables
-- `app/wp-content/plugins/servicesbg-integrations/`
-- `docs/phase2o_integrations_settings_mvp_v1.md`
-- `scripts/validate_integrations_plugin.sh`
+- `app/wp-content/plugins/servicesbg-migration/src/Service/PrimingMigrationService.php`
+- `app/wp-content/plugins/servicesbg-migration/src/CLI/Commands.php`
+- `app/wp-content/plugins/servicesbg-migration/src/Schema/VersionManager.php`
+- `docs/phase3a_priming_migration_cycle_v1.md`
+- `scripts/validate_priming_migration.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
-## Validated
-- `WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_integrations_plugin.sh` passed.
-- Core and integrations plugins are active on staging.
-- Main ServicesBG settings page callback is registered.
-- Integrations diagnostics page callback is registered.
-- Integrations settings section is registered through `servicesbg_settings_sections`.
-- Provider registry exposes six test-mode adapters.
-- Provider diagnostics include AI, SMS, email, payment, calendar, and maps/geocoding placeholders.
-- Provider config defaults are stored in `servicesbg_integrations_provider_configs`.
-- Provider configs remain forced to `test` mode.
-- Test secrets are encrypted at rest and are not stored as plaintext.
-- Masked secret display works.
-- Integrations health component is registered.
-- Settings audit logging works.
-- `wp servicesbg integrations status` works.
-- `wp servicesbg integrations diagnostics` works.
+## WP-CLI Commands
+- `wp servicesbg migration preflight`
+- `wp servicesbg migration dry-run --sample`
+- `wp servicesbg migration apply-sample`
+- `wp servicesbg migration rollback-sample`
+- `wp servicesbg migration validate-sample`
 
-## Provider Placeholders
-- AI provider: `ai`
-- SMS provider: `sms`
-- Email provider: `email`
-- Payment provider: `payment`
-- Calendar provider: `calendar`
-- Maps/geocoding provider: `maps`
+## Validated
+- `./scripts/validate_priming_migration.sh` passed against `/opt/projects/servicesbg/wp-staging`.
+- Source DB `services_services` is readable.
+- Staging WordPress DB is writable.
+- Production guard passes.
+- Dry-run sample counts are capped.
+- Sample apply imports 10 categories, 20 accounts, and 50 listings.
+- Claim seed records are created where source phones exist.
+- Coverage seed records are created where source location data exists.
+- Representative media sample rows are tracked.
+- Sample SEO redirect candidates are tracked.
+- Migration map rows are created for imported objects.
+- Search index refresh works for imported listings.
+- Re-applying the sample is idempotent.
+- Rollback removes active sample objects and leaves no completed sample batch.
+
+## Sample Counts
+- categories: 10
+- accounts: 20
+- listings: 50
+- claim seeds: 50
+- coverage seeds: 50
+- media sample rows: 20
+- redirect candidates: 20
+- search indexed listings: 50
 
 ## Architecture Rules Preserved
-- Integrations are configuration and diagnostics only.
-- All adapters are test-mode only.
-- Production credentials are disabled.
-- No external provider API calls were added.
-- No platform workflow or job handler behavior was changed.
-- No direct plugin-to-plugin includes were added.
-- Existing platform event bus, workflow engine, job handler registry, and deterministic AI review summary behavior are preserved.
+- Sample import is batch-tracked.
+- Flynax source IDs are preserved on objects and in migration maps.
+- Duplicate prevention uses migration map rows.
+- Rollback deletes only objects mapped to the sample batch.
+- Imported coverage is marked `needs_review`, not verified service coverage.
+- Claim seeds do not create OTPs or transfer ownership.
+- Media is mapped as a representative sample only; attachments are not imported.
+- Redirects are candidates only; no production redirects are activated.
 
 ## Explicitly Not Done
-- no OpenAI APIs
-- no Anthropic APIs
-- no real SMS sending
-- no real email sending
+- no full migration
+- no production migration
+- no real SMS
+- no real email
 - no real payments
-- no real calendar sync
-- no real maps/geocoding calls
-- no production credentials
-- no production provider mode
+- no external APIs
+- no UI/theme work
 - no production changes
 
 ## Next Step
-Use the integrations registry as the future boundary for provider-specific adapters when a later phase explicitly enables real provider implementations.
+Review the Phase 3A validation report and decide which importer area should be expanded next: media attachments, full category hierarchy, account/profile normalization, or listing field completeness.

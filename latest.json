@@ -1,118 +1,136 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-27T09:30:00+03:00",
-  "status": "integrations_settings_mvp_validated",
+  "updated_at": "2026-06-27T09:55:00+03:00",
+  "status": "priming_migration_cycle_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2o_integrations_settings_mvp",
+  "scope": "phase3a_priming_migration_cycle",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-integrations/",
-    "docs/phase2o_integrations_settings_mvp_v1.md",
-    "scripts/validate_integrations_plugin.sh",
+    "app/wp-content/plugins/servicesbg-migration/src/Service/PrimingMigrationService.php",
+    "app/wp-content/plugins/servicesbg-migration/src/CLI/Commands.php",
+    "app/wp-content/plugins/servicesbg-migration/src/Schema/VersionManager.php",
+    "docs/phase3a_priming_migration_cycle_v1.md",
+    "scripts/validate_priming_migration.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "implemented_components": {
-    "plugin": "servicesbg-integrations",
-    "settings_section": "servicesbg-integrations",
-    "settings_filter": "servicesbg_settings_sections",
-    "diagnostics_admin_page": "servicesbg-integrations",
-    "cli_namespace": "wp servicesbg integrations",
-    "storage_option": "servicesbg_integrations_provider_configs",
-    "health_component": "integrations_schema",
-    "audit_module": "servicesbg-integrations"
-  },
-  "provider_placeholders": [
-    "ai",
-    "sms",
-    "email",
-    "payment",
-    "calendar",
-    "maps"
+  "implemented_commands": [
+    "wp servicesbg migration preflight",
+    "wp servicesbg migration dry-run --sample",
+    "wp servicesbg migration apply-sample",
+    "wp servicesbg migration rollback-sample",
+    "wp servicesbg migration validate-sample"
   ],
-  "adapter_policy": {
-    "mode": "test",
-    "test_mode_only": true,
-    "production_credentials_enabled": false,
-    "external_api_calls_enabled": false
+  "sample_limits": {
+    "categories": 10,
+    "accounts": 20,
+    "listings": 50
   },
-  "secure_storage": {
-    "autoload": false,
-    "secrets_encrypted": true,
-    "masked_secret_display": true,
-    "plaintext_secret_diagnostics": false,
-    "preferred_encryption": "openssl_aes_256_gcm",
-    "fallback_encryption": "sodium_secretbox"
+  "sample_result": {
+    "categories": 10,
+    "accounts": 20,
+    "listings": 50,
+    "claim_seeds": 50,
+    "coverage_seeds": 50,
+    "media_sample_rows": 20,
+    "redirect_candidates": 20,
+    "search_indexed_listings": 50
   },
-  "preserved_behavior": [
-    "platform_plugin_activation",
-    "platform_event_bus",
-    "platform_job_queue",
-    "workflow_engine_behavior",
-    "job_handler_registry_behavior",
-    "ai_review_summary_execution",
-    "deterministic_local_summary_generation",
-    "core_health_page",
-    "core_audit_log",
-    "plugin_isolation"
-  ],
+  "source": {
+    "database": "services_services",
+    "prefix": "fl_",
+    "dump_path": "/opt/projects/servicesbg/db/imports/localhost.sql.gz",
+    "media_root": "/opt/projects/servicesbg/archive/extracted/servicebg/files",
+    "readable": true
+  },
+  "target": {
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "writable": true,
+    "production_guard": true
+  },
+  "batch_tracking": {
+    "sample_batch_key": "phase3a_priming_sample",
+    "table": "wp_servicesbg_import_batches",
+    "final_validation_state": "rolled_back"
+  },
+  "migration_map": {
+    "table": "wp_servicesbg_migration_map",
+    "target_types": [
+      "term",
+      "user",
+      "listing",
+      "claim",
+      "coverage_zone"
+    ],
+    "flynax_id_preservation": true,
+    "duplicate_prevention": true,
+    "rollback_source_of_truth": true
+  },
   "validation_checks_added": [
-    "core_and_integrations_plugin_activation",
-    "main_settings_page_registration",
-    "integrations_diagnostics_page_registration",
-    "integrations_settings_section_registration",
-    "six_provider_adapter_registry",
-    "provider_placeholder_diagnostics",
-    "default_provider_config_option",
-    "test_mode_only_config_enforcement",
-    "encrypted_secret_storage",
-    "masked_secret_display",
-    "health_component_registration",
-    "settings_audit_logging",
-    "wp_cli_integrations_status",
-    "wp_cli_integrations_diagnostics"
+    "source_db_readable",
+    "staging_wp_db_writable",
+    "production_guard",
+    "dry_run_sample_counts_capped",
+    "sample_objects_imported",
+    "migration_map_rows_created",
+    "claim_seed_rows_created",
+    "coverage_seed_rows_created",
+    "media_sample_rows_created",
+    "redirect_sample_rows_created",
+    "search_index_refresh_for_imported_listings",
+    "reapply_idempotency",
+    "rollback_removes_sample_objects",
+    "no_completed_sample_batch_after_final_rollback"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_integrations_plugin.sh",
+    "command": "./scripts/validate_priming_migration.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
-    "provider_registry": "passed",
-    "secure_storage": "passed",
-    "masked_secret_display": "passed",
-    "audit_logging": "passed",
-    "health_integration": "passed",
-    "wp_cli_diagnostics": "passed",
+    "source_db_readable": "passed",
+    "staging_db_writable": "passed",
+    "apply_sample": "passed",
+    "reapply_idempotency": "passed",
+    "search_index_refresh": "passed",
+    "rollback": "passed",
     "production_modified": false
   },
+  "preserved_behavior": [
+    "servicesbg_core_health",
+    "servicesbg_migration_preflight",
+    "servicesbg_claims_schema",
+    "servicesbg_coverage_schema",
+    "servicesbg_search_indexing",
+    "phase2o_integrations_test_mode_only",
+    "plugin_isolation"
+  ],
   "architecture_rules_observed": {
-    "servicesbg_integrations_remains_wordpress_plugin": true,
-    "settings_registered_through_core_framework": true,
-    "no_direct_plugin_to_plugin_includes_added": true,
+    "sample_only": true,
+    "no_full_migration": true,
+    "no_production_migration": true,
+    "flynax_ids_preserved": true,
+    "batch_tracked": true,
+    "migration_map_used": true,
+    "rollback_safe": true,
+    "idempotent_reapply": true,
     "no_business_logic_in_theme": true,
-    "test_mode_adapters_only": true,
-    "no_platform_workflow_changes": true,
-    "no_job_handler_changes": true,
     "no_external_provider_calls": true
   },
   "explicitly_not_implemented": [
-    "openai_apis",
-    "anthropic_apis",
-    "real_sms_sending",
-    "real_email_sending",
+    "full_migration",
+    "production_migration",
+    "real_sms",
+    "real_email",
     "real_payments",
-    "real_calendar_sync",
-    "real_maps_geocoding_calls",
-    "production_credentials",
-    "production_provider_mode",
+    "external_apis",
+    "ui_theme_work",
     "production_changes"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "phase2o_integrations_settings_scope": true,
-    "no_business_logic_in_theme": true,
-    "no_direct_plugin_to_plugin_includes": true
+    "phase3a_priming_sample_scope": true,
+    "no_business_logic_in_theme": true
   },
-  "next_step": "Use the integrations registry as the future boundary for provider-specific adapters when a later phase explicitly enables real provider implementations."
+  "next_step": "Review the Phase 3A validation report and decide which importer area should be expanded next: media attachments, full category hierarchy, account/profile normalization, or listing field completeness."
 }
