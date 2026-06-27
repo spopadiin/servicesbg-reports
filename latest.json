@@ -1,136 +1,158 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-27T09:55:00+03:00",
-  "status": "priming_migration_cycle_validated",
+  "updated_at": "2026-06-27T19:25:22+03:00",
+  "status": "phase3b_legacy_ux_mapping_theme_blueprint_complete",
   "production_modified": false,
-  "application_code_written": true,
-  "scope": "phase3a_priming_migration_cycle",
+  "application_code_written": false,
+  "scope": "phase3b_0_legacy_ux_mapping_theme_blueprint",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-migration/src/Service/PrimingMigrationService.php",
-    "app/wp-content/plugins/servicesbg-migration/src/CLI/Commands.php",
-    "app/wp-content/plugins/servicesbg-migration/src/Schema/VersionManager.php",
-    "docs/phase3a_priming_migration_cycle_v1.md",
-    "scripts/validate_priming_migration.sh",
+    "docs/phase3b_theme_blueprint_v1.md",
+    "docs/phase3b_component_library_v1.md",
+    "docs/phase3b_navigation_sitemap_v1.md",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "implemented_commands": [
-    "wp servicesbg migration preflight",
-    "wp servicesbg migration dry-run --sample",
-    "wp servicesbg migration apply-sample",
-    "wp servicesbg migration rollback-sample",
-    "wp servicesbg migration validate-sample"
+  "inputs_reviewed": [
+    "docs/phase3a_priming_migration_cycle_v1.md",
+    "docs/flynax_to_wp_mapping_v1.md",
+    "docs/source_schema_audit_v1.md",
+    "reports/latest.json",
+    "/opt/projects/servicesbg/archive/extracted/servicebg",
+    "/opt/projects/servicesbg/archive/extracted/servicebg/templates/general_wide",
+    "/opt/projects/servicesbg/archive/extracted/servicebg/includes/controllers/home.inc.php",
+    "/opt/projects/servicesbg/archive/extracted/servicebg/includes/controllers/listing_type.inc.php",
+    "/opt/projects/servicesbg/archive/extracted/servicebg/includes/controllers/search.inc.php",
+    "/opt/projects/servicesbg/archive/extracted/servicebg/includes/controllers/search_map.inc.php",
+    "/opt/projects/servicesbg/archive/extracted/servicebg/includes/controllers/listing_details.inc.php"
   ],
-  "sample_limits": {
-    "categories": 10,
-    "accounts": 20,
-    "listings": 50
-  },
-  "sample_result": {
-    "categories": 10,
-    "accounts": 20,
-    "listings": 50,
-    "claim_seeds": 50,
-    "coverage_seeds": 50,
-    "media_sample_rows": 20,
-    "redirect_candidates": 20,
-    "search_indexed_listings": 50
-  },
-  "source": {
-    "database": "services_services",
-    "prefix": "fl_",
-    "dump_path": "/opt/projects/servicesbg/db/imports/localhost.sql.gz",
-    "media_root": "/opt/projects/servicesbg/archive/extracted/servicebg/files",
-    "readable": true
-  },
-  "target": {
-    "wp_root": "/opt/projects/servicesbg/wp-staging",
-    "writable": true,
-    "production_guard": true
-  },
-  "batch_tracking": {
-    "sample_batch_key": "phase3a_priming_sample",
-    "table": "wp_servicesbg_import_batches",
-    "final_validation_state": "rolled_back"
-  },
-  "migration_map": {
-    "table": "wp_servicesbg_migration_map",
-    "target_types": [
-      "term",
-      "user",
-      "listing",
-      "claim",
-      "coverage_zone"
+  "legacy_frontend_findings": {
+    "active_template": "general_wide",
+    "homepage": [
+      "horizontal keyword/category/location search",
+      "optional H1",
+      "featured gallery",
+      "special block/content zones"
     ],
-    "flynax_id_preservation": true,
-    "duplicate_prevention": true,
-    "rollback_source_of_truth": true
+    "header": [
+      "language selector",
+      "user navigation",
+      "primary menu",
+      "prominent add-listing CTA",
+      "mobile menu trigger"
+    ],
+    "browse_results": [
+      "category description",
+      "list/grid/map view switcher",
+      "sorting",
+      "pagination",
+      "empty-state add-listing/save-search prompts"
+    ],
+    "listing_detail": [
+      "media gallery",
+      "map/street-view option",
+      "grouped fields",
+      "seller sidebar",
+      "contact form",
+      "favorite/print/share/counters"
+    ],
+    "mobile": [
+      "collapsed menu",
+      "mobile menu header",
+      "search/list/map navigation for map search"
+    ]
   },
-  "validation_checks_added": [
-    "source_db_readable",
-    "staging_wp_db_writable",
-    "production_guard",
-    "dry_run_sample_counts_capped",
-    "sample_objects_imported",
-    "migration_map_rows_created",
-    "claim_seed_rows_created",
-    "coverage_seed_rows_created",
-    "media_sample_rows_created",
-    "redirect_sample_rows_created",
-    "search_index_refresh_for_imported_listings",
-    "reapply_idempotency",
-    "rollback_removes_sample_objects",
-    "no_completed_sample_batch_after_final_rollback"
+  "documented_areas": [
+    "public_sitemap",
+    "navigation_hierarchy",
+    "homepage_layout",
+    "category_pages",
+    "listing_cards",
+    "listing_detail_page",
+    "provider_profile_page",
+    "search_filter_layout",
+    "mobile_navigation",
+    "breadcrumb_strategy",
+    "footer_structure",
+    "existing_taxonomy_presentation",
+    "existing_field_grouping",
+    "existing_forms"
   ],
-  "validation_result": {
-    "command": "./scripts/validate_priming_migration.sh",
-    "wp_root": "/opt/projects/servicesbg/wp-staging",
-    "status": "passed",
-    "source_db_readable": "passed",
-    "staging_db_writable": "passed",
-    "apply_sample": "passed",
-    "reapply_idempotency": "passed",
-    "search_index_refresh": "passed",
-    "rollback": "passed",
-    "production_modified": false
+  "component_library": [
+    "SiteHeader",
+    "SiteFooter",
+    "MegaMenu",
+    "MobileNav",
+    "SearchBar",
+    "FilterPanel",
+    "FilterChips",
+    "ViewSwitcher",
+    "Breadcrumbs",
+    "ListingCard",
+    "ProviderCard",
+    "ReviewSummaryWidget",
+    "ReservationWidget",
+    "ClaimWidget",
+    "CoverageWidget",
+    "MessagingIndicator",
+    "DashboardCard",
+    "DataTable",
+    "Form",
+    "Modal",
+    "Alert",
+    "Timeline",
+    "WorkflowStatus",
+    "MediaGallery",
+    "FieldGroup",
+    "MapResults"
+  ],
+  "theme_template_blueprint": [
+    "front-page.php",
+    "taxonomy-service_category.php",
+    "archive-service_listing.php",
+    "single-service_listing.php",
+    "author-service_provider.php or single-provider_profile.php",
+    "page-templates/search.php",
+    "page-templates/dashboard.php",
+    "page-templates/listing-edit.php",
+    "page-templates/claim.php",
+    "page.php"
+  ],
+  "plugin_ownership_observed": {
+    "listings_categories": "servicesbg-listings",
+    "providers": "servicesbg-providers",
+    "search": "servicesbg-search",
+    "claims": "servicesbg-claims",
+    "coverage": "servicesbg-coverage",
+    "reservations": "servicesbg-reservations",
+    "messaging": "servicesbg-messaging",
+    "crm": "servicesbg-crm",
+    "reviews": "servicesbg-reviews",
+    "ai_review_summaries": "servicesbg-ai-reviews",
+    "integrations": "servicesbg-integrations",
+    "migration": "servicesbg-migration",
+    "platform": "servicesbg-platform",
+    "core": "servicesbg-core"
   },
-  "preserved_behavior": [
-    "servicesbg_core_health",
-    "servicesbg_migration_preflight",
-    "servicesbg_claims_schema",
-    "servicesbg_coverage_schema",
-    "servicesbg_search_indexing",
-    "phase2o_integrations_test_mode_only",
-    "plugin_isolation"
-  ],
   "architecture_rules_observed": {
-    "sample_only": true,
-    "no_full_migration": true,
-    "no_production_migration": true,
-    "flynax_ids_preserved": true,
-    "batch_tracked": true,
-    "migration_map_used": true,
-    "rollback_safe": true,
-    "idempotent_reapply": true,
-    "no_business_logic_in_theme": true,
-    "no_external_provider_calls": true
+    "documentation_only": true,
+    "no_theme_implementation": true,
+    "no_legacy_html_css_assets_copied": true,
+    "preserve_familiar_information_architecture": true,
+    "business_logic_inside_plugins": true,
+    "theme_presentation_only": true,
+    "no_production_changes": true
   },
   "explicitly_not_implemented": [
-    "full_migration",
-    "production_migration",
-    "real_sms",
-    "real_email",
-    "real_payments",
-    "external_apis",
-    "ui_theme_work",
+    "wordpress_theme_files",
+    "css",
+    "javascript",
+    "component_code",
+    "legacy_assets",
+    "routes_or_rewrites",
+    "redirect_activation",
+    "plugin_logic_changes",
+    "migration_changes",
     "production_changes"
   ],
-  "rules_observed": {
-    "no_tradingbot_context": true,
-    "no_unai_context": true,
-    "no_production_changes": true,
-    "phase3a_priming_sample_scope": true,
-    "no_business_logic_in_theme": true
-  },
-  "next_step": "Review the Phase 3A validation report and decide which importer area should be expanded next: media attachments, full category hierarchy, account/profile normalization, or listing field completeness."
+  "next_step": "Define plugin view-model/template APIs for listing cards, provider cards, filters, claim status, coverage summaries, reservation affordances, review summaries, messaging/contact actions, and dashboard summaries before implementing the Phase 3B theme."
 }
