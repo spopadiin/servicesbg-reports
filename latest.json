@@ -1,131 +1,118 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-27T07:52:12+03:00",
-  "status": "ai_review_summary_workflow_execution_validated",
+  "updated_at": "2026-06-27T09:30:00+03:00",
+  "status": "integrations_settings_mvp_validated",
   "production_modified": false,
   "application_code_written": true,
-  "scope": "phase2n_ai_review_summary_execution",
+  "scope": "phase2o_integrations_settings_mvp",
   "deliverables": [
-    "app/wp-content/plugins/servicesbg-ai-reviews/src/Service/PlatformJobHandler.php",
-    "app/wp-content/plugins/servicesbg-ai-reviews/src/Service/SummaryService.php",
-    "docs/phase2n_ai_review_summary_execution_v1.md",
-    "scripts/validate_ai_review_summary_workflow.sh",
+    "app/wp-content/plugins/servicesbg-integrations/",
+    "docs/phase2o_integrations_settings_mvp_v1.md",
+    "scripts/validate_integrations_plugin.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "implemented_handler": {
-    "handler_key": "review_summary_generate",
-    "owner_module": "servicesbg-ai-reviews",
-    "job_type": "review_summary_generate"
+  "implemented_components": {
+    "plugin": "servicesbg-integrations",
+    "settings_section": "servicesbg-integrations",
+    "settings_filter": "servicesbg_settings_sections",
+    "diagnostics_admin_page": "servicesbg-integrations",
+    "cli_namespace": "wp servicesbg integrations",
+    "storage_option": "servicesbg_integrations_provider_configs",
+    "health_component": "integrations_schema",
+    "audit_module": "servicesbg-integrations"
   },
-  "used_tables": [
-    "wp_servicesbg_review_summary_jobs",
-    "wp_servicesbg_review_summary_versions",
-    "wp_servicesbg_review_summary_audit"
+  "provider_placeholders": [
+    "ai",
+    "sms",
+    "email",
+    "payment",
+    "calendar",
+    "maps"
   ],
+  "adapter_policy": {
+    "mode": "test",
+    "test_mode_only": true,
+    "production_credentials_enabled": false,
+    "external_api_calls_enabled": false
+  },
+  "secure_storage": {
+    "autoload": false,
+    "secrets_encrypted": true,
+    "masked_secret_display": true,
+    "plaintext_secret_diagnostics": false,
+    "preferred_encryption": "openssl_aes_256_gcm",
+    "fallback_encryption": "sodium_secretbox"
+  },
   "preserved_behavior": [
     "platform_plugin_activation",
     "platform_event_bus",
     "platform_job_queue",
     "workflow_engine_behavior",
-    "workflow_idempotency",
-    "workflow_retry_behavior",
-    "platform_audit_logging",
-    "ai_reviews_plugin_activation",
-    "ai_reviews_wp_cli_commands",
+    "job_handler_registry_behavior",
+    "ai_review_summary_execution",
     "deterministic_local_summary_generation",
-    "ai_reviews_audit_logging",
+    "core_health_page",
+    "core_audit_log",
     "plugin_isolation"
   ],
   "validation_checks_added": [
-    "ai_review_summary_handler_registration",
-    "review_moderated_event_consumption",
-    "review_summary_generate_job_enqueue",
-    "review_summary_generate_handler_dispatch",
-    "referenced_review_provider_listing_scope_verification",
-    "deterministic_local_summary_generation",
-    "summary_generation_job_record",
-    "summary_version_result_record",
-    "summary_audit_entry",
-    "ai_review_summary_generated_event",
-    "duplicate_prevention",
-    "retry_behavior",
-    "platform_inactive_fallback",
-    "existing_ai_reviews_validation_still_passes",
-    "no_disallowed_integrations",
-    "temporary_validation_rows_cleaned_up"
+    "core_and_integrations_plugin_activation",
+    "main_settings_page_registration",
+    "integrations_diagnostics_page_registration",
+    "integrations_settings_section_registration",
+    "six_provider_adapter_registry",
+    "provider_placeholder_diagnostics",
+    "default_provider_config_option",
+    "test_mode_only_config_enforcement",
+    "encrypted_secret_storage",
+    "masked_secret_display",
+    "health_component_registration",
+    "settings_audit_logging",
+    "wp_cli_integrations_status",
+    "wp_cli_integrations_diagnostics"
   ],
   "validation_result": {
-    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_ai_review_summary_workflow.sh",
+    "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_integrations_plugin.sh",
     "wp_root": "/opt/projects/servicesbg/wp-staging",
     "status": "passed",
-    "handler_registration": "passed",
-    "workflow_execution": "passed",
-    "deterministic_summary_generation": "passed",
-    "duplicate_prevention": "passed",
-    "retry_behavior": "passed",
-    "summary_audit_entry": "passed",
-    "summary_generated_event": "passed",
-    "platform_inactive_fallback": "passed",
+    "provider_registry": "passed",
+    "secure_storage": "passed",
+    "masked_secret_display": "passed",
+    "audit_logging": "passed",
+    "health_integration": "passed",
+    "wp_cli_diagnostics": "passed",
     "production_modified": false
   },
-  "regression_validation": {
-    "ai_reviews": {
-      "command": "WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_ai_reviews_plugin.sh",
-      "status": "passed"
-    }
-  },
-  "summary_execution_contract": [
-    "summary_job_id",
-    "summary_version_id",
-    "review_id",
-    "listing_id",
-    "provider_user_id",
-    "reservation_id",
-    "scope",
-    "source_event_id",
-    "source_event_name",
-    "external_llm",
-    "idempotent"
-  ],
-  "published_events": [
-    "ai_review.summary_generated"
-  ],
-  "retry_policy": {
-    "max_attempts": 2,
-    "first_failure_status": "queued",
-    "max_attempts_status": "failed"
-  },
   "architecture_rules_observed": {
-    "servicesbg_ai_reviews_remains_wordpress_plugin": true,
-    "cross_plugin_communication_through_servicesbg_platform": true,
+    "servicesbg_integrations_remains_wordpress_plugin": true,
+    "settings_registered_through_core_framework": true,
     "no_direct_plugin_to_plugin_includes_added": true,
     "no_business_logic_in_theme": true,
-    "ai_reviews_registers_handler_during_bootstrap": true,
-    "platform_never_calls_ai_reviews_internals_directly": true,
-    "platform_job_queue_used": true,
-    "ai_reviews_owns_summary_generation_job": true,
-    "ai_reviews_owns_summary_result_record": true,
-    "deterministic_local_generation_only": true
+    "test_mode_adapters_only": true,
+    "no_platform_workflow_changes": true,
+    "no_job_handler_changes": true,
+    "no_external_provider_calls": true
   },
   "explicitly_not_implemented": [
     "openai_apis",
     "anthropic_apis",
-    "external_llm_apis",
-    "notifications",
-    "email",
-    "sms",
-    "push",
-    "payments",
-    "calendar_integrations"
+    "real_sms_sending",
+    "real_email_sending",
+    "real_payments",
+    "real_calendar_sync",
+    "real_maps_geocoding_calls",
+    "production_credentials",
+    "production_provider_mode",
+    "production_changes"
   ],
   "rules_observed": {
     "no_tradingbot_context": true,
     "no_unai_context": true,
     "no_production_changes": true,
-    "ai_review_summary_execution_scope": true,
+    "phase2o_integrations_settings_scope": true,
     "no_business_logic_in_theme": true,
     "no_direct_plugin_to_plugin_includes": true
   },
-  "next_step": "Review whether additional owner-plugin workflow executions should be promoted from marker jobs to real feature handlers."
+  "next_step": "Use the integrations registry as the future boundary for provider-specific adapters when a later phase explicitly enables real provider implementations."
 }
