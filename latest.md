@@ -1,68 +1,42 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-27T21:15:00+03:00
+Updated: 2026-06-27T22:10:00+03:00
 
 ## Status
-Phase 3B-0.5 documentation consolidation and project recap is complete.
+Phase 3B-2 ServicesBG UI Framework MVP is complete and validated against staging.
 
-This phase created a maintainable documentation structure, indexed historical reports, summarized current architecture and plugin state, and produced project/progress recaps. It did not implement new business features, modify runtime behavior, add theme/CSS/JS, call external APIs, or change production.
+This phase extended `servicesbg-ui` from read-only view-model contracts into a reusable presentation-only component framework for the future ServicesBG theme and feature plugins. It did not implement the public theme, JavaScript application logic, REST APIs, external APIs, business workflow writes, or production changes.
 
 ## Deliverables
-- `docs/README.md`
-- `docs/current/architecture.md`
-- `docs/current/plugin_inventory.md`
-- `docs/current/plugin_table_ownership.md`
-- `docs/current/database_schema.md`
-- `docs/current/workflow_catalog.md`
-- `docs/current/platform_event_catalog.md`
-- `docs/current/platform_job_catalog.md`
-- `docs/current/integration_catalog.md`
-- `docs/current/migration_status.md`
+- `app/wp-content/plugins/servicesbg-ui/`
+- `docs/phase3b_ui_framework_v1.md`
 - `docs/current/ui_status.md`
-- `docs/current/theme_status.md`
-- `docs/current/deployment_status.md`
-- `docs/current/validation_matrix.md`
 - `docs/current/current_state.md`
-- `docs/reference/coding_standards.md`
-- `docs/reference/naming_conventions.md`
-- `docs/reference/security_model.md`
-- `docs/reference/permissions_model.md`
-- `docs/reference/plugin_contracts.md`
-- `docs/reference/view_model_contracts.md`
-- `docs/reference/migration_mapping.md`
-- `docs/reference/workflow_design.md`
-- `docs/project_recap_v1.md`
-- `reports/project_progress_recap.md`
-- `reports/history_index.md`
-- `reports/history_manifest.json`
+- `scripts/validate_ui_framework.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
-## Consolidation Results
-- Historical reports were preserved and indexed.
-- Living current-state docs were created under `docs/current/`.
-- Reference docs were created under `docs/reference/`.
-- Every implemented ServicesBG plugin is represented in the plugin inventory.
-- Validation scripts are represented in the validation matrix.
-- Current migration, UI, theme, deployment, integration, workflow, event, and job statuses are documented.
-- A master documentation entry point now exists at `docs/README.md`.
+## Implementation Results
+- Added component registry and rendering services.
+- Added template helpers for component rendering and component registration.
+- Added card, widget, table, form, modal, alert, timeline, workflow status, breadcrumb, pagination, dashboard, empty-state, skeleton, category navigation, and layout renderers.
+- Added theme hook registration through `servicesbg_ui_render_component`.
+- Added accessibility and responsive layout helpers.
+- Added minimal `sbg-` structural CSS scaffold without a framework dependency.
+- Added WP-CLI diagnostics for component inventory and rendering.
 
-## Current Project Summary
-- Backend/plugin architecture is mature for staging validation.
-- Phase 3A sample migration is validated.
-- Platform events/jobs/workflows are implemented and validated.
-- View-model/template API contracts are implemented and validated.
-- Public theme implementation has not started.
-- Full migration and production cut-over remain future phases.
+## Validation
+- `./scripts/validate_ui_framework.sh` passed against staging.
+- The validator confirms sample migrated listing/provider component rendering, explicit DTO rendering, empty-state rendering, theme hook rendering, CLI diagnostics, no direct UI-layer DB access, no external API usage, no REST routes, and no CSS-framework lock-in.
 
 ## Estimated Completion
-Overall completion toward production launch is estimated at 65%.
+Overall completion toward production launch is estimated at 68%.
 
 ## Explicitly Not Done
 - no new business features
-- no runtime behavior changes
 - no theme implementation
-- no CSS/JS
+- no JavaScript application logic
+- no REST APIs
 - no full migration
 - no production migration
 - no production redirects
