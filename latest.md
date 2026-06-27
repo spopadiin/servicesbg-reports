@@ -1,71 +1,64 @@
 # ServicesBG Latest Report
 
-Updated: 2026-06-26T22:49:39+03:00
+Updated: 2026-06-27T07:52:12+03:00
 
 ## Status
-Phase 2M search refresh workflow execution is implemented and validated.
+Phase 2N AI review summary workflow execution is implemented and validated.
 
-This phase replaces the placeholder `search_index_refresh` platform job with a real `servicesbg-search` owned handler. No notifications, delivery channels, external APIs, payments, calendar integrations, external LLMs, AI ranking, Elasticsearch, vector search, maps, GIS, routing, or production changes were implemented.
+This phase replaces the placeholder `review_summary_generate` platform job with a real `servicesbg-ai-reviews` owned handler. No OpenAI, Anthropic, external LLM APIs, notifications, email, SMS, push, payments, calendar integrations, or production changes were implemented.
 
 ## Deliverables
-- `app/wp-content/plugins/servicesbg-search/src/Schema/VersionManager.php`
-- `app/wp-content/plugins/servicesbg-search/src/Service/PlatformRefreshListener.php`
-- `app/wp-content/plugins/servicesbg-search/src/Service/SearchRefreshService.php`
-- `docs/phase2m_search_refresh_execution_v1.md`
-- `scripts/validate_search_refresh_workflow.sh`
-- `scripts/validate_job_handlers.sh`
-- `scripts/validate_workflow_engine.sh`
+- `app/wp-content/plugins/servicesbg-ai-reviews/src/Service/PlatformJobHandler.php`
+- `app/wp-content/plugins/servicesbg-ai-reviews/src/Service/SummaryService.php`
+- `docs/phase2n_ai_review_summary_execution_v1.md`
+- `scripts/validate_ai_review_summary_workflow.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 ## Validated
-- `WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_search_refresh_workflow.sh` passed.
-- `WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_search_plugin.sh` passed.
-- `WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_job_handlers.sh` passed.
-- `claim.approved` queues `search_index_refresh`.
-- Platform dispatch resolves the `servicesbg-search` handler.
-- Referenced listing/provider/entity verification works.
-- Deterministic local search index refresh works.
-- Search refresh execution row is created.
-- Duplicate prevention works through idempotency/source-event checks.
+- `WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_ai_review_summary_workflow.sh` passed.
+- `WP_STAGING_ROOT=/opt/projects/servicesbg/wp-staging ./scripts/validate_ai_reviews_plugin.sh` passed through the Phase 2N validation.
+- `review.moderated` queues `review_summary_generate`.
+- Platform dispatch resolves the `servicesbg-ai-reviews` handler.
+- Referenced review/provider/listing/reservation scope verification works.
+- Deterministic local summary generation works.
+- Summary generation job/result record is created.
+- Summary audit entry is created.
+- `ai_review.summary_generated` is published.
+- Duplicate prevention works through platform idempotency/source-event checks.
 - Retry behavior still works.
-- `search.index_refreshed` platform event is published.
-- Search and platform audit entries are created.
 - Platform inactive fallback works.
-- Existing search validation still passes.
-- No AI ranking, Elasticsearch, vector search, maps, GIS, routing, notification, external API, payment, calendar, or external LLM configuration is present.
+- Existing AI reviews validation still passes.
+- No external LLM, notification, email, SMS, push, payment, or calendar configuration is present.
 
 ## Workflow
-- Input event: `claim.approved`
-- Platform job: `search_index_refresh`
-- Feature handler: `servicesbg-search`
-- Updated index: `wp_servicesbg_search_index`
-- Created record: `wp_servicesbg_search_refreshes`
-- Published event: `search.index_refreshed`
+- Input event: `review.moderated`
+- Platform job: `review_summary_generate`
+- Feature handler: `servicesbg-ai-reviews`
+- Created local job: `wp_servicesbg_review_summary_jobs`
+- Created summary result: `wp_servicesbg_review_summary_versions`
+- Created audit trail: `wp_servicesbg_review_summary_audit`
+- Published event: `ai_review.summary_generated`
 
 ## Architecture Rules Preserved
-- `servicesbg-search` owns search refresh execution.
+- `servicesbg-ai-reviews` owns summary execution.
 - `servicesbg-platform` dispatches jobs only through registered handlers.
 - No direct plugin-to-plugin includes were added.
 - Existing workflow behavior, idempotency, retry behavior, and audit trail are preserved.
-- Existing search behavior and WP-CLI commands are preserved.
+- Existing AI reviews behavior and WP-CLI commands are preserved.
+- Summary generation remains deterministic and local.
 
 ## Explicitly Not Done
-- no AI ranking
-- no Elasticsearch
-- no vector search
-- no maps
-- no GIS
-- no routing
+- no OpenAI APIs
+- no Anthropic APIs
+- no external LLM APIs
 - no notifications
 - no email
 - no SMS
 - no push
-- no external APIs
-- no external LLMs
-- no production changes
 - no payments
 - no calendar integrations
+- no production changes
 
 ## Next Step
-Review whether AI review summary execution should become the next owner-plugin workflow implementation.
+Review whether additional owner-plugin workflow executions should be promoted from marker jobs to real feature handlers.
