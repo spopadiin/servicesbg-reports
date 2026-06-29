@@ -1,6 +1,6 @@
 # ServicesBG Full Migration Dry-Run Plan
 
-Updated: 2026-06-29T10:10:11+03:00
+Updated: 2026-06-29T10:49:04+03:00
 
 ## Status
 Full migration dry-run planning is implemented and validated as read-only.
