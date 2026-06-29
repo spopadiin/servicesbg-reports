@@ -1,0 +1,147 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-29T12:05:51+03:00",
+  "status": "phase3c2_full_staging_migration_validated",
+  "production_modified": false,
+  "application_code_written": true,
+  "runtime_behavior_modified": true,
+  "scope": "phase3c2_full_staging_migration",
+  "deliverables": [
+    "app/wp-content/plugins/servicesbg-migration/src/Service/FullMigrationApplyService.php",
+    "app/wp-content/plugins/servicesbg-migration/src/CLI/Commands.php",
+    "docs/phase3c2_full_staging_migration_v1.md",
+    "docs/current/migration_status.md",
+    "docs/current/validation_matrix.md",
+    "reports/full_staging_migration_validation.md",
+    "scripts/validate_full_staging_migration.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "implemented": {
+    "wp_cli_apply_full": true,
+    "wp_cli_validate_full": true,
+    "full_staging_apply": true,
+    "full_staging_validation": true,
+    "non_destructive_rollback_dry_run_available": true
+  },
+  "safety_steps": {
+    "fresh_staging_db_backup": "/opt/projects/servicesbg/backups/staging-db-20260629_114444.sql.gz",
+    "fresh_wp_staging_files_uploads_backup": "/opt/projects/servicesbg/backups/staging-wp-files-uploads-20260629_115823.tgz",
+    "dry_run_full_before_apply": true,
+    "dry_run_blockers": [],
+    "batch_key_confirmed": "phase3c_full_staging"
+  },
+  "commands": {
+    "apply_full": "wp servicesbg migration apply-full --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "validate_full": "wp servicesbg migration validate-full --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "rollback_full_dry_run": "wp servicesbg migration rollback-full --dry-run --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "validation_script": "./scripts/validate_full_staging_migration.sh"
+  },
+  "batch": {
+    "batch_key": "phase3c_full_staging",
+    "batch_id": 8,
+    "status": "completed",
+    "started_at_utc": "2026-06-29 08:58:38",
+    "finished_at_utc": "2026-06-29 09:02:03"
+  },
+  "imported_counts": {
+    "categories": 277,
+    "accounts": 189,
+    "listings": 2735,
+    "media_references": 6139,
+    "video_references": 43,
+    "claim_seeds": 2633,
+    "coverage_seeds": 2735,
+    "search_indexed": 2735,
+    "redirect_candidates": 2944,
+    "duplicates_prevented": 0
+  },
+  "source_counts": {
+    "categories": 277,
+    "accounts": 189,
+    "listings": 2735,
+    "active_listings": 2640,
+    "listing_photos": 6139,
+    "video_references": 43,
+    "claim_seed_candidates": 2633,
+    "coverage_seed_candidates": 2735,
+    "category_redirect_candidates": 277,
+    "page_redirect_candidates": 30,
+    "listing_redirect_candidates": 2637,
+    "seo_url_candidates": 2944
+  },
+  "destination_counts": {
+    "category_maps": 277,
+    "account_maps": 189,
+    "listing_maps": 2735,
+    "claim_maps": 2633,
+    "coverage_maps": 2735,
+    "media_rows": 6139,
+    "video_reference_rows": 43,
+    "redirect_rows": 2944,
+    "claim_rows": 2633,
+    "coverage_rows": 2735,
+    "search_listing_rows": 2735
+  },
+  "relationship_checks": {
+    "category_hierarchy_orphans": 0,
+    "listings_without_mapped_provider": 0,
+    "listings_without_mapped_category": 0
+  },
+  "theme_rendering": {
+    "theme": "servicesbg-theme",
+    "theme_active": true,
+    "sample_listing_id": 2461,
+    "sample_permalink": "https://services.herbal.bg/?service_listing=%d0%b7%d0%b0%d0%bd%d0%b8%d0%bc%d0%b0%d0%bb%d0%bd%d1%8f-%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d0%be%d0%b2%d0%b0%d1%82%d0%b5%d0%bb%d0%b5%d0%bd-%d1%86%d0%b5%d0%bd%d1%82%d1%8a%d1%80",
+    "ok": true
+  },
+  "validation": {
+    "script": "scripts/validate_full_staging_migration.sh",
+    "status": "passed",
+    "validated_against": "/opt/projects/servicesbg/wp-staging",
+    "checks": {
+      "categories_match": true,
+      "accounts_match": true,
+      "listings_match": true,
+      "media_references_match": true,
+      "video_references_preserved": true,
+      "claims_match": true,
+      "coverage_match": true,
+      "search_index_match": true,
+      "redirects_match": true,
+      "category_hierarchy_valid": true,
+      "provider_relationships_valid": true,
+      "listing_category_relationships_valid": true,
+      "theme_rendering_valid": true,
+      "production_guard": true
+    }
+  },
+  "architecture_rules_observed": {
+    "staging_only": true,
+    "production_redirects_created": false,
+    "external_apis_called": false,
+    "real_sms_email_payment_calendar_llm_calls": false,
+    "production_changes": false
+  },
+  "explicitly_not_implemented": [
+    "production_migration",
+    "production_redirects",
+    "external_apis",
+    "real_sms_email_payment_calendar_llm_calls",
+    "destructive_full_rollback_execution"
+  ],
+  "current_status": {
+    "staging_readiness": "full_staging_migration_applied_and_validated",
+    "production_status": "not_cut_over"
+  },
+  "completion_estimate_percent": 82,
+  "remaining": [
+    "staging_qa_review",
+    "destructive_full_rollback_command_if_required",
+    "production_validation_plan",
+    "production_migration",
+    "production_redirect_activation",
+    "production_cutover"
+  ],
+  "next_step": "Run staging QA on migrated public and dashboard workflows before planning production migration or redirect activation."
+}
