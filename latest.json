@@ -1,0 +1,185 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-29T10:49:04+03:00",
+  "status": "phase3c1_media_policy_dry_run_rollback_validated",
+  "production_modified": false,
+  "application_code_written": true,
+  "runtime_behavior_modified": true,
+  "scope": "phase3c1_media_policy_dry_run_rollback",
+  "deliverables": [
+    "app/wp-content/plugins/servicesbg-migration/src/Service/FullMigrationPlanningService.php",
+    "app/wp-content/plugins/servicesbg-migration/src/CLI/Commands.php",
+    "docs/phase3c1_media_policy_dry_run_rollback_v1.md",
+    "docs/current/migration_status.md",
+    "docs/current/validation_matrix.md",
+    "reports/migration_media_policy_report.md",
+    "reports/full_migration_dry_run_plan.md",
+    "scripts/validate_full_migration_dry_run.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "implemented": {
+    "missing_media_inspector": true,
+    "missing_media_policy": true,
+    "placeholder_reference_strategy": true,
+    "full_migration_dry_run_planner": true,
+    "full_rollback_guard": true,
+    "wp_cli_inspect_media": true,
+    "wp_cli_media_policy_report": true,
+    "wp_cli_dry_run_full": true,
+    "wp_cli_rollback_full_dry_run": true,
+    "validation_script": true
+  },
+  "commands": {
+    "inspect_media": "wp servicesbg migration inspect-media --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "media_policy_report": "wp servicesbg migration media-policy-report --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "dry_run_full": "wp servicesbg migration dry-run-full --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "rollback_full_dry_run": "wp servicesbg migration rollback-full --dry-run --format=json --path=/opt/projects/servicesbg/wp-staging"
+  },
+  "media_inspection": {
+    "media_root": "/opt/projects/servicesbg/archive/extracted/servicebg/files",
+    "media_root_readable": true,
+    "missing_reference_count": 40,
+    "missing_image_file_count": 0,
+    "video_reference_non_file_count": 40,
+    "required_item_fields": [
+      "listing_id",
+      "account_provider_id",
+      "category_id",
+      "filename",
+      "expected_path",
+      "is_primary_image",
+      "is_secondary_image",
+      "is_only_image",
+      "other_local_images_exist"
+    ]
+  },
+  "media_policy": {
+    "secondary_image_missing": "skip_and_log",
+    "primary_image_missing_with_other_images": "promote_first_existing_image",
+    "only_image_missing": "assign_servicesbg_placeholder",
+    "listing_has_no_media": "no_action",
+    "video_reference_non_file": "preserve_video_reference_no_attachment",
+    "missing_media_directory": "critical_blocker",
+    "placeholder_strategy": {
+      "default_reference": "servicesbg_generic_placeholder_reference",
+      "final_asset_required_now": false,
+      "category_specific_placeholders_supported_later": true
+    },
+    "outcomes": {
+      "skip_and_log_secondary_missing": 0,
+      "promote_first_existing_image": 0,
+      "assign_generic_placeholder": 0,
+      "preserve_video_reference_no_attachment": 40,
+      "critical_missing_media_directory": 0
+    },
+    "blockers": [],
+    "warnings": [
+      "video_references_are_not_attachment_files"
+    ]
+  },
+  "full_dry_run_plan": {
+    "batch_key": "phase3c_full_staging",
+    "dependency_order": [
+      "preflight",
+      "staging_db_backup",
+      "staging_uploads_backup",
+      "categories",
+      "accounts",
+      "listings",
+      "media_policy",
+      "media_map_and_attachments",
+      "claim_seeds",
+      "coverage_suggestions",
+      "search_index",
+      "redirect_candidates",
+      "validation_report"
+    ],
+    "expected_counts": {
+      "categories": 277,
+      "accounts": 189,
+      "listings": 2735,
+      "active_listings": 2640,
+      "media_references": 6139,
+      "seo_url_candidates": 2944,
+      "claim_seed_candidates": 2633,
+      "coverage_seed_candidates": 2735
+    },
+    "estimated_batches": {
+      "categories_at_100": 3,
+      "accounts_at_100": 2,
+      "listings_at_250": 11,
+      "media_at_500": 13,
+      "redirects_at_500": 6
+    },
+    "blockers": [],
+    "warnings": [
+      "video_references_are_not_attachment_files"
+    ]
+  },
+  "rollback_guard": {
+    "batch_key": "phase3c_full_staging",
+    "full_batch_candidates": 0,
+    "sample_batches_excluded": 0,
+    "can_target_full_batch_only": true,
+    "sample_batch_key_protected": true,
+    "requires_explicit_full_batch_id_for_destructive_rollback": true,
+    "destructive_action_allowed": false,
+    "dry_run_required_for_this_command": true,
+    "warnings": [
+      "no_full_migration_batch_exists"
+    ]
+  },
+  "validation": {
+    "script": "scripts/validate_full_migration_dry_run.sh",
+    "status": "passed",
+    "validated_against": "/opt/projects/servicesbg/wp-staging",
+    "checks": [
+      "php_syntax",
+      "planning_service_read_only_static_scan",
+      "inspect_media_generates_40_reference_report",
+      "media_policy_report_generated",
+      "dry_run_full_plan_generated",
+      "rollback_full_requires_dry_run",
+      "rollback_full_dry_run_guard_valid",
+      "no_phase3c_full_batch_created",
+      "writes_performed_false",
+      "full_import_executed_false",
+      "production_modified_false"
+    ]
+  },
+  "architecture_rules_observed": {
+    "no_full_import": true,
+    "no_full_batch_created": true,
+    "no_wordpress_objects_imported": true,
+    "no_media_attachments_imported": true,
+    "no_redirect_activation": true,
+    "no_destructive_rollback": true,
+    "no_external_api_calls": true,
+    "no_production_changes": true
+  },
+  "explicitly_not_implemented": [
+    "full_staging_import",
+    "full_migration_apply_command",
+    "destructive_full_migration_rollback_command",
+    "wordpress_attachment_media_import",
+    "production_redirects",
+    "external_api_calls",
+    "production_changes"
+  ],
+  "current_status": {
+    "staging_readiness": "full_dry_run_planning_validated",
+    "media_policy_status": "missing_image_blocker_resolved_video_references_preserved",
+    "rollback_status": "dry_run_guard_validated_destructive_rollback_not_implemented",
+    "production_status": "not_cut_over"
+  },
+  "completion_estimate_percent": 76,
+  "remaining": [
+    "phase3c_full_apply_implementation",
+    "phase3c_destructive_full_rollback_implementation_with_explicit_batch_id",
+    "phase3c_full_staging_import",
+    "phase3d_production_validation",
+    "phase3e_production_cutover"
+  ],
+  "next_step": "Implement the guarded full staging apply path using the dry-run plan and rollback map contract, then run it only after staging backups are taken."
+}
