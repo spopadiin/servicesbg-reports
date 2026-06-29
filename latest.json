@@ -1,0 +1,224 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-06-29T10:10:11+03:00",
+  "status": "phase3c_0_full_staging_migration_preflight_validated",
+  "production_modified": false,
+  "application_code_written": true,
+  "runtime_behavior_modified": true,
+  "scope": "phase3c_0_full_staging_migration_preflight",
+  "deliverables": [
+    "app/wp-content/plugins/servicesbg-migration/src/Service/FullMigrationPreflightService.php",
+    "docs/phase3c_full_staging_migration_preflight_v1.md",
+    "docs/current/migration_status.md",
+    "docs/current/validation_matrix.md",
+    "scripts/preflight_full_migration.sh",
+    "scripts/validate_full_migration_preflight.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "implemented": {
+    "full_staging_preflight_command": true,
+    "staging_db_backup_command_created": true,
+    "staging_uploads_backup_command_created": true,
+    "source_db_readability_check": true,
+    "source_archive_media_path_checks": true,
+    "staging_wp_db_writability_check": true,
+    "disk_space_check": true,
+    "migration_map_table_check": true,
+    "rollback_safety_check": true,
+    "source_count_diagnostics": true,
+    "seo_url_count_diagnostics": true,
+    "batch_estimates": true,
+    "blocker_reporting": true,
+    "read_only_validation_script": true
+  },
+  "commands": {
+    "preflight": "./scripts/preflight_full_migration.sh",
+    "wp_cli_report": "wp servicesbg migration full-preflight --format=json --path=/opt/projects/servicesbg/wp-staging",
+    "staging_db_backup": "MYSQL_PWD=\"$(wp config get DB_PASSWORD --path=/opt/projects/servicesbg/wp-staging)\" mysqldump --single-transaction --quick --routines --triggers --default-character-set=utf8mb4 --host=\"$(wp config get DB_HOST --path=/opt/projects/servicesbg/wp-staging)\" --user=\"$(wp config get DB_USER --path=/opt/projects/servicesbg/wp-staging)\" \"$(wp config get DB_NAME --path=/opt/projects/servicesbg/wp-staging)\" | gzip -c > /opt/projects/servicesbg/backups/staging-db-$(date +%Y%m%d_%H%M%S).sql.gz",
+    "staging_uploads_backup": "tar -C /opt/projects/servicesbg/wp-staging/wp-content -czf /opt/projects/servicesbg/backups/staging-uploads-$(date +%Y%m%d_%H%M%S).tgz uploads"
+  },
+  "source_snapshot": {
+    "database": "services_services",
+    "dump_path": "/opt/projects/servicesbg/db/imports/localhost.sql.gz",
+    "dump_readable": true,
+    "dump_size_bytes": 108684724,
+    "archive_root": "/opt/projects/servicesbg/archive/extracted/servicebg",
+    "archive_root_readable": true,
+    "media_root": "/opt/projects/servicesbg/archive/extracted/servicebg/files",
+    "media_root_readable": true,
+    "categories": 277,
+    "accounts": 189,
+    "provider_company_accounts": 76,
+    "freelancer_accounts": 99,
+    "registered_visitor_accounts": 13,
+    "listings": 2735,
+    "active_listings": 2640,
+    "listing_photos": 6139,
+    "listing_videos": 22,
+    "messages": 894,
+    "contacts": 433,
+    "seo_url_counts": {
+      "categories_with_path": 277,
+      "categories_active_with_path": 271,
+      "pages": 48,
+      "active_pages_with_path": 30,
+      "listing_title_rows": 2,
+      "listing_url_candidates": 2637
+    },
+    "listing_status_counts": {
+      "active": 2640,
+      "expired": 59,
+      "trash": 35,
+      "incomplete": 1
+    },
+    "account_type_counts": {
+      "provider_company": 76,
+      "account_freelancer": 99,
+      "visitor_registered": 13,
+      "dealer": 1
+    }
+  },
+  "source_integrity": {
+    "category_orphans": 0,
+    "listing_missing_accounts": 0,
+    "listing_missing_categories": 0,
+    "active_listing_missing_accounts": 0,
+    "active_listing_missing_categories": 0,
+    "listings_without_phone": 7,
+    "active_listings_without_phone": 7,
+    "listings_without_location": 0
+  },
+  "media_preflight": {
+    "rows": 6139,
+    "with_source_path": 6139,
+    "local_files_found": 6099,
+    "local_files_missing": 40,
+    "video_references": 43,
+    "listings_with_photo_rows": 2293,
+    "listings_without_photo_rows": 503
+  },
+  "target_snapshot": {
+    "wp_root": "/opt/projects/servicesbg/wp-staging",
+    "home_url": "https://services.herbal.bg/",
+    "production_guard": true,
+    "staging_wp_db_writable": true,
+    "service_listing_post_type_registered": true,
+    "service_category_taxonomy_registered": true,
+    "servicesbg_theme_active": true,
+    "active_sample_batches": 0,
+    "phase3c_full_staging_batch_rows": 0,
+    "existing_flynax_active_map_rows": 0
+  },
+  "disk_space": {
+    "project_staging_backup_volume_free_gb": 8.8,
+    "backup_root": "/opt/projects/servicesbg/backups",
+    "backup_root_writable": true
+  },
+  "migration_map_tables": {
+    "servicesbg_import_batches": true,
+    "servicesbg_migration_map": true,
+    "servicesbg_media_map": true,
+    "servicesbg_redirect_map": true
+  },
+  "rollback_safety": {
+    "sample_batch_clear": true,
+    "full_batch_key_clear": true,
+    "active_flynax_map_clear": true,
+    "map_tables_present": true,
+    "dry_run_required_before_apply": true,
+    "full_rollback_command_implemented": false,
+    "ready_for_full_apply": false,
+    "reason_full_apply_blocked": "full dry-run planner and full rollback command are not implemented"
+  },
+  "planned_full_batch": {
+    "batch_key": "phase3c_full_staging",
+    "dry_run_required_before_apply": true,
+    "rollback_map_required": true,
+    "estimated_batches": {
+      "category_batches_at_100": 3,
+      "account_batches_at_100": 2,
+      "listing_batches_at_250": 11,
+      "active_listing_batches_at_250": 11,
+      "media_batches_at_500": 13
+    },
+    "expected_import_order": [
+      "categories",
+      "accounts",
+      "listings",
+      "media_map_and_attachments",
+      "claim_seeds",
+      "coverage_suggestions",
+      "search_index",
+      "redirect_candidates",
+      "validation_report"
+    ]
+  },
+  "blockers": [
+    "media_missing_files_require_policy"
+  ],
+  "validation": {
+    "script": "scripts/preflight_full_migration.sh",
+    "status": "passed",
+    "validated_against": "/opt/projects/servicesbg/wp-staging",
+    "checks": [
+      "php_syntax",
+      "service_read_only_static_scan",
+      "backup_commands_created",
+      "source_db_readable",
+      "source_dump_readable",
+      "source_archive_media_paths_readable",
+      "staging_wp_db_writable",
+      "backup_root_writable",
+      "disk_space",
+      "required_plugins_active",
+      "full_preflight_json_shape",
+      "source_counts_match_audit_baseline",
+      "seo_url_counts",
+      "migration_map_tables_present",
+      "rollback_safety",
+      "production_guard",
+      "no_phase3c_full_batch_created",
+      "writes_performed_false",
+      "external_apis_called_false",
+      "production_modified_false"
+    ]
+  },
+  "architecture_rules_observed": {
+    "preflight_only": true,
+    "no_full_import": true,
+    "no_full_batch_created": true,
+    "no_wordpress_objects_imported": true,
+    "no_media_attachments_imported": true,
+    "no_redirect_activation": true,
+    "no_business_workflow_writes": true,
+    "no_external_api_calls": true,
+    "no_production_changes": true
+  },
+  "explicitly_not_implemented": [
+    "full_staging_import",
+    "full_migration_dry_run_planner",
+    "full_migration_apply_command",
+    "full_migration_rollback_command",
+    "wordpress_attachment_media_import",
+    "production_redirects",
+    "historical_messages_contact_import",
+    "external_api_calls",
+    "production_changes"
+  ],
+  "current_status": {
+    "staging_readiness": "full_preflight_validated_with_media_policy_blocker",
+    "migration_readiness": "source_target_ready_for_full_dry_run_planning_not_full_import",
+    "production_status": "not_cut_over"
+  },
+  "completion_estimate_percent": 74,
+  "remaining": [
+    "phase3c_missing_media_policy",
+    "phase3c_full_dry_run_planner",
+    "phase3c_full_migration_rollback_command",
+    "phase3c_full_staging_import",
+    "phase3d_production_validation",
+    "phase3e_production_cutover"
+  ],
+  "next_step": "Resolve or explicitly accept the missing-media blocker, then implement a full migration dry-run planner and rollback command before any full staging import."
+}
