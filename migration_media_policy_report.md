@@ -1,6 +1,6 @@
 # ServicesBG Migration Media Policy Report
 
-Updated: 2026-06-29T10:10:11+03:00
+Updated: 2026-06-29T10:49:04+03:00
 
 ## Summary
 The missing media inspector found 40 missing media references. All 40 are YouTube/video references stored in `fl_listing_photos`, not missing image files.
