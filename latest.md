@@ -1,32 +1,35 @@
 # ServicesBG Latest Status
 
-Updated: 2026-07-01T23:45:00+03:00
+Updated: 2026-07-02T00:34:52+03:00
 
-Status: `phase3c3b_listing_fidelity_corrected`
+Status: `phase3c3c_global_media_fix_completed`
 
-Scope: staging listing fidelity audit and correction for source listing `2780`.
+Scope: staging-only global listing media migration/display correction.
 
 Production modified: no.
 
 Generated:
-- `docs/phase3c3b_listing_fidelity_audit_v1.md`
-- `reports/listing_field_comparison.md`
-- `reports/listing_media_comparison.md`
-- `reports/listing_taxonomy_comparison.md`
-- `scripts/validate_listing_fidelity.sh`
+- `docs/phase3c3c_global_media_fix_v1.md`
+- `reports/global_media_audit.md`
+- `reports/listing_media_fix_validation.md`
+- `scripts/validate_global_media_fix.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 Summary:
-- Corrected the audited staging listing to prefer Bulgarian public labels and display values.
-- Restored missing public fields: `Телефон за поръчка`, `Цената е`, `Минимално продължение`, and `Място на изпълнение`.
-- Corrected taxonomy labels for `Здраве и красота` and `Масажи` while preserving source slugs/IDs.
-- Imported the listing's three mapped local images as staging WP attachments, set the featured image, and preserved gallery order.
-- Updated the listing detail view model and renderer to expose the corrected data without UI redesign.
-- No production changes, external APIs, CSS redesign, or theme redesign.
+- Fixed the global listing media defect where media-map rows existed but WordPress attachments were not imported.
+- Created `5791` new staging attachments and retained `3` existing QA-listing attachments.
+- Updated `5794` media-map image rows to imported attachment state.
+- Preserved `43` video references separately.
+- Set featured images for `2230` additional listings.
+- QA listing #1 still renders media.
+- QA listing #2 now renders a card cover and 2-image detail gallery.
+- Published listings with source images but no child attachments: `0`.
+- No production changes, external APIs, UI redesign, or CSS redesign.
 
 Validation:
-- `./scripts/validate_listing_fidelity.sh` passed against staging. It validates staging storage, view model, rendered output, taxonomy, media map, attachments, featured image, and gallery order against the audited source values.
+- `./scripts/validate_global_media_fix.sh` passed against staging.
+- Representative image URLs returned HTTP 200.
 
 Next step:
-- Continue fidelity audits on additional golden listings before any UI redesign.
+- Continue non-media listing fidelity audits only after this global media blocker remains stable in QA.
