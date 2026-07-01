@@ -1,35 +1,48 @@
 # ServicesBG Latest Status
 
-Updated: 2026-07-02T00:34:52+03:00
+Updated: 2026-07-02T01:10:00+03:00
 
-Status: `phase3c3c_global_media_fix_completed`
+Status: `documentation_reports_restructured`
 
-Scope: staging-only global listing media migration/display correction.
+Scope: repository documentation, reports, audits, QA evidence, plugin docs, ADRs, and GitHub report publishing hygiene.
 
 Production modified: no.
 
-Generated:
-- `docs/phase3c3c_global_media_fix_v1.md`
-- `reports/global_media_audit.md`
-- `reports/listing_media_fix_validation.md`
-- `scripts/validate_global_media_fix.sh`
+Runtime behavior changed: no.
+
+Generated/updated:
+- `docs/README.md`
+- `docs/adr/ADR-0001-plugin-architecture.md`
+- `docs/adr/ADR-0002-platform-event-bus.md`
+- `docs/adr/ADR-0003-workflow-engine.md`
+- `docs/adr/ADR-0004-job-handler-contracts.md`
+- `docs/adr/ADR-0005-view-model-theme-boundary.md`
+- `docs/adr/ADR-0006-staging-first-migration.md`
+- `docs/adr/ADR-0007-future-headless-nextjs.md`
+- `reports/README.md`
+- `reports/history_index.md`
+- `reports/history_manifest.json`
+- `audits/README.md`
+- `qa/README.md`
+- `qa/issues/README.md`
+- `plugins/*/{README.md,ARCHITECTURE.md,API.md,WORKFLOWS.md,CHANGELOG.md}`
+- `scripts/validate_documentation_structure.sh`
+- `scripts/publish_reports.sh`
 - `reports/latest.md`
 - `reports/latest.json`
 
 Summary:
-- Fixed the global listing media defect where media-map rows existed but WordPress attachments were not imported.
-- Created `5791` new staging attachments and retained `3` existing QA-listing attachments.
-- Updated `5794` media-map image rows to imported attachment state.
-- Preserved `43` video references separately.
-- Set featured images for `2230` additional listings.
-- QA listing #1 still renders media.
-- QA listing #2 now renders a card cover and 2-image detail gallery.
-- Published listings with source images but no child attachments: `0`.
-- No production changes, external APIs, UI redesign, or CSS redesign.
+- Added canonical documentation folders for architecture, migration, UI, integrations, reference, and ADRs.
+- Added phase report folders under `reports/phase1` through `reports/phase4`.
+- Copied listing/media/taxonomy/migration evidence into `audits/`.
+- Copied golden listing QA materials into `qa/golden_listings/`.
+- Added plugin documentation indexes for every implemented plugin.
+- Updated report publishing to mirror nested report folders while protecting `.git` metadata and avoiding owner/group/permission preservation.
+- Preserved historical root-level reports; no historical report was deleted.
 
 Validation:
-- `./scripts/validate_global_media_fix.sh` passed against staging.
-- Representative image URLs returned HTTP 200.
+- `./scripts/validate_documentation_structure.sh`
+- `./scripts/publish_reports.sh`
 
 Next step:
-- Continue non-media listing fidelity audits only after this global media blocker remains stable in QA.
+- Keep new phase reports, audits, QA evidence, and ADRs in the new canonical folders.
