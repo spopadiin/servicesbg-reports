@@ -1,47 +1,60 @@
 {
   "project": "servicesbg",
-  "updated_at": "2026-06-30T10:41:22+03:00",
-  "status": "phase3c3a_staging_qa_package_prepared",
+  "updated_at": "2026-07-01T23:45:00+03:00",
+  "status": "phase3c3b_listing_fidelity_corrected",
   "production_modified": false,
-  "scope": "phase3c3a_staging_qa_package",
-  "staging_url": "https://services.herbal.bg",
-  "login_url": "https://services.herbal.bg/wp-login.php",
-  "dashboard_url": "https://services.herbal.bg/dashboard/",
+  "scope": "phase3c3b_listing_fidelity_audit_and_correction",
+  "legacy_url": "https://services.bg/uslugi/zdravie-i-krasota-health-beauty-services/masazhi-massages/studio-za-profiesionalni-masazhi-varna-2780.html",
+  "staging_url": "https://services.herbal.bg/?service_listing=%d1%81%d1%82%d1%83%d0%b4%d0%b8%d0%be-%d0%b7%d0%b0-%d0%bf%d1%80%d0%be%d1%84%d0%b5%d1%81%d0%b8%d0%be%d0%bd%d0%b0%d0%bb%d0%bd%d0%b8-%d0%bc%d0%b0%d1%81%d0%b0%d0%b6%d0%b8-%d0%b2%d0%b0%d1%80%d0%bd%d0%b0",
+  "source_listing_id": 2780,
+  "staging_post_id": 3004,
   "deliverables": [
-    "docs/phase3c3a_staging_qa_package_v1.md",
-    "reports/qa_golden_listings.md",
-    "reports/staging_qa_access_package.md",
-    "scripts/validate_staging_qa_package.sh",
+    "docs/phase3c3b_listing_fidelity_audit_v1.md",
+    "reports/listing_field_comparison.md",
+    "reports/listing_media_comparison.md",
+    "reports/listing_taxonomy_comparison.md",
+    "scripts/validate_listing_fidelity.sh",
     "reports/latest.md",
     "reports/latest.json"
   ],
-  "golden_listings": {
-    "primary_manual_regression_listing_id": 2578,
-    "secondary_manual_regression_listing_id": 2061,
-    "selected_listing_ids": [2578, 2061, 1926, 315, 317, 2461],
-    "count": 6
-  },
-  "qa_accounts": {
-    "created_or_reset": true,
-    "strategy": "staging_only_wrapper_users",
-    "migrated_provider_passwords_changed": false,
-    "usernames": [
-      "qa-super-admin",
-      "qa-company-provider",
-      "qa-freelancer-provider",
-      "qa-customer"
-    ],
-    "csr_support_account_created": false,
-    "csr_support_account_reason": "no dedicated CSR/support role exists in staging"
-  },
-  "staging_changes": {
-    "dashboard_page_created": true,
-    "dashboard_page_id": 3044,
-    "dashboard_template": "page-templates/dashboard.php"
+  "corrections": {
+    "multilingual_public_preference": {
+      "status": "corrected_for_audited_listing",
+      "raw_tokens_absent_from_rendered_output": ["{|bg|}", "{|en|}", "30|currency_lev"],
+      "public_language": "bg"
+    },
+    "taxonomy": {
+      "parent_source_category_id": 2226,
+      "parent_label": "Здраве и красота",
+      "source_category_id": 2239,
+      "category_label": "Масажи",
+      "status": "corrected"
+    },
+    "fields": {
+      "phone_for_order": "0882 360084",
+      "price": "30 лв.",
+      "price_type": "средна цена",
+      "minimum_duration": "30 мин.",
+      "provision_location": "На адрес на доставчика",
+      "status": "corrected"
+    },
+    "media": {
+      "source_photo_count": 3,
+      "staging_attachment_count": 3,
+      "source_photo_order": [6006, 6005, 6007],
+      "attachment_order": [3046, 3047, 3048],
+      "featured_attachment_id": 3046,
+      "status": "corrected"
+    },
+    "view_model": {
+      "listing_detail_header": "corrected",
+      "listing_detail_body": "corrected",
+      "gallery_rendering": "corrected"
+    }
   },
   "validation": {
-    "script": "scripts/validate_staging_qa_package.sh",
-    "status": "passed",
+    "script": "scripts/validate_listing_fidelity.sh",
+    "status": "pending_final_run",
     "validated_against": "/opt/projects/servicesbg/wp-staging"
   },
   "safety": {
@@ -50,21 +63,21 @@
     "production_redirects_created": false,
     "external_apis_called": false,
     "emails_sent": false,
-    "legacy_passwords_reused": false,
-    "real_migrated_passwords_exposed": false
+    "ui_redesign": false,
+    "css_redesign": false
   },
   "current_status": {
-    "staging_readiness": "qa_package_prepared",
+    "staging_listing_2780": "corrected",
     "production_status": "not_cut_over"
   },
-  "completion_estimate_percent": 84,
+  "completion_estimate_percent": 86,
   "remaining": [
-    "human_staging_qa_review",
-    "rotate_or_delete_qa_passwords_before_production",
-    "production_validation_plan",
-    "production_migration",
-    "production_redirect_activation",
-    "production_cutover"
+    "run_listing_fidelity_validation",
+    "repeat fidelity audits on additional representative listings",
+    "production validation plan",
+    "production migration",
+    "production redirect activation",
+    "production cutover"
   ],
-  "next_step": "Run scripts/validate_staging_qa_package.sh, then perform human QA using reports/staging_qa_access_package.md."
+  "next_step": "Run scripts/validate_listing_fidelity.sh and continue listing fidelity audits before UI redesign."
 }
