@@ -54,7 +54,7 @@
   },
   "validation": {
     "script": "scripts/validate_listing_fidelity.sh",
-    "status": "pending_final_run",
+    "status": "passed",
     "validated_against": "/opt/projects/servicesbg/wp-staging"
   },
   "safety": {
@@ -72,7 +72,6 @@
   },
   "completion_estimate_percent": 86,
   "remaining": [
-    "run_listing_fidelity_validation",
     "repeat fidelity audits on additional representative listings",
     "production validation plan",
     "production migration",

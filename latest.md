@@ -26,7 +26,7 @@ Summary:
 - No production changes, external APIs, CSS redesign, or theme redesign.
 
 Validation:
-- `./scripts/validate_listing_fidelity.sh` validates source DB, staging storage, view model, rendered output, taxonomy, media map, attachments, featured image, and gallery order.
+- `./scripts/validate_listing_fidelity.sh` passed against staging. It validates staging storage, view model, rendered output, taxonomy, media map, attachments, featured image, and gallery order against the audited source values.
 
 Next step:
 - Continue fidelity audits on additional golden listings before any UI redesign.
