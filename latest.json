@@ -1,0 +1,71 @@
+{
+  "project": "servicesbg",
+  "updated_at": "2026-07-02T01:10:00+03:00",
+  "status": "documentation_reports_restructured",
+  "production_modified": false,
+  "runtime_behavior_changed": false,
+  "scope": "repository_documentation_reports_audits_qa_plugin_docs_and_publishing_hygiene",
+  "deliverables": [
+    "docs/README.md",
+    "docs/adr/ADR-0001-plugin-architecture.md",
+    "docs/adr/ADR-0002-platform-event-bus.md",
+    "docs/adr/ADR-0003-workflow-engine.md",
+    "docs/adr/ADR-0004-job-handler-contracts.md",
+    "docs/adr/ADR-0005-view-model-theme-boundary.md",
+    "docs/adr/ADR-0006-staging-first-migration.md",
+    "docs/adr/ADR-0007-future-headless-nextjs.md",
+    "reports/README.md",
+    "reports/history_index.md",
+    "reports/history_manifest.json",
+    "audits/README.md",
+    "qa/README.md",
+    "qa/issues/README.md",
+    "plugins/*/README.md",
+    "plugins/*/ARCHITECTURE.md",
+    "plugins/*/API.md",
+    "plugins/*/WORKFLOWS.md",
+    "plugins/*/CHANGELOG.md",
+    "scripts/validate_documentation_structure.sh",
+    "scripts/publish_reports.sh",
+    "reports/latest.md",
+    "reports/latest.json"
+  ],
+  "structure": {
+    "docs": ["current", "architecture", "migration", "ui", "integrations", "reference", "adr"],
+    "reports": ["phase1", "phase2", "phase3", "phase4"],
+    "audits": ["migration", "listing", "media", "taxonomy", "permissions", "security", "performance", "ui", "search"],
+    "qa": ["golden_listings", "issues", "checklists", "regressions", "screenshots"],
+    "history": ["milestones"],
+    "plugin_docs_per_plugin": ["README.md", "ARCHITECTURE.md", "API.md", "WORKFLOWS.md", "CHANGELOG.md"]
+  },
+  "report_publishing": {
+    "script": "scripts/publish_reports.sh",
+    "protects_git_metadata": true,
+    "avoids_owner_group_permission_preservation": true,
+    "publishes_nested_report_folders": true,
+    "preserves_latest_at_report_root": true
+  },
+  "validation": {
+    "structure_script": "scripts/validate_documentation_structure.sh",
+    "publish_script": "scripts/publish_reports.sh",
+    "status": "pending_final_run"
+  },
+  "safety": {
+    "repository_hygiene_only": true,
+    "application_runtime_code_changed_by_this_task": false,
+    "migration_behavior_changed": false,
+    "production_changes": false,
+    "historical_reports_deleted": false
+  },
+  "current_status": {
+    "documentation_structure": "restructured",
+    "production_status": "not_cut_over"
+  },
+  "completion_estimate_percent": 88,
+  "remaining": [
+    "run documentation structure validation",
+    "publish reports to GitHub reports repo",
+    "commit documentation restructure"
+  ],
+  "next_step": "Run scripts/validate_documentation_structure.sh and scripts/publish_reports.sh, then commit the documentation restructure."
+}
